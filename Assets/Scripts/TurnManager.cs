@@ -24,10 +24,11 @@ public class TurnManager : MonoBehaviour
     public Tilemap tilemap;
 
     private int _turnCounter;
-    private readonly Vector3Int _neighboursSize = new Vector3Int(3, 3, 0);
 
+    #region Events
     public delegate void TurnStart();
     public static event TurnStart OnTurnStart;
+    #endregion
 
     private void Awake()
     {
@@ -42,17 +43,6 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void NextTurn()
     {
         _turnCounter++;
@@ -61,25 +51,9 @@ public class TurnManager : MonoBehaviour
             if(TilesDataManager.Instance.HasTile(pos))
             {
                 BaseTileData tile = TilesDataManager.Instance.GetTileDataAtPos(pos);
-                tile.OnTurnStarts(GetTilesAroundTile(tile));
+                tile.OnTurnStarts(TilesDataManager.Instance.GetTilesAroundTile(tile));
             }
         }
         OnTurnStart?.Invoke();
-    }
-
-    public BaseTileData[] GetTilesAroundTileAtPos(Vector3Int pos)
-    {
-        if (tilemap.cellBounds.Contains(pos))
-        {
-            BoundsInt localBounds = new BoundsInt(pos.x - 1, pos.y - 1, pos.z, 3, 3, 1);
-
-            return TilesDataManager.Instance.GetTilesInBounds(localBounds);
-        }
-        return null;
-    }
-
-    public BaseTileData[] GetTilesAroundTile(BaseTileData tile)
-    {
-        return GetTilesAroundTileAtPos(tile.gridPosition);
     }
 }

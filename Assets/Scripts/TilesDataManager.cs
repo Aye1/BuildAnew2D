@@ -65,6 +65,12 @@ public class TilesDataManager : MonoBehaviour
         }
     }
 
+    public bool HasTile(Vector3Int pos)
+    {
+        return _tilemap.HasTile(pos);
+    }
+
+    #region Get Tiles
     public BaseTileData GetTileDataAtPos(Vector3Int pos)
     {
         BaseTileData data = tiles.FirstOrDefault(x => x.Value.gridPosition == pos).Value;
@@ -85,8 +91,20 @@ public class TilesDataManager : MonoBehaviour
         return res.ToArray();
     }
 
-    public bool HasTile(Vector3Int pos)
+    public BaseTileData[] GetTilesAroundTileAtPos(Vector3Int pos)
     {
-        return _tilemap.HasTile(pos);
+        if (_tilemap.cellBounds.Contains(pos))
+        {
+            BoundsInt localBounds = new BoundsInt(pos.x - 1, pos.y - 1, pos.z, 3, 3, 1);
+
+            return GetTilesInBounds(localBounds);
+        }
+        return null;
     }
+
+    public BaseTileData[] GetTilesAroundTile(BaseTileData tile)
+    {
+        return GetTilesAroundTileAtPos(tile.gridPosition);
+    }
+    #endregion
 }
