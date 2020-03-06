@@ -12,18 +12,13 @@ public class TilesDataManager : MonoBehaviour
 
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterTile";
-
-    private static TilesDataManager _instance;
-    public static TilesDataManager Instance
-    {
-        get { return _instance; }
-    }
+    public static TilesDataManager Instance { get; private set; }
 
     private void Awake()
     {
-        if(_instance == null)
+        if(Instance == null)
         {
-            _instance = this;
+            Instance = this;
             DontDestroyOnLoad(this);
         }
         else
@@ -105,6 +100,13 @@ public class TilesDataManager : MonoBehaviour
     public BaseTileData[] GetTilesAroundTile(BaseTileData tile)
     {
         return GetTilesAroundTileAtPos(tile.gridPosition);
+    }
+
+    public BaseTileData GetTileAtWorldPos(Vector3 pos)
+    {
+        Vector3Int tilePos = _tilemap.WorldToCell(pos);
+        Debug.Log("found pos " + tilePos);
+        return GetTileDataAtPos(tilePos);
     }
     #endregion
 }

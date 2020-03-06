@@ -15,4 +15,9 @@ public class WaterTile : BaseTileData
     {
         return "";
     }
+
+    public override void DebugOnClick()
+    {
+
+    }
 }

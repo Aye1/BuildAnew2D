@@ -27,4 +27,10 @@ public class PlainsTile : BaseTileData
     { 
         return debugLevel.ToString();
     }
+
+    public override void DebugOnClick()
+    {
+        debugLevel++;
+        base.OnSpecificTileModified();
+    }
 }

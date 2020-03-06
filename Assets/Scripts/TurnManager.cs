@@ -3,23 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class TurnManager : MonoBehaviour
 {
-    #region Singleton
-    private static TurnManager _instance;
-    public static TurnManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-        set
-        {
-            if (_instance == null) 
-            {
-                _instance = value;
-            }
-        }
-    }
-    #endregion
+    public static TurnManager Instance { get; private set; }
 
     public Tilemap tilemap;
 
@@ -32,9 +16,9 @@ public class TurnManager : MonoBehaviour
 
     private void Awake()
     {
-        if(_instance == null)
+        if(Instance == null)
         {
-            _instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else

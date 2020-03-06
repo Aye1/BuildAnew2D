@@ -17,4 +17,8 @@ public class DefaultTile : BaseTileData
     {
         return "?";
     }
+
+    public override void DebugOnClick()
+    {
+    }
 }

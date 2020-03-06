@@ -21,12 +21,14 @@ public class DebugTextManager : MonoBehaviour
         _tileDataManager = TilesDataManager.Instance;
         InitTilesDebugText();
         TurnManager.OnTurnStart += UpdateTilesDebugText;
+        BaseTileData.OnTileModified += UpdateTilesDebugText;
         UpdateTilesDebugText();
     }
 
     private void OnDestroy()
     {
         TurnManager.OnTurnStart -= UpdateTilesDebugText;
+        BaseTileData.OnTileModified -= UpdateTilesDebugText;
     }
 
     private void InitTilesDebugText()
