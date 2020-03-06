@@ -8,12 +8,10 @@ public class PlainsTile : BaseTileData
 
     public override void OnTurnEnds(BaseTileData[] neighbours)
     {
-        Debug.Log("end turn plain");
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)
     {
-        Debug.Log("start turn plain");
         int upValue = 0;
         foreach(BaseTileData tile in neighbours)
         {
@@ -23,7 +21,6 @@ public class PlainsTile : BaseTileData
             }
         }
         debugLevel += upValue;
-        Debug.Log("New debug level: " + debugLevel);
     }
 
     public override string GetDebugText()
