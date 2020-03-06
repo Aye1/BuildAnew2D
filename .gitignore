@@ -94,3 +94,5 @@ Temporary Items
 # Krita folder/files
 **/Krita
 *.kra
+
+Assets/Sprites/Krita.meta
