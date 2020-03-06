@@ -58,7 +58,8 @@ public class TilesDataManager : MonoBehaviour
                 }
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
-                newTileData.worldPosition = _tilemap.CellToWorld(pos) + _tileOffset; 
+                newTileData.worldPosition = _tilemap.CellToWorld(pos) + _tileOffset;
+                newTileData.Init();
                 tiles.Add(pos, newTileData);
             }
         }

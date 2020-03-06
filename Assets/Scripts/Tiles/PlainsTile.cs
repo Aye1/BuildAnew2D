@@ -1,10 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿
 
 public class PlainsTile : BaseTileData
 {
     private int debugLevel = 1;
 
+    public override void Init()
+    {
+        base.Init();
+        type = TileType.Plains;
+    }
 
     public override void OnTurnEnds(BaseTileData[] neighbours)
     {

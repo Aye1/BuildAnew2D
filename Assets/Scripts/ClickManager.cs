@@ -7,8 +7,7 @@ public class ClickManager : MonoBehaviour
 
     public static ClickManager Instance { get; private set; }
     public SpriteRenderer selectedTileSprite;
-
-    private BaseTileData _selectedTile;
+    public BaseTileData SelectedTile { get; private set; }
 
     private void Awake()
     {
@@ -47,19 +46,19 @@ public class ClickManager : MonoBehaviour
         if (tileClicked != null)
         {
             tileClicked.DebugOnClick();
-            _selectedTile = tileClicked;
+            SelectedTile = tileClicked;
         }
         else
         {
-            _selectedTile = null;
+            SelectedTile = null;
         }
     }
 
     private void ManageSelectedTile()
     {
-        if(_selectedTile != null)
+        if(SelectedTile != null)
         {
-            selectedTileSprite.transform.position = _selectedTile.worldPosition;
+            selectedTileSprite.transform.position = SelectedTile.worldPosition;
         }
         else
         {

@@ -2,11 +2,14 @@
 using UnityEngine.Tilemaps;
 using System;
 
+public enum TileType { Plains, Water };
+
 public abstract class BaseTileData
 {
     public Vector3Int gridPosition;
     public Vector3 worldPosition;
     public TileBase originTile;
+    public TileType type;
 
     #region Events
 
@@ -20,11 +23,13 @@ public abstract class BaseTileData
 
     #endregion
 
-    public abstract void OnTurnStarts(BaseTileData[] neighbours);
+    public virtual void Init() { }
 
-    public abstract void OnTurnEnds(BaseTileData[] neighbours);
+    public virtual void OnTurnStarts(BaseTileData[] neighbours) { }
 
-    public abstract string GetDebugText();
+    public virtual void OnTurnEnds(BaseTileData[] neighbours) { }
 
-    public abstract void DebugOnClick();
+    public virtual string GetDebugText() { return ""; }
+
+    public virtual void DebugOnClick() { }
 }
