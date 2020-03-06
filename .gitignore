@@ -90,3 +90,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Krita folder/files
+**/Krita
+*.kra
