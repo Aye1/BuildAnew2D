@@ -9,10 +9,13 @@ public class TilesDataManager : MonoBehaviour
 
     public Tilemap _tilemap;
     public Dictionary<Vector3Int, BaseTileData> tiles;
+    public static TilesDataManager Instance { get; private set; }
+
 
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterTile";
-    public static TilesDataManager Instance { get; private set; }
+
+    private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
     private void Awake()
     {
@@ -55,6 +58,7 @@ public class TilesDataManager : MonoBehaviour
                 }
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
+                newTileData.worldPosition = _tilemap.CellToWorld(pos) + _tileOffset; 
                 tiles.Add(pos, newTileData);
             }
         }

@@ -5,6 +5,7 @@ using System;
 public abstract class BaseTileData
 {
     public Vector3Int gridPosition;
+    public Vector3 worldPosition;
     public TileBase originTile;
 
     #region Events

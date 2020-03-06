@@ -6,6 +6,9 @@ public class ClickManager : MonoBehaviour
 {
 
     public static ClickManager Instance { get; private set; }
+    public SpriteRenderer selectedTileSprite;
+
+    private BaseTileData _selectedTile;
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class ClickManager : MonoBehaviour
         {
             ManageClick();
         }
+        ManageSelectedTile();
     }
 
     private void ManageClick()
@@ -43,6 +47,23 @@ public class ClickManager : MonoBehaviour
         if (tileClicked != null)
         {
             tileClicked.DebugOnClick();
+            _selectedTile = tileClicked;
+        }
+        else
+        {
+            _selectedTile = null;
+        }
+    }
+
+    private void ManageSelectedTile()
+    {
+        if(_selectedTile != null)
+        {
+            selectedTileSprite.transform.position = _selectedTile.worldPosition;
+        }
+        else
+        {
+            selectedTileSprite.transform.position = new Vector3(1000, 1000, 1000);
         }
     }
 }
