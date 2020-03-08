@@ -22,7 +22,7 @@ public class InfoMenu : MonoBehaviour
 
     private void UpdateUI()
     {
-        BaseTileData selectedTile = ClickManager.Instance.SelectedTile;
+        BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
         bool isActive = selectedTile != null;
         SetVisible(isActive);
         if(isActive)
