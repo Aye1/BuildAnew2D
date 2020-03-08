@@ -41,7 +41,6 @@ public class MouseManager : MonoBehaviour
             ManageClick();
         }
         ManageSelectedTile();
-        ManageHoveredTile();
     }
 
     private void ManageClick()
@@ -70,28 +69,18 @@ public class MouseManager : MonoBehaviour
         }
     }
 
-    private void ManageHoveredTile()
-    {
-        if (HoveredTile != null)
-        {
-            hoveredTileSprite.transform.position = HoveredTile.worldPosition;
-        }
-        else
-        {
-            hoveredTileSprite.transform.position = _awayPos;
-        }
-    }
-
     private void ManageHover()
     {
         BaseTileData tileHovered = GetTileAtMousePos();
         if (tileHovered != null)
         {
             HoveredTile = tileHovered;
+            hoveredTileSprite.transform.position = HoveredTile.worldPosition;
         }
         else
         {
             HoveredTile = null;
+            hoveredTileSprite.transform.position = _awayPos;
         }
     }
 
