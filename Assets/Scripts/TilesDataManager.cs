@@ -13,7 +13,7 @@ public class TilesDataManager : MonoBehaviour
 
 
     private const string PLAINS = "PlainsTile";
-    private const string WATER = "WaterTile";
+    private const string WATER = "WaterRuleTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
