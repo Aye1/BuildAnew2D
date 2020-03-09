@@ -110,7 +110,6 @@ public class TilesDataManager : MonoBehaviour
     public BaseTileData GetTileAtWorldPos(Vector3 pos)
     {
         Vector3Int tilePos = _tilemap.WorldToCell(pos);
-        Debug.Log("found pos " + tilePos);
         return GetTileDataAtPos(tilePos);
     }
     #endregion
