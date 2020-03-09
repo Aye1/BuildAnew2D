@@ -7,13 +7,17 @@ using System.Linq;
 public class TilesDataManager : MonoBehaviour
 {
 
-    public Tilemap _tilemap;
+    [SerializeField] private Tilemap _terrainTilemap;
+    [SerializeField] private Tilemap _structuresTilemap;
     public Dictionary<Vector3Int, BaseTileData> tiles;
     public static TilesDataManager Instance { get; private set; }
+
+    [SerializeField] private GameObject _factoryTemplate;
 
 
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterRuleTile";
+    private const string FACTORY = "FactoryTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
@@ -33,41 +37,52 @@ public class TilesDataManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitTiles();
+        InitTerrainTiles();
+        InitStructuresTiles();
     }
 
-    private void InitTiles()
+    private void InitTerrainTiles()
     {
         tiles = new Dictionary<Vector3Int, BaseTileData>();
-        foreach(Vector3Int pos in _tilemap.cellBounds.allPositionsWithin)
+        foreach(Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
         {
-            TileBase tile = _tilemap.GetTile(pos);
+            TileBase tile = _terrainTilemap.GetTile(pos);
             if(tile != null)
             {
-                BaseTileData newTileData;
-                if (tile.name.Equals(PLAINS))
-                {
-                    newTileData = new PlainsTile();
-                } else if (tile.name.Equals(WATER))
-                {
-                    newTileData = new WaterTile();
-                }
-                else
-                {
-                    newTileData = new DefaultTile();
-                }
+                BaseTileData newTileData = GetTileDataFromTileBase(tile);
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
-                newTileData.worldPosition = _tilemap.CellToWorld(pos) + _tileOffset;
+                newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
                 newTileData.Init();
                 tiles.Add(pos, newTileData);
             }
         }
     }
 
+    private void InitStructuresTiles()
+    { 
+        foreach(Vector3Int pos in _structuresTilemap.cellBounds.allPositionsWithin)
+        {
+            TileBase tile = _structuresTilemap.GetTile(pos);
+            BaseTileData data = GetTileDataAtPos(pos);
+            if(data == null)
+            {
+                Debug.LogWarning("Structure buit on empty tile at position " + pos.ToString());
+            }
+            else
+            {
+                if (tile != null)
+                {
+                    data.structureType = GetStructureFromTileBase(tile);
+                    Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
+                }
+            }
+        }
+    }
+
     public bool HasTile(Vector3Int pos)
     {
-        return _tilemap.HasTile(pos);
+        return _terrainTilemap.HasTile(pos);
     }
 
     #region Get Tiles
@@ -93,7 +108,7 @@ public class TilesDataManager : MonoBehaviour
 
     public BaseTileData[] GetTilesAroundTileAtPos(Vector3Int pos)
     {
-        if (_tilemap.cellBounds.Contains(pos))
+        if (_terrainTilemap.cellBounds.Contains(pos))
         {
             BoundsInt localBounds = new BoundsInt(pos.x - 1, pos.y - 1, pos.z, 3, 3, 1);
 
@@ -109,8 +124,33 @@ public class TilesDataManager : MonoBehaviour
 
     public BaseTileData GetTileAtWorldPos(Vector3 pos)
     {
-        Vector3Int tilePos = _tilemap.WorldToCell(pos);
+        Vector3Int tilePos = _terrainTilemap.WorldToCell(pos);
         return GetTileDataAtPos(tilePos);
+    }
+    #endregion
+
+    #region Bindings
+
+    public BaseTileData GetTileDataFromTileBase(TileBase tile) 
+    {
+        if (tile.name.Equals(PLAINS))
+        {
+            return new PlainsTile();
+        }
+
+        if (tile.name.Equals(WATER))
+        {
+            return new WaterTile();
+        }
+        return new DefaultTile();
+    }
+
+    public StructureType GetStructureFromTileBase(TileBase tile)
+    {
+        if (tile.name.Equals(FACTORY)) {
+            return StructureType.Factory;
+        }
+        return StructureType.None;
     }
     #endregion
 }

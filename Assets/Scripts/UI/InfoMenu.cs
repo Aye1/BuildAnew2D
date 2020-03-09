@@ -28,7 +28,7 @@ public class InfoMenu : MonoBehaviour
         if(isActive)
         {
             _posText.text = selectedTile.gridPosition.ToString();
-            _typeText.text = selectedTile.type.ToString();
+            _typeText.text = selectedTile.terrainType.ToString();
         }
     }
 

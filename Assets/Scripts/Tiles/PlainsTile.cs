@@ -7,7 +7,7 @@ public class PlainsTile : BaseTileData
     public override void Init()
     {
         base.Init();
-        type = TileType.Plains;
+        terrainType = TerrainType.Plains;
     }
 
     public override void OnTurnEnds(BaseTileData[] neighbours)

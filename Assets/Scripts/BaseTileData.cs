@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-using System;
 
-public enum TileType { Plains, Water };
+public enum TerrainType { Plains, Water };
+public enum StructureType { None, Factory };
 
 public abstract class BaseTileData
 {
     public Vector3Int gridPosition;
     public Vector3 worldPosition;
     public TileBase originTile;
-    public TileType type;
+    public TerrainType terrainType;
+    public StructureType structureType;
 
     #region Events
 
