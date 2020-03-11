@@ -1,4 +1,4 @@
-﻿public class DefaultTile : BaseTileData
+﻿public class DefaultTile : TerrainTile
 {
 
 }

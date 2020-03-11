@@ -12,7 +12,7 @@ public class TilesDataManager : MonoBehaviour
     public Dictionary<Vector3Int, BaseTileData> tiles;
     public static TilesDataManager Instance { get; private set; }
 
-    [SerializeField] private GameObject _factoryTemplate;
+    [SerializeField] private Factory _factoryTemplate;
 
 
     private const string PLAINS = "PlainsTile";
@@ -53,7 +53,7 @@ public class TilesDataManager : MonoBehaviour
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
                 newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
-                newTileData.Init();
+                newTileData.terrainTile.Init();
                 tiles.Add(pos, newTileData);
             }
         }
@@ -73,8 +73,7 @@ public class TilesDataManager : MonoBehaviour
             {
                 if (tile != null)
                 {
-                    data.structureType = GetStructureFromTileBase(tile);
-                    Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
+                    data.structureTile = InitStructureFromTileBase(tile, data);
                 }
             }
         }
@@ -133,24 +132,37 @@ public class TilesDataManager : MonoBehaviour
 
     public BaseTileData GetTileDataFromTileBase(TileBase tile) 
     {
+        BaseTileData data = new BaseTileData();
+        data.terrainTile = GetTerrainFromTileBase(tile);
+        return data;
+    }
+
+    public TerrainTile GetTerrainFromTileBase(TileBase tile)
+    {
         if (tile.name.Equals(PLAINS))
         {
             return new PlainsTile();
         }
-
-        if (tile.name.Equals(WATER))
+        else if (tile.name.Equals(WATER))
         {
             return new WaterTile();
         }
-        return new DefaultTile();
+        else
+        {
+            return new DefaultTile();
+        }
     }
 
-    public StructureType GetStructureFromTileBase(TileBase tile)
+    public StructureTile InitStructureFromTileBase(TileBase tile, BaseTileData data)
     {
-        if (tile.name.Equals(FACTORY)) {
-            return StructureType.Factory;
+        if (tile.name.Equals(FACTORY))
+        {
+            Factory factoryObject = (Factory)Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
+            FactoryTile newFactory = new FactoryTile();
+            newFactory.factory = factoryObject;
+            return newFactory;
         }
-        return StructureType.None;
+        return null;
     }
     #endregion
 }

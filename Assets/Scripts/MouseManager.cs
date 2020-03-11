@@ -48,7 +48,7 @@ public class MouseManager : MonoBehaviour
         BaseTileData tileClicked = GetTileAtMousePos();
         if (tileClicked != null)
         {
-            tileClicked.DebugOnClick();
+            tileClicked.terrainTile.DebugOnClick();
             SelectedTile = tileClicked;
         }
         else

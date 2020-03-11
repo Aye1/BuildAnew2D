@@ -21,14 +21,14 @@ public class DebugTextManager : MonoBehaviour
         _tileDataManager = TilesDataManager.Instance;
         InitTilesDebugText();
         TurnManager.OnTurnStart += UpdateTilesDebugText;
-        BaseTileData.OnTileModified += UpdateTilesDebugText;
+        //BaseTileData.OnTileModified += UpdateTilesDebugText;
         UpdateTilesDebugText();
     }
 
     private void OnDestroy()
     {
         TurnManager.OnTurnStart -= UpdateTilesDebugText;
-        BaseTileData.OnTileModified -= UpdateTilesDebugText;
+        //BaseTileData.OnTileModified -= UpdateTilesDebugText;
     }
 
     private void InitTilesDebugText()
@@ -51,7 +51,7 @@ public class DebugTextManager : MonoBehaviour
         {
             _debugTextsDico.TryGetValue(pos, out TextMeshProUGUI text);
             BaseTileData data = _tileDataManager.GetTileDataAtPos(pos);
-            text.text = isVisible ? data.GetDebugText() : "";
+            text.text = isVisible ? data.terrainTile.GetDebugText() : "";
         }
     }
 }

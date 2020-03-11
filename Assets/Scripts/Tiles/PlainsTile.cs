@@ -1,6 +1,6 @@
 ﻿
 
-public class PlainsTile : BaseTileData
+public class PlainsTile : TerrainTile
 {
     private int debugLevel = 1;
 
@@ -10,16 +10,12 @@ public class PlainsTile : BaseTileData
         terrainType = TerrainType.Plains;
     }
 
-    public override void OnTurnEnds(BaseTileData[] neighbours)
-    {
-    }
-
     public override void OnTurnStarts(BaseTileData[] neighbours)
     {
         int upValue = 0;
         foreach(BaseTileData tile in neighbours)
         {
-            if (tile is WaterTile)
+            if (tile.terrainTile is WaterTile)
             {
                 upValue++;
             }

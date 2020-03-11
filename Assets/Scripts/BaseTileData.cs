@@ -1,36 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum TerrainType { Plains, Water };
-public enum StructureType { None, Factory };
-
-public abstract class BaseTileData
+public class BaseTileData
 {
     public Vector3Int gridPosition;
     public Vector3 worldPosition;
     public TileBase originTile;
-    public TerrainType terrainType;
-    public StructureType structureType;
 
-    #region Events
+    public TerrainTile terrainTile;
+    public StructureTile structureTile;
 
-    public delegate void TileModified();
-    public static event TileModified OnTileModified;
-
-    protected virtual void OnSpecificTileModified()
+    public void OnTurnStarts(BaseTileData[] neighbours)
     {
-        OnTileModified?.Invoke();
+        structureTile?.OnTurnStarts(neighbours);
+        terrainTile?.OnTurnStarts(neighbours);
     }
 
-    #endregion
-
-    public virtual void Init() { }
-
-    public virtual void OnTurnStarts(BaseTileData[] neighbours) { }
-
-    public virtual void OnTurnEnds(BaseTileData[] neighbours) { }
-
-    public virtual string GetDebugText() { return ""; }
-
-    public virtual void DebugOnClick() { }
+    public void OnTurnEnds(BaseTileData[] neighbours)
+    {
+        structureTile?.OnTurnEnds(neighbours);
+        terrainTile?.OnTurnEnds(neighbours);
+    }
 }
