@@ -1,5 +1,5 @@
 ﻿
-public enum StructureType { None, Factory };
+public enum StructureType { None, Factory, Sawmill };
 
 public class StructureTile : ActiveTile
 {

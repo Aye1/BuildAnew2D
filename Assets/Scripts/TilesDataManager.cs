@@ -13,6 +13,7 @@ public class TilesDataManager : MonoBehaviour
     public static TilesDataManager Instance { get; private set; }
 
     [SerializeField] private Factory _factoryTemplate;
+    [SerializeField] private Sawmill _sawmillTemplate;
 
 
     private const string PLAINS = "PlainsTile";
@@ -174,8 +175,12 @@ public class TilesDataManager : MonoBehaviour
 
         if (tile.name.Equals(SAWMILL))
         {
-
+            Sawmill sawmillObject = Instantiate(_sawmillTemplate, data.worldPosition, Quaternion.identity, transform);
+            SawmillTile newSawmill = new SawmillTile();
+            newSawmill.sawmill = sawmillObject;
+            return newSawmill;
         }
+        Debug.LogWarning("Structure not found");
         return null;
     }
     #endregion

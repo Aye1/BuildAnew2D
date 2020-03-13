@@ -11,7 +11,7 @@ public class FactoryTile : StructureTile
 
     public override void OnTurnStarts(BaseTileData[] neighbours)
     {
-        base.OnTurnEnds(neighbours);
+        base.OnTurnStarts(neighbours);
         if(factory != null && factory.IsON)
         {
             foreach(BaseTileData tile in neighbours)
