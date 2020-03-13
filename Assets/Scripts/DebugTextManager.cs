@@ -7,28 +7,44 @@ using TMPro;
 public class DebugTextManager : MonoBehaviour
 {
     public Tilemap tilemap;
-    public Grid grid;
     public TextMeshProUGUI templateText;
-    public bool isVisible = true;
 
     private Dictionary<Vector3Int, TextMeshProUGUI> _debugTextsDico;
     private TilesDataManager _tileDataManager;
 
-    // Start is called before the first frame update
+    [SerializeField] private bool _debugIsVisible = true;
+
+
+    private bool _isVisible = true;
+    public bool IsVisible
+    {
+        get { return _isVisible; }
+        set
+        {
+            if (value != _isVisible)
+            {
+                _isVisible = value;
+                UpdateTilesDebugText();
+            }
+        }
+    }
+
     void Start()
     {
         _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
         _tileDataManager = TilesDataManager.Instance;
-        InitTilesDebugText();
-        TurnManager.OnTurnStart += UpdateTilesDebugText;
-        //BaseTileData.OnTileModified += UpdateTilesDebugText;
-        UpdateTilesDebugText();
+        TilesDataManager.OnTilesLoaded += InitTilesDebugText;
+    }
+
+    private void Update()
+    {
+        IsVisible = _debugIsVisible;
     }
 
     private void OnDestroy()
     {
         TurnManager.OnTurnStart -= UpdateTilesDebugText;
-        //BaseTileData.OnTileModified -= UpdateTilesDebugText;
+        ActiveTile.OnTileModified -= UpdateTilesDebugText;
     }
 
     private void InitTilesDebugText()
@@ -37,12 +53,15 @@ public class DebugTextManager : MonoBehaviour
         {
             TextMeshProUGUI newText = Instantiate(templateText, Vector3.zero, Quaternion.identity, transform);
             _debugTextsDico.Add(pos, newText);
-            
-            // Debug position, not scaling
-            newText.transform.localPosition = new Vector3((pos.x - pos.y) * 100 + 85, (pos.x + pos.y) * 50 + 55, pos.z);
 
+            BaseTileData data = _tileDataManager.GetTileDataAtPos(pos);
+            if(data != null)
+                newText.transform.position = data.worldPosition;
         }
         Destroy(templateText);
+        TurnManager.OnTurnStart += UpdateTilesDebugText;
+        ActiveTile.OnTileModified += UpdateTilesDebugText;
+        UpdateTilesDebugText();
     }
 
     private void UpdateTilesDebugText()
@@ -51,7 +70,7 @@ public class DebugTextManager : MonoBehaviour
         {
             _debugTextsDico.TryGetValue(pos, out TextMeshProUGUI text);
             BaseTileData data = _tileDataManager.GetTileDataAtPos(pos);
-            text.text = isVisible ? data.terrainTile.GetDebugText() : "";
+            text.text = _isVisible ? data.terrainTile.GetDebugText() : "";
         }
     }
 }

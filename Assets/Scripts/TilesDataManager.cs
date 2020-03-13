@@ -17,9 +17,16 @@ public class TilesDataManager : MonoBehaviour
 
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterRuleTile";
+    private const string WOODS = "WoodsTile";
     private const string FACTORY = "FactoryTile";
+    private const string SAWMILL = "SawmillTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
+
+    #region Events
+    public delegate void TilesLoaded();
+    public static event TilesLoaded OnTilesLoaded;
+    #endregion
 
     private void Awake()
     {
@@ -39,6 +46,7 @@ public class TilesDataManager : MonoBehaviour
     {
         InitTerrainTiles();
         InitStructuresTiles();
+        OnTilesLoaded?.Invoke();
     }
 
     private void InitTerrainTiles()
@@ -143,24 +151,30 @@ public class TilesDataManager : MonoBehaviour
         {
             return new PlainsTile();
         }
-        else if (tile.name.Equals(WATER))
+        if (tile.name.Equals(WATER))
         {
             return new WaterTile();
         }
-        else
+        if (tile.name.Equals(WOODS))
         {
-            return new DefaultTile();
+            return new WoodsTile();
         }
+        return new DefaultTile();
     }
 
     public StructureTile InitStructureFromTileBase(TileBase tile, BaseTileData data)
     {
         if (tile.name.Equals(FACTORY))
         {
-            Factory factoryObject = (Factory)Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
+            Factory factoryObject = Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
             FactoryTile newFactory = new FactoryTile();
             newFactory.factory = factoryObject;
             return newFactory;
+        }
+
+        if (tile.name.Equals(SAWMILL))
+        {
+
         }
         return null;
     }
