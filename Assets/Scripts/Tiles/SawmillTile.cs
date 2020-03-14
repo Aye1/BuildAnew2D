@@ -19,20 +19,27 @@ public class SawmillTile : StructureTile
         base.OnTurnStarts(neighbours);
         if (sawmill != null && sawmill.IsON)
         {
-            IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile);
+            // Get all wood tiles, from the one with the less resources to the one with the most
+            IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
+            .OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
+
             int woodsTilesCount = woodTiles.Count();
             // Split the cut between adjacent woods
             int toCut = _sawingAmount / woodsTilesCount;
 
-            // The remaining "cut amount" is for the last of the list
-            int resToCut = _sawingAmount % woodsTilesCount;
+
+            int currentCutWood = 0;
+            int currentCutTiles = 0;
 
             foreach (BaseTileData tile in woodTiles)
             {
-                ((WoodsTile)tile.terrainTile).CutWood(toCut);
+                currentCutWood += ((WoodsTile)tile.terrainTile).CutWood(toCut);
+                currentCutTiles++;
+                // Adjust the quantity to cut in other tiles, if not the full quantity could be cut before
+                if(currentCutTiles < woodsTilesCount)
+                    toCut = (_sawingAmount - currentCutWood) / (woodsTilesCount-currentCutTiles);
             }
-
-            ((WoodsTile)woodTiles.Last().terrainTile).CutWood(resToCut);
+            ResourcesManager.Instance.AddWood(currentCutWood);
         }
     }
 }

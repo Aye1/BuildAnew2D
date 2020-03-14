@@ -2,15 +2,19 @@
 
 public class WoodsTile : TerrainTile
 {
-    private int _woodResources = 500;
+    public int WoodAmount { get; private set; } = 500;
 
     public override string GetDebugText() 
     {
-        return _woodResources.ToString();
+        return WoodAmount.ToString();
     }
 
-    public void CutWood(int amount)
+
+    // Returns the real amount of wood cut
+    public int CutWood(int amount)
     {
-        _woodResources = Math.Max(_woodResources - amount, 0);
+        int realCutAmount = amount <= WoodAmount ? amount : WoodAmount;
+        WoodAmount -= realCutAmount;
+        return realCutAmount;
     }
 }
