@@ -4,6 +4,12 @@ public class WoodsTile : TerrainTile
 {
     public int WoodAmount { get; private set; } = 500;
 
+    public override void Init()
+    {
+        base.Init();
+        WoodAmount = Alea.GetInt(300, 500);
+    }
+
     public override string GetDebugText() 
     {
         return WoodAmount.ToString();
