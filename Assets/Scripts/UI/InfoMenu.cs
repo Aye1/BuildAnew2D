@@ -5,8 +5,12 @@ using TMPro;
 
 public class InfoMenu : MonoBehaviour
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _posText;
     [SerializeField] private TextMeshProUGUI _typeText;
+#pragma warning restore 0649
+    #endregion
 
     // Start is called before the first frame update
     void Start()

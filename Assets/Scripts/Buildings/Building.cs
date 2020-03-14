@@ -3,9 +3,12 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private Sprite _spriteON;
     [SerializeField] private Sprite _spriteOFF;
+#pragma warning restore 0649
+    #endregion
     private SpriteRenderer _renderer;
 
     [SerializeField] private bool _debugIsOn;

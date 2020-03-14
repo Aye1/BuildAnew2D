@@ -20,26 +20,35 @@ public class SawmillTile : StructureTile
         if (sawmill != null && sawmill.IsON)
         {
             // Get all wood tiles, from the one with the less resources to the one with the most
-            IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
-            .OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
+            //IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
+            //.OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
+            IEnumerable<WoodsTile> woodsTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
+                                                          .Select(x => (WoodsTile)x.terrainTile);
+            CutWoodOnTiles(woodsTiles);
 
-            int woodsTilesCount = woodTiles.Count();
-            // Split the cut between adjacent woods
-            int toCut = _sawingAmount / woodsTilesCount;
-
-
-            int currentCutWood = 0;
-            int currentCutTiles = 0;
-
-            foreach (BaseTileData tile in woodTiles)
-            {
-                currentCutWood += ((WoodsTile)tile.terrainTile).CutWood(toCut);
-                currentCutTiles++;
-                // Adjust the quantity to cut in other tiles, if not the full quantity could be cut before
-                if(currentCutTiles < woodsTilesCount)
-                    toCut = (_sawingAmount - currentCutWood) / (woodsTilesCount-currentCutTiles);
-            }
-            ResourcesManager.Instance.AddWood(currentCutWood);
         }
     }
-}
+
+    private void CutWoodOnTiles(IEnumerable<WoodsTile> tiles)
+    {
+        IEnumerable<WoodsTile> orderedTilesAsc = tiles.OrderBy(x => x.WoodAmount);
+
+        int woodsTilesCount = tiles.Count();
+        // Split the cut between adjacent woods
+        int toCut = _sawingAmount / woodsTilesCount;
+
+
+        int currentCutWood = 0;
+        int currentCutTiles = 0;
+
+        foreach (WoodsTile tile in orderedTilesAsc)
+        {
+            currentCutWood += tile.CutWood(toCut);
+            currentCutTiles++;
+            // Adjust the quantity to cut in other tiles, if not the full quantity could be cut before
+            if (currentCutTiles < woodsTilesCount)
+                toCut = (_sawingAmount - currentCutWood) / (woodsTilesCount - currentCutTiles);
+        }
+        ResourcesManager.Instance.AddWood(currentCutWood);
+    }
+} 

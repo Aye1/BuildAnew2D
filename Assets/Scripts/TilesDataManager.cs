@@ -6,15 +6,19 @@ using System.Linq;
 
 public class TilesDataManager : MonoBehaviour
 {
-
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private Tilemap _terrainTilemap;
     [SerializeField] private Tilemap _structuresTilemap;
-    public Dictionary<Vector3Int, BaseTileData> tiles;
-    public static TilesDataManager Instance { get; private set; }
 
     [SerializeField] private Factory _factoryTemplate;
     [SerializeField] private Sawmill _sawmillTemplate;
+#pragma warning restore 0649
+    #endregion
 
+    public Dictionary<Vector3Int, BaseTileData> tiles;
+    public static TilesDataManager Instance { get; private set; }
+    public static bool AreTileLoaded { get; private set; }
 
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterRuleTile";
@@ -47,6 +51,7 @@ public class TilesDataManager : MonoBehaviour
     {
         InitTerrainTiles();
         InitStructuresTiles();
+        AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
     }
 

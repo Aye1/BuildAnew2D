@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
@@ -33,7 +32,17 @@ public class DebugTextManager : MonoBehaviour
     {
         _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
         _tileDataManager = TilesDataManager.Instance;
-        TilesDataManager.OnTilesLoaded += InitTilesDebugText;
+
+        if (TilesDataManager.AreTileLoaded)
+        {
+            // Tiles already loaded, we can init debug texts
+            InitTilesDebugText();
+        }
+        else
+        {
+            // Wait for the tiles loading finished to init debug texts
+            TilesDataManager.OnTilesLoaded += InitTilesDebugText;
+        }
     }
 
     private void Update()
@@ -61,6 +70,7 @@ public class DebugTextManager : MonoBehaviour
         Destroy(templateText);
         TurnManager.OnTurnStart += UpdateTilesDebugText;
         ActiveTile.OnTileModified += UpdateTilesDebugText;
+        TilesDataManager.OnTilesLoaded -= InitTilesDebugText;
         UpdateTilesDebugText();
     }
 

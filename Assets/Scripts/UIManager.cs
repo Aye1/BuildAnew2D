@@ -5,7 +5,12 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _woodText;
+#pragma warning restore 0649
+    #endregion
+
     public static UIManager Instance { get; private set; }
 
     private void Awake()
