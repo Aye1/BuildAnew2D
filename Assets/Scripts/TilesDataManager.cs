@@ -11,7 +11,7 @@ public class TilesDataManager : MonoBehaviour
     [SerializeField] private Tilemap _terrainTilemap;
     [SerializeField] private Tilemap _structuresTilemap;
 
-    [SerializeField] private Factory _factoryTemplate;
+    [SerializeField] private PowerPlant _powerPlantTemplate;
     [SerializeField] private Sawmill _sawmillTemplate;
 #pragma warning restore 0649
     #endregion
@@ -23,7 +23,7 @@ public class TilesDataManager : MonoBehaviour
     private const string PLAINS = "PlainsTile";
     private const string WATER = "WaterRuleTile";
     private const string WOODS = "WoodsTile";
-    private const string FACTORY = "FactoryTile";
+    private const string POWERPLANT = "PowerPlantTile";
     private const string SAWMILL = "SawmillTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
@@ -170,19 +170,21 @@ public class TilesDataManager : MonoBehaviour
 
     public StructureTile InitStructureFromTileBase(TileBase tile, BaseTileData data)
     {
-        if (tile.name.Equals(FACTORY))
+        if (tile.name.Equals(POWERPLANT))
         {
-            Factory factoryObject = Instantiate(_factoryTemplate, data.worldPosition, Quaternion.identity, transform);
-            FactoryTile newFactory = new FactoryTile();
-            newFactory.factory = factoryObject;
-            return newFactory;
+            PowerPlant powerPlantObject = Instantiate(_powerPlantTemplate, data.worldPosition, Quaternion.identity, transform);
+            PowerPlantTile newPowerPlant = new PowerPlantTile();
+            powerPlantObject.dataTile = newPowerPlant;
+            ResourcesManager.Instance.RegisterPowerPlant(newPowerPlant);
+            return newPowerPlant;
         }
 
         if (tile.name.Equals(SAWMILL))
         {
             Sawmill sawmillObject = Instantiate(_sawmillTemplate, data.worldPosition, Quaternion.identity, transform);
             SawmillTile newSawmill = new SawmillTile();
-            newSawmill.sawmill = sawmillObject;
+            sawmillObject.dataTile = newSawmill;
+            ResourcesManager.Instance.RegisterConsumingEnergyStructure(newSawmill);
             return newSawmill;
         }
         Debug.LogWarning("Structure not found");

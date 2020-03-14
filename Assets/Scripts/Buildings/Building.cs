@@ -11,24 +11,11 @@ public class Building : MonoBehaviour
     #endregion
     private SpriteRenderer _renderer;
 
-    [SerializeField] private bool _debugIsOn;
+    public StructureTile dataTile;
 
-    private bool _isOn;
-    public bool IsON
-    {
-        get
-        {
-            return _isOn;
-        }
-        set
-        {
-            if (_isOn != value)
-            {
-                _isOn = value;
-                UpdateSprite();
-            }
-        }
-    }
+    // This object does not store data, but it's the only way to acceed it from the editor
+    // Thus, the ability to turn on/off the building is done here
+    [SerializeField] private bool _debugIsOn;
 
     // Start is called before the first frame update
     void Start()
@@ -38,11 +25,12 @@ public class Building : MonoBehaviour
 
     private void Update()
     {
-        IsON = _debugIsOn;
+        dataTile.IsOn = _debugIsOn;
+        UpdateSprite();
     }
 
     private void UpdateSprite()
     {
-        _renderer.sprite = _isOn ? _spriteON : _spriteOFF;
+        _renderer.sprite = dataTile.IsOn ? _spriteON : _spriteOFF;
     }
 }

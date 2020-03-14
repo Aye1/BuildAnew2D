@@ -17,7 +17,7 @@ public class SawmillTile : StructureTile
     public override void OnTurnStarts(BaseTileData[] neighbours)
     {
         base.OnTurnStarts(neighbours);
-        if (sawmill != null && sawmill.IsON)
+        if (IsOn)
         {
             // Get all wood tiles, from the one with the less resources to the one with the most
             //IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
