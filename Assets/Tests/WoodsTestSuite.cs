@@ -8,7 +8,7 @@ namespace Tests
 {
     public class WoodsTestSuite
     {
-        /*private WoodsTile _woodsTile;
+        private WoodsTile _woodsTile;
         private int _initialWoodAmount;
 
         [SetUp]
@@ -40,6 +40,6 @@ namespace Tests
             _woodsTile.CutWood(1);
             Assert.AreEqual(0, _woodsTile.WoodAmount);
             yield return null;
-        }*/
+        }
     }
 }
