@@ -15,10 +15,4 @@ public class BaseTileData
         structureTile?.OnTurnStarts(neighbours);
         terrainTile?.OnTurnStarts(neighbours);
     }
-
-    public void OnTurnEnds(BaseTileData[] neighbours)
-    {
-        structureTile?.OnTurnEnds(neighbours);
-        terrainTile?.OnTurnEnds(neighbours);
-    }
 }

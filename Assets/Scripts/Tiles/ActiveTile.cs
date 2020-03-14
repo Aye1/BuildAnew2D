@@ -5,8 +5,6 @@ public abstract class ActiveTile
 
     public virtual void OnTurnStarts(BaseTileData[] neighbours) { }
 
-    public virtual void OnTurnEnds(BaseTileData[] neighbours) { }
-
     public virtual string GetDebugText() { return ""; }
 
     public virtual void DebugOnClick() { }

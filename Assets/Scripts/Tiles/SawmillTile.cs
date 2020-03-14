@@ -24,12 +24,13 @@ public class SawmillTile : StructureTile
             //.OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
             IEnumerable<WoodsTile> woodsTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
                                                           .Select(x => (WoodsTile)x.terrainTile);
-            CutWoodOnTiles(woodsTiles);
+           ResourcesManager.Instance.AddWood(CutWoodOnTiles(woodsTiles));
 
         }
     }
 
-    private void CutWoodOnTiles(IEnumerable<WoodsTile> tiles)
+    // Should not be called directly, but useful to keep it public for unit tests
+    public int CutWoodOnTiles(IEnumerable<WoodsTile> tiles)
     {
         IEnumerable<WoodsTile> orderedTilesAsc = tiles.OrderBy(x => x.WoodAmount);
 
@@ -49,6 +50,6 @@ public class SawmillTile : StructureTile
             if (currentCutTiles < woodsTilesCount)
                 toCut = (_sawingAmount - currentCutWood) / (woodsTilesCount - currentCutTiles);
         }
-        ResourcesManager.Instance.AddWood(currentCutWood);
+        return currentCutWood;
     }
 } 

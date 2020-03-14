@@ -2,7 +2,7 @@
 
 public class WoodsTile : TerrainTile
 {
-    public int WoodAmount { get; private set; } = 500;
+    public int WoodAmount { get; set; }
 
     public override void Init()
     {

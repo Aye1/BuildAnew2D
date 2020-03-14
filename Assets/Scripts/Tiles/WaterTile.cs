@@ -21,7 +21,7 @@ public class WaterTile : TerrainTile
 
     private void UpFlood()
     {
-        // Should not be on all levels
+        // Should not be on all maps
         floodLevel++;
     }
 
