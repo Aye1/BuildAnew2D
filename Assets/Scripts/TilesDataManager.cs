@@ -13,6 +13,7 @@ public class TilesDataManager : MonoBehaviour
 
     [SerializeField] private PowerPlant _powerPlantTemplate;
     [SerializeField] private Sawmill _sawmillTemplate;
+    [SerializeField] private PumpingStation _pumpingStationTemplate;
 #pragma warning restore 0649
     #endregion
 
@@ -25,6 +26,7 @@ public class TilesDataManager : MonoBehaviour
     private const string WOODS = "WoodsTile";
     private const string POWERPLANT = "PowerPlantTile";
     private const string SAWMILL = "SawmillTile";
+    private const string PUMPINGSTATION = "PumpingStationTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
@@ -186,6 +188,15 @@ public class TilesDataManager : MonoBehaviour
             sawmillObject.dataTile = newSawmill;
             ResourcesManager.Instance.RegisterConsumingEnergyStructure(newSawmill);
             return newSawmill;
+        }
+
+        if (tile.name.Equals(PUMPINGSTATION))
+        {
+            PumpingStation stationObject = Instantiate(_pumpingStationTemplate, data.worldPosition, Quaternion.identity, transform);
+            PumpingStationTile newStation = new PumpingStationTile();
+            stationObject.dataTile = newStation;
+            ResourcesManager.Instance.RegisterConsumingEnergyStructure(newStation);
+            return newStation;
         }
         Debug.LogWarning("Structure not found");
         return null;

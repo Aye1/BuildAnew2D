@@ -1,5 +1,5 @@
 ﻿
-public enum StructureType { None, PowerPlant, Sawmill };
+public enum StructureType { None, PowerPlant, Sawmill, PumpingStation };
 
 public class StructureTile : ActiveTile
 {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Building : MonoBehaviour
 {
     #region Editor objects
@@ -21,6 +22,7 @@ public class Building : MonoBehaviour
     void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        _renderer.sortingOrder = 10;
     }
 
     private void Update()
