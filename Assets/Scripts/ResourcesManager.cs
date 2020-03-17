@@ -50,6 +50,53 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
+    public bool CanPay(List<Cost> costs)
+    {
+        return costs.All(CanPay);
+    }
+
+    public bool CanPay(Cost cost)
+    {
+        int amountToCompare = int.MinValue;
+        switch(cost.type)
+        {
+            case ResourceType.Wood:
+                amountToCompare = WoodAmount;
+                break;
+        }
+        return amountToCompare >= cost.amount;
+    }
+
+    public void Pay(List<Cost> costs)
+    {
+        costs.ForEach(Pay);
+    }
+
+    public void Pay(Cost cost)
+    {
+        switch(cost.type)
+        {
+            case ResourceType.Wood:
+                RemoveWood(cost.amount);
+                break;
+        }
+    }
+
+    public void Repay(List<Cost> costs)
+    {
+        costs.ForEach(Repay);
+    }
+
+    public void Repay(Cost cost)
+    {
+        switch(cost.type)
+        {
+            case ResourceType.Wood:
+                AddWood(cost.amount);
+                break;
+        }
+    }
+
     public void RegisterStructure(StructureTile structure)
     {
         if (structure.producesEnergy)

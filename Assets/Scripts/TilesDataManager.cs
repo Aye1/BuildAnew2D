@@ -106,6 +106,7 @@ public class TilesDataManager : MonoBehaviour
         {
             BaseTileData data = GetTileDataAtPos(pos);
             data.structureTile = CreateStructureFromType(type, data);
+            ResourcesManager.Instance.Pay(CostManager.CostForStructure(type));
         }
     }
 
@@ -115,18 +116,24 @@ public class TilesDataManager : MonoBehaviour
         bool canBuild = true;
         canBuild = canBuild && !data.terrainTile.Equals(TerrainType.Water);
         canBuild = canBuild && data.structureTile == null;
+        canBuild = canBuild && ResourcesManager.Instance.CanPay(CostManager.CostForStructure(type));
         return canBuild;
     }
 
-    public void RemoveStructureAtPos(Vector3Int pos)
+    public void RemoveStructureAtPos(Vector3Int pos, bool repay=true)
     {
         BaseTileData data = GetTileDataAtPos(pos);
         StructureTile structure = data.structureTile;
         if (structure != null && structure.building != null)
         {
+            if (repay)
+            {
+                ResourcesManager.Instance.Repay(CostManager.CostForStructure(data.structureTile.structureType));
+            }
+
+            // Warning: possible memory leak
             Destroy(structure.building.gameObject);
             data.structureTile = null;
-            // Warning: possible memory leak
         }
     }
 
