@@ -6,6 +6,8 @@ public class PumpingStationTile : StructureTile
     {
         base.Init();
         structureType = StructureType.PumpingStation;
+        consumesEnergy = true;
+        producesEnergy = false;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

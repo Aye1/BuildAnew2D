@@ -19,11 +19,9 @@ namespace Tests
             for(int i = 0; i < _woodsTile.Length; i++)
             {
                 _woodsTile[i] = new WoodsTile();
-                _woodsTile[i].Init();
             }
             _firstTile = _woodsTile[0];
             _sawmillTile = new SawmillTile();
-            _sawmillTile.Init();
         }
 
         private void SetWoodsValues(int[] values) 

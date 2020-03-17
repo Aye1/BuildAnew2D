@@ -69,7 +69,6 @@ public class TilesDataManager : MonoBehaviour
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
                 newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
-                newTileData.terrainTile.Init();
                 tiles.Add(pos, newTileData);
             }
         }
@@ -89,7 +88,8 @@ public class TilesDataManager : MonoBehaviour
             {
                 if (tile != null)
                 {
-                    data.structureTile = InitStructureFromTileBase(tile, data);
+                    StructureType type = GetTypeFromTile(tile);
+                    data.structureTile = CreateStructureFromType(type, data);
                 }
             }
         }
@@ -98,6 +98,36 @@ public class TilesDataManager : MonoBehaviour
     public bool HasTile(Vector3Int pos)
     {
         return _terrainTilemap.HasTile(pos);
+    }
+
+    public void BuildStructureAtPos(StructureType type, Vector3Int pos)
+    {
+        if(CanBuildStructureAtPos(type, pos))
+        {
+            BaseTileData data = GetTileDataAtPos(pos);
+            data.structureTile = CreateStructureFromType(type, data);
+        }
+    }
+
+    public bool CanBuildStructureAtPos(StructureType type, Vector3Int pos)
+    {
+        BaseTileData data = GetTileDataAtPos(pos);
+        bool canBuild = true;
+        canBuild = canBuild && !data.terrainTile.Equals(TerrainType.Water);
+        canBuild = canBuild && data.structureTile == null;
+        return canBuild;
+    }
+
+    public void RemoveStructureAtPos(Vector3Int pos)
+    {
+        BaseTileData data = GetTileDataAtPos(pos);
+        StructureTile structure = data.structureTile;
+        if (structure != null && structure.building != null)
+        {
+            Destroy(structure.building.gameObject);
+            data.structureTile = null;
+            // Warning: possible memory leak
+        }
     }
 
     #region Get Tiles
@@ -170,36 +200,58 @@ public class TilesDataManager : MonoBehaviour
         return new DefaultTile();
     }
 
-    public StructureTile InitStructureFromTileBase(TileBase tile, BaseTileData data)
+    public StructureType GetTypeFromTile(TileBase tile)
     {
         if (tile.name.Equals(POWERPLANT))
         {
-            PowerPlant powerPlantObject = Instantiate(_powerPlantTemplate, data.worldPosition, Quaternion.identity, transform);
-            PowerPlantTile newPowerPlant = new PowerPlantTile();
-            powerPlantObject.dataTile = newPowerPlant;
-            ResourcesManager.Instance.RegisterPowerPlant(newPowerPlant);
-            return newPowerPlant;
+            return StructureType.PowerPlant;
         }
 
         if (tile.name.Equals(SAWMILL))
         {
-            Sawmill sawmillObject = Instantiate(_sawmillTemplate, data.worldPosition, Quaternion.identity, transform);
-            SawmillTile newSawmill = new SawmillTile();
-            sawmillObject.dataTile = newSawmill;
-            ResourcesManager.Instance.RegisterConsumingEnergyStructure(newSawmill);
-            return newSawmill;
+            return StructureType.Sawmill;
         }
 
         if (tile.name.Equals(PUMPINGSTATION))
         {
-            PumpingStation stationObject = Instantiate(_pumpingStationTemplate, data.worldPosition, Quaternion.identity, transform);
-            PumpingStationTile newStation = new PumpingStationTile();
-            stationObject.dataTile = newStation;
-            ResourcesManager.Instance.RegisterConsumingEnergyStructure(newStation);
-            return newStation;
+            return StructureType.PumpingStation;
         }
-        Debug.LogWarning("Structure not found");
-        return null;
+        return StructureType.None;
     }
     #endregion
+
+    public StructureTile CreateStructureFromType(StructureType type, BaseTileData data)
+    {
+        Building toInstantiate = null;
+        StructureTile newTile = null;
+        switch (type)
+        {
+            case StructureType.PowerPlant:
+                toInstantiate = _powerPlantTemplate;
+                newTile = new PowerPlantTile();
+                break;
+
+            case StructureType.Sawmill:
+                toInstantiate = _sawmillTemplate;
+                newTile = new SawmillTile();
+                break;
+
+            case StructureType.PumpingStation:
+                toInstantiate = _pumpingStationTemplate;
+                newTile = new PumpingStationTile();
+                break;  
+
+            case StructureType.None:
+                break;
+        }
+
+        if (toInstantiate != null)
+        {
+            Building building = Instantiate(toInstantiate, data.worldPosition, Quaternion.identity, transform);
+            building.dataTile = newTile;
+            newTile.building = building;
+            ResourcesManager.Instance.RegisterStructure(newTile);
+        }
+        return newTile;
+    }
 }

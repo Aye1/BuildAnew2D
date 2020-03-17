@@ -6,5 +6,7 @@ public class PowerPlantTile : StructureTile
     {
         base.Init();
         structureType = StructureType.PowerPlant;
+        consumesEnergy = false;
+        producesEnergy = true;
     }
 }

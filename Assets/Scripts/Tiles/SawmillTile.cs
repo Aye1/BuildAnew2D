@@ -12,6 +12,8 @@ public class SawmillTile : StructureTile
     {
         base.Init();
         structureType = StructureType.Sawmill;
+        consumesEnergy = true;
+        producesEnergy = false;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

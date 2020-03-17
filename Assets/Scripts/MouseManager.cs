@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
@@ -26,34 +27,28 @@ public class MouseManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         ManageHover();
-        if (Input.GetMouseButtonDown(0))
-        {
-            ManageClick();
-        }
+        ManageClick();
         ManageSelectedTile();
     }
 
     private void ManageClick()
     {
-        BaseTileData tileClicked = GetTileAtMousePos();
-        if (tileClicked != null)
+        // The second part of the condition prevents from interacting with the tilemap if we click on UI
+        if (Input.GetMouseButtonDown(0) && EventSystem.current.currentSelectedGameObject == null)
         {
-            tileClicked.terrainTile.DebugOnClick();
-            SelectedTile = tileClicked;
-        }
-        else
-        {
-            SelectedTile = null;
+            BaseTileData tileClicked = GetTileAtMousePos();
+            if (tileClicked != null)
+            {
+                tileClicked.terrainTile.DebugOnClick();
+                SelectedTile = tileClicked;
+            }
+            else
+            {
+                SelectedTile = null;
+            }
         }
     }
 

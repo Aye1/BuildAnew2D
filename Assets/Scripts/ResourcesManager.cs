@@ -11,7 +11,7 @@ public class ResourcesManager : MonoBehaviour
     public int EnergyTotal { get; private set; }
     public int EnergyAvailable { get; private set; }
 
-    private List<PowerPlantTile> _energyCreatingStructures;
+    private List<StructureTile> _energyProducingStructures;
     private List<StructureTile> _energyConsumingStructures;
 
     private void Awake()
@@ -25,7 +25,7 @@ public class ResourcesManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _energyCreatingStructures = new List<PowerPlantTile>();
+        _energyProducingStructures = new List<StructureTile>();
         _energyConsumingStructures = new List<StructureTile>();
     }
 
@@ -50,21 +50,48 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
-    public void RegisterPowerPlant(PowerPlantTile powerPlant)
+    public void RegisterStructure(StructureTile structure)
     {
-        // Add() allows duplicates, so we just check the structure isn't already in the list
-        if (!_energyCreatingStructures.Contains(powerPlant))
+        if (structure.producesEnergy)
         {
-            _energyCreatingStructures.Add(powerPlant);
+            RegisterProducingEnergyStructure(structure);
+        }
+
+        if (structure.consumesEnergy)
+        {
+            RegisterConsumingEnergyStructure(structure);
         }
     }
 
-    public void UnregisterPowerPlant(PowerPlantTile powerPlant)
+    public void UnregisterStructure(StructureTile structure)
     {
-        _energyCreatingStructures.Remove(powerPlant);
+        if (structure.producesEnergy)
+        {
+            UnregisterProducingEnergyStructure(structure);
+        }
+
+        if (structure.consumesEnergy)
+        {
+            UnregisterProducingEnergyStructure(structure);
+        }
     }
 
-    public void RegisterConsumingEnergyStructure(StructureTile structure)
+    private void RegisterProducingEnergyStructure(StructureTile structure)
+    { 
+        // Add() allows duplicates, so we just check the structure isn't already in the list
+        if (!_energyProducingStructures.Contains(structure))
+        {
+            _energyProducingStructures.Add(structure);
+        }
+    }
+
+    private void UnregisterProducingEnergyStructure(StructureTile structure)
+    {
+        _energyProducingStructures.Remove(structure);
+    }
+
+
+    private void RegisterConsumingEnergyStructure(StructureTile structure)
     {
         // Add() allows duplicates, so we just check the structure isn't already in the list
         if (!_energyConsumingStructures.Contains(structure))
@@ -73,7 +100,7 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
-    public void UnregisterConsumingEnergyStructure(StructureTile structure)
+    private void UnregisterConsumingEnergyStructure(StructureTile structure)
     {
         _energyConsumingStructures.Remove(structure);
     }
@@ -81,7 +108,7 @@ public class ResourcesManager : MonoBehaviour
     private void UpdateEnergyValues()
     {
         // Basic energy count at the moment
-        EnergyTotal = _energyCreatingStructures.Count(x => x.IsOn);
+        EnergyTotal = _energyProducingStructures.Count(x => x.IsOn);
         EnergyAvailable = EnergyTotal - _energyConsumingStructures.Count(x => x.IsOn);
     }
 }
