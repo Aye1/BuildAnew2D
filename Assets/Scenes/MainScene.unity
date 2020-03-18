@@ -1077,6 +1077,7 @@ MonoBehaviour:
   _energyText: {fileID: 1653292167}
   _buildTypeDropdown: {fileID: 321414296}
   _buildButtonText: {fileID: 632569714}
+  _undoButton: {fileID: 1623655983}
 --- !u!114 &546297921 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9131572266154984548, guid: 92c8b56250141483ab7aefb3b2abe680,
