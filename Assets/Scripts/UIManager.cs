@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private TMP_Dropdown _buildTypeDropdown;
     [SerializeField] private TextMeshProUGUI _buildButtonText;
+    [SerializeField] private Button _undoButton;
 #pragma warning restore 0649
     #endregion
 
@@ -40,6 +41,7 @@ public class UIManager : MonoBehaviour
         _woodText.text = ResourcesManager.Instance.WoodAmount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _buildButtonText.text = IsInBuildMode ? "Stop building" : "Start building";
+        _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
 
     public StructureType GetSelectedStructureType()

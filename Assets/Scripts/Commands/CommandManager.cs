@@ -36,6 +36,11 @@ public class CommandManager : MonoBehaviour
         }
     }
 
+    public bool CanUndoLastCommand()
+    {
+        return _commandsQueue.Count > 0;
+    }
+
     public void EmptyCommandList()
     {
         _commandsQueue.Clear();
