@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CommandManager : MonoBehaviour
 {
-    public CommandManager Instance { get; private set; }
+    public static CommandManager Instance { get; private set; }
 
     private Stack<Command> _commandsQueue;
 
@@ -43,7 +43,7 @@ public class CommandManager : MonoBehaviour
 
     public void DebugBuild()
     {
-        BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
+        BaseTileData selectedTile = MouseManager.Instance.HoveredTile;
         if (selectedTile != null)
         {
             BuildCommand command = new BuildCommand(UIManager.Instance.GetSelectedStructureType(), selectedTile.gridPosition);

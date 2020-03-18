@@ -14,6 +14,8 @@ public class MouseManager : MonoBehaviour
     public BaseTileData HoveredTile { get; private set; }
 
     private Vector3 _awayPos = new Vector3(1000, 1000, 1000);
+    private Color _transpColor = new Color(1.0f, 1.0f, 1.0f, 0.8f);
+    private Color _invisibleColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class MouseManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        phantomBuildingSprite.color = _transpColor;
     }
 
     void Update()
@@ -41,15 +44,25 @@ public class MouseManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && EventSystem.current.currentSelectedGameObject == null)
         {
             BaseTileData tileClicked = GetTileAtMousePos();
+
             if (tileClicked != null)
             {
-                tileClicked.terrainTile.DebugOnClick();
+                if (UIManager.Instance.IsInBuildMode)
+                {
+                    CommandManager.Instance.DebugBuild();
+                }
+                else
+                {
+                    tileClicked.terrainTile.DebugOnClick();
+
+                }
                 SelectedTile = tileClicked;
             }
             else
             {
                 SelectedTile = null;
             }
+
         }
     }
 
@@ -73,11 +86,20 @@ public class MouseManager : MonoBehaviour
         {
             HoveredTile = tileHovered;
             hoveredTileSprite.transform.position = HoveredTile.worldPosition;
+            if (UIManager.Instance.IsInBuildMode) {
+                phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
+                phantomBuildingSprite.color = _transpColor;
+            }
+            else
+            {
+                phantomBuildingSprite.color = _invisibleColor;
+            }
         }
         else
         {
             HoveredTile = null;
             hoveredTileSprite.transform.position = _awayPos;
+            phantomBuildingSprite.color = _invisibleColor;
         }
     }
 

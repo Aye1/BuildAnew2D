@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,10 +11,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _woodText;
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private TMP_Dropdown _buildTypeDropdown;
+    [SerializeField] private TextMeshProUGUI _buildButtonText;
 #pragma warning restore 0649
     #endregion
 
     public static UIManager Instance { get; private set; }
+    public bool IsInBuildMode { get; private set; }
 
     private void Awake()
     {
@@ -36,6 +39,7 @@ public class UIManager : MonoBehaviour
     {
         _woodText.text = ResourcesManager.Instance.WoodAmount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
+        _buildButtonText.text = IsInBuildMode ? "Stop building" : "Start building";
     }
 
     public StructureType GetSelectedStructureType()
@@ -55,5 +59,10 @@ public class UIManager : MonoBehaviour
             returnType = StructureType.PumpingStation;
         }
         return returnType;
+    }
+
+    public void ToggleBuildMode()
+    {
+        IsInBuildMode = !IsInBuildMode;
     }
 }
