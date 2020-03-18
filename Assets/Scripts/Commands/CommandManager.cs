@@ -46,7 +46,7 @@ public class CommandManager : MonoBehaviour
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
         if (selectedTile != null)
         {
-            BuildCommand command = new BuildCommand(StructureType.PowerPlant, selectedTile.gridPosition);
+            BuildCommand command = new BuildCommand(UIManager.Instance.GetSelectedStructureType(), selectedTile.gridPosition);
             ExecuteCommand(command);
         }
     }

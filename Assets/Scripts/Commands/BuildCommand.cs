@@ -36,7 +36,7 @@ public class BuildCommand : Command
 
     private Cost GetCostForStructureType(StructureType structure)
     {
-        return Cost.debugCost;
+        return structure == StructureType.None ? Cost.zero : Cost.debugCost;
     }
 }
 

@@ -27,6 +27,7 @@ public class ResourcesManager : MonoBehaviour
         }
         _energyProducingStructures = new List<StructureTile>();
         _energyConsumingStructures = new List<StructureTile>();
+        WoodAmount = 10000;
     }
 
     private void Update()

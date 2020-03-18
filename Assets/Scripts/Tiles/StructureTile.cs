@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation };
 
 public class StructureTile : ActiveTile

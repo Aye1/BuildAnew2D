@@ -4,16 +4,24 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 
+[System.Serializable]
+public class BuildingBinding
+{
+    public StructureType type;
+    public Building building;
+}
+
 public class TilesDataManager : MonoBehaviour
 {
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private Tilemap _terrainTilemap;
     [SerializeField] private Tilemap _structuresTilemap;
-
-    [SerializeField] private PowerPlant _powerPlantTemplate;
+    [SerializeField] private List<BuildingBinding> _templates;
+    private Dictionary<StructureType, Building> _templatesDico;
+    /*[SerializeField] private PowerPlant _powerPlantTemplate;
     [SerializeField] private Sawmill _sawmillTemplate;
-    [SerializeField] private PumpingStation _pumpingStationTemplate;
+    [SerializeField] private PumpingStation _pumpingStationTemplate;*/
 #pragma warning restore 0649
     #endregion
 
@@ -45,6 +53,11 @@ public class TilesDataManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+        _templatesDico = new Dictionary<StructureType, Building>();
+        foreach(BuildingBinding bind in _templates)
+        {
+            _templatesDico.Add(bind.type, bind.building);
         }
     }
 
@@ -229,22 +242,18 @@ public class TilesDataManager : MonoBehaviour
 
     public StructureTile CreateStructureFromType(StructureType type, BaseTileData data)
     {
-        Building toInstantiate = null;
         StructureTile newTile = null;
         switch (type)
         {
             case StructureType.PowerPlant:
-                toInstantiate = _powerPlantTemplate;
                 newTile = new PowerPlantTile();
                 break;
 
             case StructureType.Sawmill:
-                toInstantiate = _sawmillTemplate;
                 newTile = new SawmillTile();
                 break;
 
             case StructureType.PumpingStation:
-                toInstantiate = _pumpingStationTemplate;
                 newTile = new PumpingStationTile();
                 break;  
 
@@ -252,6 +261,7 @@ public class TilesDataManager : MonoBehaviour
                 break;
         }
 
+        _templatesDico.TryGetValue(type, out Building toInstantiate);
         if (toInstantiate != null)
         {
             Building building = Instantiate(toInstantiate, data.worldPosition, Quaternion.identity, transform);
@@ -261,4 +271,18 @@ public class TilesDataManager : MonoBehaviour
         }
         return newTile;
     }
+
+    /*public Sprite GetSpriteForStructure(StructureType type)
+    {
+        Sprite res;
+        GameObject 
+        switch(type)
+        {
+            case StructureType.PowerPlant:
+                res = _powerPlantTemplate.GetComponent<SpriteRenderer>().sprite;
+                break;
+            case StructureType.PumpingStation:
+                res = _pumpingStationTemplate.GetComponent<Spri>
+        }
+    }*/
 }
