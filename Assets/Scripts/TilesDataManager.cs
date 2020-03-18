@@ -272,17 +272,13 @@ public class TilesDataManager : MonoBehaviour
         return newTile;
     }
 
-    /*public Sprite GetSpriteForStructure(StructureType type)
+    public Sprite GetSpriteForStructure(StructureType type)
     {
-        Sprite res;
-        GameObject 
-        switch(type)
+        _templatesDico.TryGetValue(type, out Building building);
+        if(building != null)
         {
-            case StructureType.PowerPlant:
-                res = _powerPlantTemplate.GetComponent<SpriteRenderer>().sprite;
-                break;
-            case StructureType.PumpingStation:
-                res = _pumpingStationTemplate.GetComponent<Spri>
+            return building.GetComponent<SpriteRenderer>().sprite;
         }
-    }*/
+        return null;
+    }
 }

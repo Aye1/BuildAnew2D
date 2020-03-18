@@ -9,6 +9,7 @@ public class MouseManager : MonoBehaviour
     public static MouseManager Instance { get; private set; }
     public SpriteRenderer selectedTileSprite;
     public SpriteRenderer hoveredTileSprite;
+    public SpriteRenderer phantomBuildingSprite;
     public BaseTileData SelectedTile { get; private set; }
     public BaseTileData HoveredTile { get; private set; }
 
@@ -67,6 +68,7 @@ public class MouseManager : MonoBehaviour
     private void ManageHover()
     {
         BaseTileData tileHovered = GetTileAtMousePos();
+        phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(UIManager.Instance.GetSelectedStructureType());
         if (tileHovered != null)
         {
             HoveredTile = tileHovered;
