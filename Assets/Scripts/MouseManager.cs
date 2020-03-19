@@ -49,9 +49,9 @@ public class MouseManager : MonoBehaviour
 
             if (tileClicked != null)
             {
-                if (UIManager.Instance.IsInBuildMode)
+                if (BuildingManager.Instance.IsInBuildMode)
                 {
-                    CommandManager.Instance.DebugBuild();
+                    BuildingManager.Instance.BuildCurrentStructure();
                 }
                 else
                 {
@@ -83,13 +83,13 @@ public class MouseManager : MonoBehaviour
     private void ManageHover()
     {
         BaseTileData tileHovered = GetTileAtMousePos();
-        StructureType currentBuildType = UIManager.Instance.GetSelectedStructureType();
+        StructureType currentBuildType = BuildingManager.Instance.CurrentBuildingStructure;
         phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(currentBuildType);
         if (tileHovered != null)
         {
             HoveredTile = tileHovered;
             hoveredTileSprite.transform.position = HoveredTile.worldPosition;
-            if (UIManager.Instance.IsInBuildMode) {
+            if (BuildingManager.Instance.IsInBuildMode) {
                 bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.gridPosition);
                 phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
                 phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;

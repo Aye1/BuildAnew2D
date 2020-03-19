@@ -45,14 +45,4 @@ public class CommandManager : MonoBehaviour
     {
         _commandsQueue.Clear();
     }
-
-    public void DebugBuild()
-    {
-        BaseTileData selectedTile = MouseManager.Instance.HoveredTile;
-        if (selectedTile != null)
-        {
-            BuildCommand command = new BuildCommand(UIManager.Instance.GetSelectedStructureType(), selectedTile.gridPosition);
-            ExecuteCommand(command);
-        }
-    }
 }

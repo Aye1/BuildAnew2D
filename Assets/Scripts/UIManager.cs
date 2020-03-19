@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public static UIManager Instance { get; private set; }
-    public bool IsInBuildMode { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +36,7 @@ public class UIManager : MonoBehaviour
     {
         CreateDropdownList();
     }
+
     private void CreateDropdownList()
     {
         IEnumerable<BuildingBinding> allConstructibleBuildings = TilesDataManager.Instance.GetAllConstructiblesStructures();
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     {
         _woodText.text = ResourcesManager.Instance.WoodAmount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
-        _buildButtonText.text = IsInBuildMode ? "Stop building" : "Start building";
+        _buildButtonText.text = BuildingManager.Instance.IsInBuildMode ? "Stop building" : "Start building";
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
 
@@ -78,6 +78,6 @@ public class UIManager : MonoBehaviour
 
     public void ToggleBuildMode()
     {
-        IsInBuildMode = !IsInBuildMode;
+        BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
     }
 }

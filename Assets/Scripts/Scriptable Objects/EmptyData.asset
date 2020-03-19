@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   producedEnergyAmount: 0
   consumedEnergyAmount: 0
-  isConstructible: 1
+  isConstructible: 0
   StructureName: None
