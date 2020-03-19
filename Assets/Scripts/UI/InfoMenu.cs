@@ -9,6 +9,7 @@ public class InfoMenu : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _posText;
     [SerializeField] private TextMeshProUGUI _typeText;
+    [SerializeField] private TextMeshProUGUI _structureText;
 #pragma warning restore 0649
     #endregion
 
@@ -32,7 +33,8 @@ public class InfoMenu : MonoBehaviour
         if(isActive)
         {
             _posText.text = selectedTile.gridPosition.ToString();
-            _typeText.text = selectedTile.terrainTile.terrainType.ToString();
+            _typeText.text = selectedTile.GetTerrainText();
+            _structureText.text = selectedTile.GetStructureText();
         }
     }
 

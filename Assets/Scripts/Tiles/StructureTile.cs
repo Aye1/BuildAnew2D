@@ -8,4 +8,10 @@ public class StructureTile : ActiveTile
     public Building building;
     public bool consumesEnergy;
     public bool producesEnergy;
+
+    public override string GetText()
+    {
+        return structureType == StructureType.None ? "" : structureType.ToString() ;
+    }
+
 }

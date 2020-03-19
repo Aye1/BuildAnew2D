@@ -15,4 +15,14 @@ public class BaseTileData
         structureTile?.OnTurnStarts(neighbours);
         terrainTile?.OnTurnStarts(neighbours);
     }
+
+    public string GetTerrainText()
+    {
+        return terrainTile == null ? "" : terrainTile.GetText();
+    }
+
+    public string GetStructureText()
+    {
+        return structureTile == null ? "" : structureTile.GetText();
+    }
 }
