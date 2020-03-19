@@ -65,7 +65,7 @@ public class UIManager : MonoBehaviour
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
 
-    public StructureType GetSelectedStructureType()
+    /*public StructureType GetSelectedStructureType()
     {
         StructureType returnType = StructureType.None;
         BuildingBinding buildingBinding;
@@ -74,7 +74,7 @@ public class UIManager : MonoBehaviour
             returnType = buildingBinding.type;
         }
         return returnType;
-    }
+    }*/
 
     public void ToggleBuildMode()
     {

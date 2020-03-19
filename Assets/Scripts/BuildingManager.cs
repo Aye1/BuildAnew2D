@@ -31,7 +31,7 @@ public class BuildingManager : MonoBehaviour
         BaseTileData selectedTile = MouseManager.Instance.HoveredTile;
         if (selectedTile != null)
         {
-            BuildCommand command = new BuildCommand(UIManager.Instance.GetSelectedStructureType(), selectedTile.gridPosition);
+            BuildCommand command = new BuildCommand(CurrentBuildingStructure, selectedTile.gridPosition);
             CommandManager.Instance.ExecuteCommand(command);
             OnBuildDone?.Invoke();
             IsInBuildMode = false;

@@ -15,6 +15,7 @@ public class CommandManager : MonoBehaviour
             Instance = this;
             _commandsQueue = new Stack<Command>();
             DontDestroyOnLoad(gameObject);
+            RegisterCallbacks();
         } else
         {
             Destroy(gameObject);
@@ -44,5 +45,20 @@ public class CommandManager : MonoBehaviour
     public void EmptyCommandList()
     {
         _commandsQueue.Clear();
+    }
+
+    private void RegisterCallbacks()
+    {
+        TurnManager.OnTurnStart += EmptyCommandList;
+    }
+
+    private void UnregisterCallbacks()
+    {
+        TurnManager.OnTurnStart -= EmptyCommandList;
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterCallbacks();
     }
 }
