@@ -42,7 +42,7 @@ public class InfoMenu : MonoBehaviour
     public void ToggleStructure()
     {
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
-        selectedTile.structureTile.IsOn = !selectedTile.structureTile.IsOn;
+        selectedTile.ToggleStructureIfPossible();
     }
 
     private void SetVisible(bool visibility)
