@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
+
 public class BaseTileData
 {
     public Vector3Int gridPosition;
@@ -32,30 +34,13 @@ public class BaseTileData
         return structureTile == null ? false : structureTile.IsOn;
     }
 
-    public bool CanToggleStructure()
+    public ActivationState ToggleStructureIfPossible()
     {
-        bool canToggleStructure = false;
+        ActivationState returnActivationState = ActivationState.ImpossibleMissingStructure;
         if (structureTile != null)
         {
-            int energyAvailable = ResourcesManager.Instance.EnergyAvailable;
-            if ((structureTile.producesEnergy & structureTile.IsOn) ^ (structureTile.consumesEnergy & !structureTile.IsOn))
-            {
-                canToggleStructure = energyAvailable > 0;
-            }
-            else
-            {
-                canToggleStructure = true;
-            }
-
+            returnActivationState = structureTile.ToggleStructureIfPossible();
         }
-        return canToggleStructure;
-    }
-
-    public void ToggleStructureIfPossible()
-    {
-        if (CanToggleStructure())
-        {
-            structureTile.IsOn = !structureTile.IsOn;
-        }
+        return returnActivationState;
     }
 }

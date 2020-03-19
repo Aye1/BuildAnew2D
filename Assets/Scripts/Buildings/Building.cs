@@ -16,7 +16,7 @@ public class Building : MonoBehaviour
 
     // This object does not store data, but it's the only way to acceed it from the editor
     // Thus, the ability to turn on/off the building is done here
-    [SerializeField] private bool _debugIsOn;
+    [SerializeField] private bool _forceDebugIsOn;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +27,9 @@ public class Building : MonoBehaviour
 
     private void Update()
     {
-        if(_debugIsOn)
+        if(_forceDebugIsOn)
         {
-            dataTile.IsOn = _debugIsOn;
+            dataTile.IsOn = _forceDebugIsOn;
         }
         UpdateSprite();
     }
