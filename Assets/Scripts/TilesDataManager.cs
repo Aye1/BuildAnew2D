@@ -119,7 +119,7 @@ public class TilesDataManager : MonoBehaviour
         {
             BaseTileData data = GetTileDataAtPos(pos);
             data.structureTile = CreateStructureFromType(type, data);
-            ResourcesManager.Instance.Pay(CostManager.CostForStructure(type));
+            ResourcesManager.Instance.Pay(CostForStructure(type));
         }
     }
 
@@ -129,7 +129,7 @@ public class TilesDataManager : MonoBehaviour
         bool canBuild = true;
         canBuild = canBuild && !data.terrainTile.terrainType.Equals(TerrainType.Water);
         canBuild = canBuild && data.structureTile == null;
-        canBuild = canBuild && ResourcesManager.Instance.CanPay(CostManager.CostForStructure(type));
+        canBuild = canBuild && ResourcesManager.Instance.CanPay(CostForStructure(type));
         return canBuild;
     }
 
@@ -141,7 +141,7 @@ public class TilesDataManager : MonoBehaviour
         {
             if (repay)
             {
-                ResourcesManager.Instance.Repay(CostManager.CostForStructure(data.structureTile.structureType));
+                ResourcesManager.Instance.Repay(CostForStructure(data.structureTile.structureType));
             }
 
             // Warning: possible memory leak
@@ -316,5 +316,10 @@ public class TilesDataManager : MonoBehaviour
         {
             ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
         }
+    }
+
+    public List<Cost> CostForStructure(StructureType type)
+    {
+        return _templates.First(x => x.type == type).data.costs;
     }
 }

@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
         foreach (BuildingBinding binding in allConstructibleBuildings)
         {
             _optionsDico.Add(index, binding);
-            texts.Add(binding.data.StructureName);
+            texts.Add(binding.data.structureName);
             index++;
         }
         _buildTypeDropdown.AddOptions(texts);

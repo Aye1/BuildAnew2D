@@ -15,4 +15,8 @@ MonoBehaviour:
   producedEnergyAmount: 0
   consumedEnergyAmount: 4
   isConstructible: 1
-  StructureName: Pumping Station
+  structureName: Pumping Station
+  icon: {fileID: 0}
+  costs:
+  - amount: 500
+    type: 1

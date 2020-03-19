@@ -7,8 +7,11 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class BuildingSelectorCell : MonoBehaviour
 {
-    private Button _button;
+#pragma warning disable 0649
     [SerializeField] private Image _iconImage;
+#pragma warning restore 0649
+
+    private Button _button;
     public BuildingBinding building;
     public delegate void ClickDelegate(BuildingSelectorCell sender);
 
@@ -21,14 +24,14 @@ public class BuildingSelectorCell : MonoBehaviour
     public void InitWithBuilding(BuildingBinding building)
     {
         this.building = building;
-        GetComponentInChildren<TextMeshProUGUI>().text = building.data.StructureName;
+        GetComponentInChildren<TextMeshProUGUI>().text = building.data.structureName;
         _iconImage.sprite = building.data.icon;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _button.interactable = ResourcesManager.Instance.CanPay(CostManager.CostForStructure(building.type));
+        _button.interactable = ResourcesManager.Instance.CanPay(building.data.costs);
     }
 
     public void RegisterButtonOnClick(ClickDelegate methodToCall) 

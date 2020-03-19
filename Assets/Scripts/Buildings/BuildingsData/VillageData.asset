@@ -15,4 +15,5 @@ MonoBehaviour:
   producedEnergyAmount: 0
   consumedEnergyAmount: 10
   isConstructible: 0
-  StructureName: Village
+  structureName: Village
+  icon: {fileID: 0}

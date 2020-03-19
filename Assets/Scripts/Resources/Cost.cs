@@ -2,6 +2,7 @@
 
 public enum ResourceType { None, Wood }
 
+[System.Serializable]
 public class Cost
 {
     public int amount;

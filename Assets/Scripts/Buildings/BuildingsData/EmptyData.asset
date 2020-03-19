@@ -15,4 +15,5 @@ MonoBehaviour:
   producedEnergyAmount: 0
   consumedEnergyAmount: 0
   isConstructible: 0
-  StructureName: None
+  structureName: None
+  icon: {fileID: 0}
