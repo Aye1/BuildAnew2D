@@ -27,7 +27,10 @@ public class Building : MonoBehaviour
 
     private void Update()
     {
-        //dataTile.IsOn = _debugIsOn;
+        if(_debugIsOn)
+        {
+            dataTile.IsOn = _debugIsOn;
+        }
         UpdateSprite();
     }
 
