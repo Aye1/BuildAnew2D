@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown _buildTypeDropdown;
     [SerializeField] private TextMeshProUGUI _buildButtonText;
     [SerializeField] private Button _undoButton;
+    private Dictionary<int, BuildingBinding> _optionsDico;
+
 #pragma warning restore 0649
     #endregion
 
@@ -29,8 +31,23 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        CreateDropdownList();
     }
-
+    private void CreateDropdownList()
+    {
+        IEnumerable<BuildingBinding> allConstructibleBuildings = TilesDataManager.Instance.GetAllConstructiblesStructures();
+        _buildTypeDropdown.ClearOptions();
+        int index = 0; //Index of dropdow starts at 1
+        List<string> texts = new List<string>();
+        _optionsDico = new Dictionary<int, BuildingBinding>();
+        foreach (BuildingBinding binding in allConstructibleBuildings)
+        {
+            _optionsDico.Add(index, binding);
+            texts.Add(binding.data.StructureName);
+            index++;
+        }
+        _buildTypeDropdown.AddOptions(texts);
+    }
     private void Update()
     {
         UpdateUI();
@@ -46,19 +63,11 @@ public class UIManager : MonoBehaviour
 
     public StructureType GetSelectedStructureType()
     {
-        int selectedValue = _buildTypeDropdown.value;
         StructureType returnType = StructureType.None;
-        if (selectedValue == 1)
+        BuildingBinding buildingBinding;
+        if(_optionsDico.TryGetValue(_buildTypeDropdown.value, out buildingBinding))
         {
-            returnType = StructureType.PowerPlant;
-        } 
-        if(selectedValue == 2)
-        {
-            returnType = StructureType.Sawmill;
-        }
-        if (selectedValue == 3)
-        {
-            returnType = StructureType.PumpingStation;
+            returnType = buildingBinding.type;
         }
         return returnType;
     }

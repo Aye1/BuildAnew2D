@@ -5,6 +5,8 @@ public class StructureData : ScriptableObject
 {
     public int producedEnergyAmount;
     public int consumedEnergyAmount;
+    public bool isConstructible = true;
+    public string StructureName = "";
 
     public bool ProducesEnergy
     {

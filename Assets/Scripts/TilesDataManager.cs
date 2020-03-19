@@ -288,4 +288,10 @@ public class TilesDataManager : MonoBehaviour
         BuildingBinding element = _templates.First(x => x.type == type);
         return element?.data;
     }
+
+
+    public IEnumerable<BuildingBinding> GetAllConstructiblesStructures()
+    {
+        return _templates.Where(x => x.data.isConstructible);
+    }
 }

@@ -567,15 +567,7 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: None
-      m_Image: {fileID: 0}
-    - m_Text: Power Plant
-      m_Image: {fileID: 0}
-    - m_Text: Sawmill
-      m_Image: {fileID: 0}
-    - m_Text: Pumping Station
-      m_Image: {fileID: 0}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3683,7 +3675,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: None
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3728,7 +3720,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 8
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -3752,13 +3744,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1239637481}
-    characterCount: 4
+    characterCount: 0
     spriteCount: 0
     spaceCount: 0
-    wordCount: 1
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -6076,7 +6068,7 @@ PrefabInstance:
     - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
       propertyPath: _templates.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
@@ -6172,6 +6164,28 @@ PrefabInstance:
       propertyPath: _templates.Array.data[1].data
       value: 
       objectReference: {fileID: 11400000, guid: 573c7c4a5098e45b89aa9941b6de812c,
+        type: 2}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _templates.Array.data[0].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c5f24c01305b4852b38942da246643a,
+        type: 2}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _templates.Array.data[4].type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _templates.Array.data[4].building
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _templates.Array.data[4].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 926bcd6039a8d4a86b6c122f12ba6681,
         type: 2}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
