@@ -127,7 +127,7 @@ public class TilesDataManager : MonoBehaviour
     {
         BaseTileData data = GetTileDataAtPos(pos);
         bool canBuild = true;
-        canBuild = canBuild && !data.terrainTile.Equals(TerrainType.Water);
+        canBuild = canBuild && !data.terrainTile.terrainType.Equals(TerrainType.Water);
         canBuild = canBuild && data.structureTile == null;
         canBuild = canBuild && ResourcesManager.Instance.CanPay(CostManager.CostForStructure(type));
         return canBuild;

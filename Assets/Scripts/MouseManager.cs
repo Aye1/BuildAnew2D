@@ -17,6 +17,8 @@ public class MouseManager : MonoBehaviour
     private Color _transpColor = new Color(1.0f, 1.0f, 1.0f, 0.8f);
     private Color _invisibleColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
+    private Color _transpRedColor = new Color(0.8f, 0.0f, 0.0f, 0.8f);
+
     private void Awake()
     {
         if (Instance == null)
@@ -81,14 +83,16 @@ public class MouseManager : MonoBehaviour
     private void ManageHover()
     {
         BaseTileData tileHovered = GetTileAtMousePos();
-        phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(UIManager.Instance.GetSelectedStructureType());
+        StructureType currentBuildType = UIManager.Instance.GetSelectedStructureType();
+        phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(currentBuildType);
         if (tileHovered != null)
         {
             HoveredTile = tileHovered;
             hoveredTileSprite.transform.position = HoveredTile.worldPosition;
             if (UIManager.Instance.IsInBuildMode) {
+                bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.gridPosition);
                 phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
-                phantomBuildingSprite.color = _transpColor;
+                phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
             }
             else
             {
