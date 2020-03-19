@@ -5338,7 +5338,7 @@ MonoBehaviour:
     errorText: This energy is used, you can't deactivate
   - state: 2
     errorText: No energy is available to activate
-  - state: 0
+  - state: 3
     errorText: 
 --- !u!1 &1954981684
 GameObject:

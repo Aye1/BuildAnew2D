@@ -45,10 +45,10 @@ public class InfoMenu : MonoBehaviour
     private void UpdateUI()
     {
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
-        if (_previousTile != selectedTile)
-        {
             bool isActive = selectedTile != null;
             SetVisible(isActive);
+        if (_previousTile != selectedTile)
+        {
             if (isActive)
             {
                 _posText.text = selectedTile.gridPosition.ToString();
