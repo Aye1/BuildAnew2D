@@ -20,9 +20,8 @@ public class TilesDataManager : MonoBehaviour
     [SerializeField] private Tilemap _structuresTilemap;
     [SerializeField] private List<BuildingBinding> _templates;
     private Dictionary<StructureType, Building> _templatesDico;
-    /*[SerializeField] private PowerPlant _powerPlantTemplate;
-    [SerializeField] private Sawmill _sawmillTemplate;
-    [SerializeField] private PumpingStation _pumpingStationTemplate;*/
+
+    [SerializeField] private TileBase _waterTile;
 #pragma warning restore 0649
     #endregion
 
@@ -210,7 +209,7 @@ public class TilesDataManager : MonoBehaviour
         {
             return new PlainsTile();
         }
-        if (tile.name.Equals(WATER))
+        if (tile.Equals(_waterTile))
         {
             return new WaterTile();
         }
@@ -293,5 +292,27 @@ public class TilesDataManager : MonoBehaviour
     public IEnumerable<BuildingBinding> GetAllConstructiblesStructures()
     {
         return _templates.Where(x => x.data.isConstructible);
+    }
+
+    public void ChangeTileTerrain(Vector3Int position, TerrainType type)
+    {
+        BaseTileData data = GetTileDataAtPos(position);
+        TileBase newTilebase = null;
+
+        if (type.Equals(TerrainType.Water))
+        {
+            newTilebase = _waterTile;
+        }
+
+        _terrainTilemap.SetTile(position, newTilebase);
+        data.terrainTile = GetTerrainFromTileBase(newTilebase);
+    }
+
+    public void DebugChangeToWater()
+    {
+        if(MouseManager.Instance.SelectedTile != null)
+        {
+            ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
+        }
     }
 }

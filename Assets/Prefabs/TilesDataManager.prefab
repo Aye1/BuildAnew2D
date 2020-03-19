@@ -43,4 +43,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafeac5ca2ec742208acbfd4fc4886a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilemap: {fileID: 0}
+  _terrainTilemap: {fileID: 0}
+  _structuresTilemap: {fileID: 0}
+  _templates:
+  - type: 0
+    building: {fileID: 0}
+    data: {fileID: 0}
+  - type: 1
+    building: {fileID: 5358940280823613980, guid: de1e508ec03da4cff95fa5a14d1394f7,
+      type: 3}
+    data: {fileID: 11400000, guid: 573c7c4a5098e45b89aa9941b6de812c, type: 2}
+  - type: 2
+    building: {fileID: 4634011045604084704, guid: 817fbf7e0ac2d4f2b91864ed5f86a24d,
+      type: 3}
+    data: {fileID: 11400000, guid: 9ca1c00bff54e4dd5b8203bbb007a4b8, type: 2}
+  - type: 3
+    building: {fileID: 3341821559170662898, guid: 3a3673ddac3fe446da08c7453945b9c9,
+      type: 3}
+    data: {fileID: 11400000, guid: d91c7918760f94df8ab637e435bcc677, type: 2}
