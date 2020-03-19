@@ -15,8 +15,8 @@ public class BaseTileData
 
     public void OnTurnStarts(BaseTileData[] neighbours)
     {
-        structureTile?.OnTurnStarts(neighbours);
         terrainTile?.OnTurnStarts(neighbours);
+        structureTile?.OnTurnStarts(neighbours);
     }
 
     public string GetTerrainText()
@@ -31,7 +31,7 @@ public class BaseTileData
 
     public bool IsStructureOn()
     {
-        return structureTile == null ? false : structureTile.IsOn;
+        return structureTile != null && structureTile.IsOn;
     }
 
     public ActivationState ToggleStructureIfPossible()

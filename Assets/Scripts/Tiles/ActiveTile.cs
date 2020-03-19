@@ -3,7 +3,10 @@ public abstract class ActiveTile
 {
     protected ActiveTile() => Init();
 
-    public virtual void Init() { }
+    public virtual void Init() 
+    {
+        OnTileModified?.Invoke(); 
+    }
 
     public virtual void OnTurnStarts(BaseTileData[] neighbours) { }
 

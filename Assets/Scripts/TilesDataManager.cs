@@ -198,12 +198,14 @@ public class TilesDataManager : MonoBehaviour
 
     public BaseTileData GetTileDataFromTileBase(TileBase tile) 
     {
-        BaseTileData data = new BaseTileData();
-        data.terrainTile = GetTerrainFromTileBase(tile);
+        BaseTileData data = new BaseTileData
+        {
+            terrainTile = CreateTerrainTileFromTileBase(tile)
+        };
         return data;
     }
 
-    public TerrainTile GetTerrainFromTileBase(TileBase tile)
+    public TerrainTile CreateTerrainTileFromTileBase(TileBase tile)
     {
         if (tile.name.Equals(PLAINS))
         {
@@ -305,14 +307,14 @@ public class TilesDataManager : MonoBehaviour
         }
 
         _terrainTilemap.SetTile(position, newTilebase);
-        data.terrainTile = GetTerrainFromTileBase(newTilebase);
+        data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
     }
 
     public void DebugChangeToWater()
     {
         if(MouseManager.Instance.SelectedTile != null)
         {
-            ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
+            ChangeTerrainTile(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
         }
     }
 }
