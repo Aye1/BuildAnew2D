@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class InfoMenu : MonoBehaviour
@@ -11,7 +9,6 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _posText;
     [SerializeField] private TextMeshProUGUI _typeText;
     [SerializeField] private TextMeshProUGUI _structureText;
-    [SerializeField] private bool _activateToggle;
     [SerializeField] private Button _toggleButton;
 #pragma warning restore 0649
     #endregion
@@ -38,17 +35,7 @@ public class InfoMenu : MonoBehaviour
             _posText.text = selectedTile.gridPosition.ToString();
             _typeText.text = selectedTile.GetTerrainText();
             _structureText.text = selectedTile.GetStructureText();
-            _activateToggle = selectedTile.IsStructureOn();
-            if(selectedTile.structureTile != null)
-            {
-                _structureText.enabled = true;
-                _toggleButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                _structureText.enabled = false;
-                _toggleButton.gameObject.SetActive(false);
-            }
+            _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
         }
     }
 
