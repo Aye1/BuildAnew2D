@@ -314,7 +314,7 @@ public class TilesDataManager : MonoBehaviour
     {
         if(MouseManager.Instance.SelectedTile != null)
         {
-            ChangeTerrainTile(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
+            ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
         }
     }
 }
