@@ -7,6 +7,7 @@ public class WoodsTile : TerrainTile
     public override void Init()
     {
         base.Init();
+        terrainType = TerrainType.Wood;
         WoodAmount = Alea.GetInt(300, 500);
     }
 
