@@ -100,12 +100,12 @@ public class ResourcesManager : MonoBehaviour
 
     public void RegisterStructure(StructureTile structure)
     {
-        if (structure.producesEnergy)
+        if (structure.structureData.ProducesEnergy)
         {
             RegisterProducingEnergyStructure(structure);
         }
 
-        if (structure.consumesEnergy)
+        if (structure.structureData.ConsumesEnergy)
         {
             RegisterConsumingEnergyStructure(structure);
         }
@@ -113,12 +113,12 @@ public class ResourcesManager : MonoBehaviour
 
     public void UnregisterStructure(StructureTile structure)
     {
-        if (structure.producesEnergy)
+        if (structure.structureData.ProducesEnergy)
         {
             UnregisterProducingEnergyStructure(structure);
         }
 
-        if (structure.consumesEnergy)
+        if (structure.structureData.ConsumesEnergy)
         {
             UnregisterProducingEnergyStructure(structure);
         }
@@ -156,7 +156,9 @@ public class ResourcesManager : MonoBehaviour
     private void UpdateEnergyValues()
     {
         // Basic energy count at the moment
-        EnergyTotal = _energyProducingStructures.Count(x => x.IsOn);
-        EnergyAvailable = EnergyTotal - _energyConsumingStructures.Count(x => x.IsOn);
+        EnergyTotal = _energyProducingStructures.Where(x => x.IsOn)
+                                                .Sum(x => x.structureData.producedEnergyAmount);
+        EnergyAvailable = EnergyTotal - _energyConsumingStructures.Where(x => x.IsOn)
+                                                                  .Sum(x => x.structureData.consumedEnergyAmount);
     }
 }

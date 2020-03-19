@@ -4,10 +4,8 @@ public class PumpingStationTile : StructureTile
 {
     public override void Init()
     {
-        base.Init();
         structureType = StructureType.PumpingStation;
-        consumesEnergy = true;
-        producesEnergy = false;
+        base.Init();
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

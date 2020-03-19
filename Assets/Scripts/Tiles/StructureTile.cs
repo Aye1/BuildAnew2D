@@ -1,30 +1,43 @@
-﻿
+﻿using UnityEngine;
+
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure };
 public class StructureTile : ActiveTile
 {
     public StructureType structureType;
+    public StructureData structureData;
     public bool IsOn;
     public Building building;
-    public bool consumesEnergy;
-    public bool producesEnergy;
+
+
+    public override void Init()
+    {
+        base.Init();
+        structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
+        if(structureData == null)
+        {
+            Debug.LogError("Data not found for structure " + structureType.ToString() + "\n"
+            + "Check TilesDataManager mapping");
+        }
+    }
 
     public override string GetText()
     {
         return structureType == StructureType.None ? "" : structureType.ToString();
     }
+
     private ActivationState CanToggleStructure()
     {
         ActivationState canToggleStructure = ActivationState.ActivationPossible;
 
         int energyAvailable = ResourcesManager.Instance.EnergyAvailable;
-        if (producesEnergy & IsOn)
+        if (structureData.ProducesEnergy & IsOn)
         {
-            canToggleStructure = energyAvailable > 0 ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
+            canToggleStructure = energyAvailable >= structureData.producedEnergyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
         }
-        else if (consumesEnergy & !IsOn)
+        else if (structureData.ConsumesEnergy & !IsOn)
         {
-            canToggleStructure = energyAvailable > 0 ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
+            canToggleStructure = energyAvailable >= structureData.consumedEnergyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
 
         }
 

@@ -9,6 +9,7 @@ public class BuildingBinding
 {
     public StructureType type;
     public Building building;
+    public StructureData data;
 }
 
 public class TilesDataManager : MonoBehaviour
@@ -280,5 +281,11 @@ public class TilesDataManager : MonoBehaviour
             return building.GetComponent<SpriteRenderer>().sprite;
         }
         return null;
+    }
+
+    public StructureData GetDataForStructure(StructureType type)
+    {
+        BuildingBinding element = _templates.First(x => x.type == type);
+        return element?.data;
     }
 }
