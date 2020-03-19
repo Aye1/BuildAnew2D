@@ -37,6 +37,10 @@ public class SawmillTile : StructureTile
         IEnumerable<WoodsTile> orderedTilesAsc = tiles.OrderBy(x => x.WoodAmount);
 
         int woodsTilesCount = tiles.Count();
+        if(woodsTilesCount == 0)
+        {
+            return 0;
+        }
         // Split the cut between adjacent woods
         int toCut = _sawingAmount / woodsTilesCount;
 

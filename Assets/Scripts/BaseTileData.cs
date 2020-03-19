@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class BaseTileData
@@ -24,5 +25,10 @@ public class BaseTileData
     public string GetStructureText()
     {
         return structureTile == null ? "" : structureTile.GetText();
+    }
+
+    public bool IsStructureOn()
+    {
+        return structureTile == null ? false : structureTile.IsOn;
     }
 }
