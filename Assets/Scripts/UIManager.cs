@@ -31,6 +31,10 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
         CreateDropdownList();
     }
     private void CreateDropdownList()
