@@ -2,10 +2,9 @@
 
 public class PumpingStationTile : StructureTile
 {
-    public override void Init()
+    public override StructureType GetStructureType()
     {
-        structureType = StructureType.PumpingStation;
-        base.Init();
+        return StructureType.PumpingStation;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

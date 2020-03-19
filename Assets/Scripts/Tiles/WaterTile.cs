@@ -3,10 +3,9 @@
 public class WaterTile : TerrainTile
 {
     private int floodLevel;
-    public override void Init()
+    public override TerrainType GetTerrainType()
     {
-        base.Init();
-        terrainType = TerrainType.Water;
+        return TerrainType.Water;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

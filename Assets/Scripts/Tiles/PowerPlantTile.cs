@@ -2,9 +2,8 @@
 // Data for the PowerPlant MonoBehaviour
 public class PowerPlantTile : StructureTile
 {
-    public override void Init()
+    public override StructureType GetStructureType()
     {
-        structureType = StructureType.PowerPlant;
-        base.Init();
+        return StructureType.PowerPlant;
     }
 }

@@ -4,10 +4,9 @@ public class PlainsTile : TerrainTile
 {
     private int debugLevel = 1;
 
-    public override void Init()
+    public override TerrainType GetTerrainType()
     {
-        base.Init();
-        terrainType = TerrainType.Plains;
+        return TerrainType.Plains;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)

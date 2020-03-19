@@ -4,10 +4,13 @@ public class WoodsTile : TerrainTile
 {
     public int WoodAmount { get; set; }
 
+    public override TerrainType GetTerrainType()
+    {
+        return TerrainType.Wood;
+    }
     public override void Init()
     {
         base.Init();
-        terrainType = TerrainType.Wood;
         WoodAmount = Alea.GetInt(300, 500);
     }
 

@@ -2,16 +2,17 @@
 
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure };
-public class StructureTile : ActiveTile
+public abstract class StructureTile : ActiveTile
 {
     public StructureType structureType;
     public StructureData structureData;
     public bool IsOn;
     public Building building;
-
+    public abstract StructureType GetStructureType();
 
     public override void Init()
     {
+        structureType = GetStructureType();
         base.Init();
         structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
         if(structureData == null)

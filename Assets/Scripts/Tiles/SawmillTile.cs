@@ -8,10 +8,9 @@ public class SawmillTile : StructureTile
 
     [SerializeField] private int _sawingAmount = 100;
 
-    public override void Init()
+    public override StructureType GetStructureType()
     {
-        structureType = StructureType.Sawmill;
-        base.Init();
+        return StructureType.Sawmill;
     }
 
     public override void OnTurnStarts(BaseTileData[] neighbours)
