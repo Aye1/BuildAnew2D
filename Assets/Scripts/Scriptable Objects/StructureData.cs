@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CreateStructureDataScriptableObject", order = 1)]
 public class StructureData : ScriptableObject
@@ -7,6 +8,7 @@ public class StructureData : ScriptableObject
     public int consumedEnergyAmount;
     public bool isConstructible = true;
     public string StructureName = "";
+    public Sprite icon;
 
     public bool ProducesEnergy
     {

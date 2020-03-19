@@ -16,3 +16,4 @@ MonoBehaviour:
   consumedEnergyAmount: 0
   isConstructible: 1
   StructureName: Power Plant
+  icon: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}

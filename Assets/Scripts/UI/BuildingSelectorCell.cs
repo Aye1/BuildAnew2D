@@ -8,6 +8,7 @@ using TMPro;
 public class BuildingSelectorCell : MonoBehaviour
 {
     private Button _button;
+    [SerializeField] private Image _iconImage;
     public BuildingBinding building;
     public delegate void ClickDelegate(BuildingSelectorCell sender);
 
@@ -21,6 +22,7 @@ public class BuildingSelectorCell : MonoBehaviour
     {
         this.building = building;
         GetComponentInChildren<TextMeshProUGUI>().text = building.data.StructureName;
+        _iconImage.sprite = building.data.icon;
     }
 
     // Update is called once per frame
