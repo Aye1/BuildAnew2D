@@ -42,12 +42,12 @@ public class InfoMenu : MonoBehaviour
             if(selectedTile.structureTile != null)
             {
                 _structureText.enabled = true;
-                _toggleButton.interactable = true;
+                _toggleButton.gameObject.SetActive(true);
             }
             else
             {
                 _structureText.enabled = false;
-                _toggleButton.interactable = false;
+                _toggleButton.gameObject.SetActive(false);
             }
         }
     }
