@@ -290,10 +290,23 @@ public class TilesDataManager : MonoBehaviour
 
     public void ChangeTileTerrain(Vector3Int position, TerrainType type)
     {
+        BaseTileData data = GetTileDataAtPos(position);
+        TileBase newTilebase = null;
+
         if (type.Equals(TerrainType.Water))
         {
-            _terrainTilemap.SetTile(Vector3Int.zero, _waterTile);
-            GetTileDataAtPos(position).terrainTile = GetTerrainFromTileBase(_waterTile);
+            newTilebase = _waterTile;
+        }
+
+        _terrainTilemap.SetTile(position, newTilebase);
+        data.terrainTile = GetTerrainFromTileBase(newTilebase);
+    }
+
+    public void DebugChangeToWater()
+    {
+        if(MouseManager.Instance.SelectedTile != null)
+        {
+            ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
         }
     }
 }
