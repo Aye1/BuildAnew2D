@@ -24,19 +24,19 @@ public class MoveCamera : MonoBehaviour
     {
         Vector3 currentPos = transform.position;
         Vector3 newPos = currentPos;
-        if(Input.GetKey(KeyCode.UpArrow))
+        if (InputManager.Instance.GetKey("moveCameraUp"))
         {
             newPos += Vector3.up * cameraMoveSpeed;
         }
-        if(Input.GetKey(KeyCode.DownArrow)) 
+        if(InputManager.Instance.GetKey("moveCameraDown")) 
         {
             newPos += Vector3.down * cameraMoveSpeed;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (InputManager.Instance.GetKey("moveCameraLeft"))
         {
             newPos += Vector3.left * cameraMoveSpeed;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (InputManager.Instance.GetKey("moveCameraRight"))
         {
             newPos += Vector3.right * cameraMoveSpeed;
         }

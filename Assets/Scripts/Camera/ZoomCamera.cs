@@ -25,11 +25,11 @@ public class ZoomCamera : MonoBehaviour
         Vector3 currentScale = transform.localScale;
         Vector3 newScale = currentScale;
 
-        if (Input.GetKey(KeyCode.Minus))
+        if (InputManager.Instance.GetKey("zoomCameraOut"))
         {
             newScale += Vector3.one * zoomSpeed; ;
         }
-        if (Input.GetKey(KeyCode.Plus))
+        if (InputManager.Instance.GetKey("zoomCameraIn"))
         {
             newScale += Vector3.one * -1 * zoomSpeed;
         }

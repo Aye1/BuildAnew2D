@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CreateStructureDataScriptableObject", order = 1)]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/StructureData", order = 1)]
 public class StructureData : ScriptableObject
 {
     public int producedEnergyAmount;
