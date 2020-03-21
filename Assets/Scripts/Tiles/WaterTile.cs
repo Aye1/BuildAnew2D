@@ -3,6 +3,8 @@
 public class WaterTile : TerrainTile
 {
     private int floodLevel;
+    public int clusterId;
+
     public override TerrainType GetTerrainType()
     {
         return TerrainType.Water;
@@ -15,7 +17,7 @@ public class WaterTile : TerrainTile
 
     public override string GetDebugText()
     {
-        return floodLevel.ToString();
+        return clusterId.ToString();
     }
 
     private void UpFlood()

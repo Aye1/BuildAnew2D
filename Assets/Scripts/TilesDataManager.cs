@@ -66,6 +66,7 @@ public class TilesDataManager : MonoBehaviour
     {
         InitTerrainTiles();
         InitStructuresTiles();
+        WaterClusterManager.Instance.CreateAllClusters(GetTilesWithTerrainType(TerrainType.Water));
         AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
     }
@@ -95,7 +96,7 @@ public class TilesDataManager : MonoBehaviour
             BaseTileData data = GetTileDataAtPos(pos);
             if(data == null)
             {
-                Debug.LogWarning("Structure buit on empty tile at position " + pos.ToString());
+                Debug.LogWarning("Structure built on empty tile at position " + pos.ToString());
             }
             else
             {
@@ -191,6 +192,11 @@ public class TilesDataManager : MonoBehaviour
     {
         Vector3Int tilePos = _terrainTilemap.WorldToCell(pos);
         return GetTileDataAtPos(tilePos);
+    }
+
+    public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type)
+    {
+        return tiles.Where(x => x.Value.terrainTile.terrainType == type).Select(x => x.Value);
     }
     #endregion
 
@@ -308,6 +314,11 @@ public class TilesDataManager : MonoBehaviour
 
         _terrainTilemap.SetTile(position, newTilebase);
         data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
+
+        if(type.Equals(TerrainType.Water))
+        {
+            WaterClusterManager.Instance.RecreateAllClusters(GetTilesWithTerrainType(TerrainType.Water));
+        }
     }
 
     public void DebugChangeToWater()
