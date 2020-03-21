@@ -158,7 +158,7 @@ public class TilesDataManager : MonoBehaviour
         return data;
     }
 
-    public BaseTileData[] GetTilesInBounds(BoundsInt bounds)
+    public IEnumerable<BaseTileData> GetTilesInBounds(BoundsInt bounds)
     {
         List<BaseTileData> res = new List<BaseTileData>();
         foreach(Vector3Int pos in bounds.allPositionsWithin)
@@ -169,10 +169,25 @@ public class TilesDataManager : MonoBehaviour
                 res.Add(tile);
             }
         }
-        return res.ToArray();
+        return res;
     }
 
-    public BaseTileData[] GetTilesAroundTileAtPos(Vector3Int pos)
+    public IEnumerable<BaseTileData> GetTilesAtPos(IEnumerable<Vector3Int> positions)
+    {
+        List<BaseTileData> res = new List<BaseTileData>();
+        foreach(Vector3Int pos in positions)
+        {
+            BaseTileData tile = GetTileDataAtPos(pos);
+            if(tile != null)
+            {
+                res.Add(tile);
+            }
+        }
+        return res.ToArray();
+
+    }
+
+    public IEnumerable<BaseTileData> GetTilesAroundTileAtPos(Vector3Int pos)
     {
         if (_terrainTilemap.cellBounds.Contains(pos))
         {
@@ -183,15 +198,41 @@ public class TilesDataManager : MonoBehaviour
         return null;
     }
 
-    public BaseTileData[] GetTilesAroundTile(BaseTileData tile)
+    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTileAtPos(Vector3Int pos)
+    {
+        if(_terrainTilemap.cellBounds.Contains(pos))
+        {
+            return GetTilesAtPos(GetDirectNeighboursPositions(pos));
+        }
+        return null;
+    }
+
+    public IEnumerable<BaseTileData> GetTilesAroundTile(BaseTileData tile)
     {
         return GetTilesAroundTileAtPos(tile.gridPosition);
+    }
+
+    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTile(BaseTileData tile)
+    {
+        return GetTilesDirectlyAroundTileAtPos(tile.gridPosition);
     }
 
     public BaseTileData GetTileAtWorldPos(Vector3 pos)
     {
         Vector3Int tilePos = _terrainTilemap.WorldToCell(pos);
         return GetTileDataAtPos(tilePos);
+    }
+
+    public IEnumerable<Vector3Int> GetDirectNeighboursPositions(Vector3Int position)
+    {
+        IEnumerable<Vector3Int> neighbours = new List<Vector3Int>
+        {
+            new Vector3Int(position.x - 1, position.y, position.z),
+            new Vector3Int(position.x + 1, position.y, position.z),
+            new Vector3Int(position.x, position.y - 1, position.z),
+            new Vector3Int(position.x, position.y + 1, position.z)
+        };
+        return neighbours;
     }
 
     public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type)

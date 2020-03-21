@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
         {
             return (KeyCode)keyboardMapping.GetType().GetField(name).GetValue(keyboardMapping);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Debug.LogError("Binding not found for key " + name);
             return KeyCode.None;

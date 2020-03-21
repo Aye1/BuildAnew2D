@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using System;
 
 public class DebugTextManager : MonoBehaviour
 {

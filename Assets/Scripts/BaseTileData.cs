@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
-
-public class BaseTileData
+public class BaseTileData : IActsOnTurnStart
 {
     public Vector3Int gridPosition;
     public Vector3 worldPosition;
@@ -13,8 +12,9 @@ public class BaseTileData
     public TerrainTile terrainTile;
     public StructureTile structureTile;
 
-    public void OnTurnStarts(BaseTileData[] neighbours)
+    public void OnTurnStarts()
     {
+        IEnumerable<BaseTileData> neighbours = TilesDataManager.Instance.GetTilesAroundTile(this);
         terrainTile?.OnTurnStarts(neighbours);
         structureTile?.OnTurnStarts(neighbours);
     }

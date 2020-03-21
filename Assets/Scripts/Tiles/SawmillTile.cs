@@ -13,14 +13,13 @@ public class SawmillTile : StructureTile
         return StructureType.Sawmill;
     }
 
-    public override void OnTurnStarts(BaseTileData[] neighbours)
+    public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         base.OnTurnStarts(neighbours);
         if (IsOn)
         {
             // Get all wood tiles, from the one with the less resources to the one with the most
-            //IEnumerable<BaseTileData> woodTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
-            //.OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
+
             IEnumerable<WoodsTile> woodsTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
                                                           .Select(x => (WoodsTile)x.terrainTile);
            ResourcesManager.Instance.AddWood(CutWoodOnTiles(woodsTiles));

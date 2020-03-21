@@ -4,35 +4,44 @@ using UnityEngine;
 
 public class WaterCluster
 {
-    public List<WaterTile> cells;
+    public List<BaseTileData> tiles;
     public int id;
 
-    private int floodLevel;
+    public int FloodLevel { get; private set; }
 
     public WaterCluster(int id)
     {
-        cells = new List<WaterTile>();
+        tiles = new List<BaseTileData>();
         this.id = id;
     }
 
-    public void AddTile(WaterTile tile)
+    public void AddTile(BaseTileData tile)
     {
-        if(!cells.Contains(tile))
+        if(!tiles.Contains(tile) && tile.terrainTile is WaterTile)
         {
-            cells.Add(tile);
-            tile.clusterId = id;
+            tiles.Add(tile);
+            ((WaterTile)tile.terrainTile).clusterId = id;
         }
     }
 
-    public void RemoveTile(WaterTile tile)
+    public void RemoveTile(BaseTileData tile)
     {
-        cells.Remove(tile);
-        tile.clusterId = 0;
+        tiles.Remove(tile);
+        ((WaterTile)tile.terrainTile).clusterId = 0;
     }
 
     public void IncreaseFlood(int amount)
     {
-        floodLevel += amount;
+        FloodLevel += amount;
+    }
+
+    public void UpdateFloodAmount()
+    {
+        FloodLevel = 0;
+        foreach(BaseTileData tile in tiles)
+        {
+            FloodLevel += ((WaterTile)tile.terrainTile).FloodLevel;
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections.Generic;
 
 public class PumpingStationTile : StructureTile
 {
@@ -7,7 +7,7 @@ public class PumpingStationTile : StructureTile
         return StructureType.PumpingStation;
     }
 
-    public override void OnTurnStarts(BaseTileData[] neighbours)
+    public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         base.OnTurnStarts(neighbours);
         if (IsOn)

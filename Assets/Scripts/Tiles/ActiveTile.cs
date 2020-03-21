@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 public abstract class ActiveTile
 {
     protected ActiveTile() => Init();
@@ -8,7 +9,7 @@ public abstract class ActiveTile
         OnTileModified?.Invoke(); 
     }
 
-    public virtual void OnTurnStarts(BaseTileData[] neighbours) { }
+    public virtual void OnTurnStarts(IEnumerable<BaseTileData> neighbours) { }
 
     public virtual string GetDebugText() { return ""; }
     public virtual string GetText() { return ""; }

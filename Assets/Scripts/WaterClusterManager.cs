@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using System;
 
 public class WaterClusterManager : MonoBehaviour
 {
     public static WaterClusterManager Instance { get; private set; }
     public List<WaterCluster> clusters;
+    public int floodThreshold = 30;
 
     private int _nextClusterId = 0;
     private int _tilesChecked;
@@ -19,11 +21,35 @@ public class WaterClusterManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            TurnManager.OnTurnStart += CheckFlooding;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void CheckFlooding()
+    {
+        // Don't change the collection while enumerating
+        List<WaterCluster> clustersToFlood = new List<WaterCluster>();
+        foreach(WaterCluster cluster in clusters)
+        {
+            cluster.UpdateFloodAmount();
+            if(cluster.FloodLevel >= floodThreshold)
+            {
+                clustersToFlood.Add(cluster);
+            }
+        }
+        clustersToFlood.ForEach(FloodNeighbour);
+    }
+
+    public void FloodNeighbour(WaterCluster cluster)
+    {
+        IEnumerable<BaseTileData> floodableTiles = GetFloodableTiles(cluster);
+        int selectedIndex = Alea.GetInt(0, floodableTiles.Count());
+        BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
+        TilesDataManager.Instance.ChangeTileTerrain(tileToFlood.gridPosition, TerrainType.Water);
     }
 
     public void CreateAllClusters(IEnumerable<BaseTileData> waterTiles)
@@ -68,7 +94,7 @@ public class WaterClusterManager : MonoBehaviour
             return;
         }
         ((WaterTile)tile.terrainTile).clusterId = cluster.id;
-        cluster.AddTile(tile.terrainTile as WaterTile);
+        cluster.AddTile(tile);
         foreach(BaseTileData neighbourTile in GetDirectNeighbours(tile))
         {
             if(((WaterTile)neighbourTile.terrainTile).clusterId == 0)
@@ -80,19 +106,26 @@ public class WaterClusterManager : MonoBehaviour
 
     private IEnumerable<BaseTileData> GetDirectNeighbours(BaseTileData refTile)
     {
-        IEnumerable<Vector3Int> neighboursPositions = GetDirectNeighboursPositions(refTile.gridPosition);
+        IEnumerable<Vector3Int> neighboursPositions = TilesDataManager.Instance.GetDirectNeighboursPositions(refTile.gridPosition);
         return _tiles.Where(x => neighboursPositions.Contains(x.gridPosition));
     }
 
-    private IEnumerable<Vector3Int> GetDirectNeighboursPositions(Vector3Int position)
+
+
+    private IEnumerable<BaseTileData> GetFloodableTiles(WaterCluster cluster)
     {
-        IEnumerable<Vector3Int> neighbours = new List<Vector3Int>
+        List<BaseTileData> possibleNeighbours = new List<BaseTileData>();
+        foreach(BaseTileData tile in cluster.tiles)
         {
-            new Vector3Int(position.x - 1, position.y, position.z),
-            new Vector3Int(position.x + 1, position.y, position.z),
-            new Vector3Int(position.x, position.y - 1, position.z),
-            new Vector3Int(position.x, position.y + 1, position.z)
-        };
-        return neighbours;
+            IEnumerable<BaseTileData> currentNeighbours = TilesDataManager.Instance.GetTilesDirectlyAroundTile(tile);
+            foreach(BaseTileData neighbour in currentNeighbours)
+            {
+                if(!possibleNeighbours.Contains(neighbour) && !(neighbour.terrainTile is WaterTile))
+                {
+                    possibleNeighbours.Add(neighbour);
+                }
+            }
+        }
+        return possibleNeighbours;
     }
 }

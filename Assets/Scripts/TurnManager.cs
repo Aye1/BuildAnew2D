@@ -35,7 +35,7 @@ public class TurnManager : MonoBehaviour
             if(TilesDataManager.Instance.HasTile(pos))
             {
                 BaseTileData tile = TilesDataManager.Instance.GetTileDataAtPos(pos);
-                tile.OnTurnStarts(TilesDataManager.Instance.GetTilesAroundTile(tile));
+                tile.OnTurnStarts();
             }
         }
         OnTurnStart?.Invoke();
