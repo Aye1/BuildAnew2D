@@ -88,10 +88,10 @@ public class WaterClusterManager : MonoBehaviour
     {
         _tilesChecked++;
 
-        if (_tilesChecked >= 100)
+        if (_tilesChecked >= 1000)
         {
             // Basic security
-            return;
+            throw new AlgorithmTakesTooLongException();
         }
         ((WaterTile)tile.terrainTile).clusterId = cluster.id;
         cluster.AddTile(tile);
