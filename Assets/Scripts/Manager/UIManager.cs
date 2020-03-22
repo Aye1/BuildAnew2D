@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _woodText;
     [SerializeField] private TextMeshProUGUI _energyText;
+    [SerializeField] private TextMeshProUGUI _endGameText;
     [SerializeField] private Button _undoButton;
     private Dictionary<int, StructureBinding> _optionsDico;
 
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        _endGameText.enabled = false;
     } 
 
     private void Start()
@@ -49,5 +51,16 @@ public class UIManager : MonoBehaviour
     public void ToggleBuildMode()
     {
         BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
+    }
+
+    public void TriggerGameOver()
+    {
+        _endGameText.enabled = true;
+        _endGameText.text = "You loose !";
+    }
+    public void TriggerGameSuccess()
+    {
+        _endGameText.enabled = true;
+        _endGameText.text = "You Win !";
     }
 }

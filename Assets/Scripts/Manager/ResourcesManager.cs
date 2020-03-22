@@ -59,7 +59,7 @@ public class ResourcesManager : MonoBehaviour
     public bool CanPay(Cost cost)
     {
         int amountToCompare = int.MinValue;
-        switch(cost.type)
+        switch (cost.type)
         {
             case ResourceType.Wood:
                 amountToCompare = WoodAmount;
@@ -75,7 +75,7 @@ public class ResourcesManager : MonoBehaviour
 
     public void Pay(Cost cost)
     {
-        switch(cost.type)
+        switch (cost.type)
         {
             case ResourceType.Wood:
                 RemoveWood(cost.amount);
@@ -90,7 +90,7 @@ public class ResourcesManager : MonoBehaviour
 
     public void Repay(Cost cost)
     {
-        switch(cost.type)
+        switch (cost.type)
         {
             case ResourceType.Wood:
                 AddWood(cost.amount);
@@ -125,7 +125,7 @@ public class ResourcesManager : MonoBehaviour
     }
 
     private void RegisterProducingEnergyStructure(StructureTile structure)
-    { 
+    {
         // Add() allows duplicates, so we just check the structure isn't already in the list
         if (!_energyProducingStructures.Contains(structure))
         {
