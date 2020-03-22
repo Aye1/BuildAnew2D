@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
+    } 
 
     private void Start()
     {
