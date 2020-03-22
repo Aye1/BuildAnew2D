@@ -31,6 +31,7 @@ public class WaterClusterManager : MonoBehaviour
 
     public void CheckFlooding()
     {
+        clusters.ForEach(x => x.RecountFloodLevel());
         // Don't change the collection while enumerating
         List<WaterCluster> clustersToFlood = new List<WaterCluster>();
         foreach(WaterCluster cluster in clusters)
@@ -76,12 +77,12 @@ public class WaterClusterManager : MonoBehaviour
         // Reset clusters, as they are our reference for the all algorithm
         foreach (BaseTileData tile in waterTiles)
         {
-            ((WaterTile)tile.terrainTile).cluster = null;
+            ((WaterTile)tile.terrainTile).isInCluster = false;
         }
 
         foreach(BaseTileData tile in waterTiles)
         {
-            if (((WaterTile)tile.terrainTile).cluster == null)
+            if (!((WaterTile)tile.terrainTile).isInCluster)
             {
                 _nextClusterId++;
                 WaterCluster cluster = new WaterCluster(_nextClusterId);
@@ -108,11 +109,11 @@ public class WaterClusterManager : MonoBehaviour
             // Basic security
             throw new AlgorithmTakesTooLongException();
         }
-        ((WaterTile)tile.terrainTile).cluster = cluster;
+        ((WaterTile)tile.terrainTile).isInCluster = true;
         cluster.AddTile(tile);
         foreach(BaseTileData neighbourTile in GetDirectNeighbours(tile))
         {
-            if(((WaterTile)neighbourTile.terrainTile).cluster == null)
+            if(!((WaterTile)neighbourTile.terrainTile).isInCluster)
             {
                 FlagTileAndPropagate(neighbourTile, cluster);
             }
@@ -142,5 +143,18 @@ public class WaterClusterManager : MonoBehaviour
             }
         }
         return possibleNeighbours;
+    }
+
+    public WaterCluster GetClusterForTile(BaseTileData tile)
+    {
+        WaterCluster res = null;
+        foreach(WaterCluster cluster in clusters)
+        {
+            if(cluster.tiles.Contains(tile))
+            {
+                res = cluster;
+            }
+        }
+        return res;
     }
 }

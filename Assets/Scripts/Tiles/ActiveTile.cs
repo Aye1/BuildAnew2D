@@ -10,6 +10,8 @@ public abstract class ActiveTile
     }
 
     public virtual void OnTurnStarts(IEnumerable<BaseTileData> neighbours) { }
+    public virtual void PredictOnTurnStarts(IEnumerable<BaseTileData> neighbours) { }
+    public virtual void ApplyPrediction() { } 
 
     public virtual string GetDebugText() { return ""; }
     public virtual string GetText() { return ""; }

@@ -19,7 +19,7 @@ public class PumpingStationTile : StructureTile
                 if (tile.terrainTile is WaterTile)
                 {
                     // PUMP
-                    ((WaterTile)tile.terrainTile).cluster.RemoveFlood(pumpingAmount);
+                    WaterClusterManager.Instance.GetClusterForTile(tile).RemoveFlood(pumpingAmount);
                 }
             }
         }

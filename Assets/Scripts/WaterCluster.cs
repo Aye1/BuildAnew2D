@@ -21,20 +21,7 @@ public class WaterCluster
         if(!tiles.Contains(tile) && tile.terrainTile is WaterTile)
         {
             tiles.Add(tile);
-            ((WaterTile)tile.terrainTile).cluster = this;
         }
-    }
-
-    // Maybe useless?
-    public void RemoveTile(BaseTileData tile)
-    {
-        tiles.Remove(tile);
-        ((WaterTile)tile.terrainTile).cluster = null;
-    }
-
-    public void AddFlood(int amount)
-    {
-        RecountFloodLevel();
     }
 
     public void RemoveFlood(int amount)

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public class WaterTile : TerrainTile
 {
     public int FloodLevel { get; set; } = 0;
-    public WaterCluster cluster;
+    public int NTFloodLevel { get; set; } = 0;
+    public bool isInCluster;
 
     public override TerrainType GetTerrainType()
     {
@@ -14,7 +15,16 @@ public class WaterTile : TerrainTile
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         FloodLevel++;
-        cluster.AddFlood(1);
+    }
+
+    public override void PredictOnTurnStarts(IEnumerable<BaseTileData> neighbours)
+    {
+        NTFloodLevel++;
+    }
+
+    public override void ApplyPrediction()
+    {
+        FloodLevel = NTFloodLevel;
     }
 
     public override string GetDebugText()
