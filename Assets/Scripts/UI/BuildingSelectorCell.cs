@@ -12,7 +12,7 @@ public class BuildingSelectorCell : MonoBehaviour
 #pragma warning restore 0649
 
     private Button _button;
-    public BuildingBinding building;
+    public StructureBinding building;
     public delegate void ClickDelegate(BuildingSelectorCell sender);
 
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class BuildingSelectorCell : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    public void InitWithBuilding(BuildingBinding building)
+    public void InitWithBuilding(StructureBinding building)
     {
         this.building = building;
         GetComponentInChildren<TextMeshProUGUI>().text = building.data.structureName;
