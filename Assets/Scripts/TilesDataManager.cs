@@ -357,14 +357,6 @@ public class TilesDataManager : MonoBehaviour
         data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
     }
 
-    public void DebugChangeToWater()
-    {
-        if(MouseManager.Instance.SelectedTile != null)
-        {
-            ChangeTileTerrain(MouseManager.Instance.SelectedTile.gridPosition, TerrainType.Water);
-        }
-    }
-
     public List<Cost> CostForStructure(StructureType type)
     {
         return _templates.First(x => x.type == type).data.costs;
