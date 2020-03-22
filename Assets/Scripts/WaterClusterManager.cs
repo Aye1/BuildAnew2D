@@ -9,7 +9,7 @@ public class WaterClusterManager : MonoBehaviour
 {
     public static WaterClusterManager Instance { get; private set; }
     public List<WaterCluster> clusters;
-    public int floodThreshold = 30;
+    public int floodThreshold = 50;
 
     private int _nextClusterId = 0;
     private int _tilesChecked;
