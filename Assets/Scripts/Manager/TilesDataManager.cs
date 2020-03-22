@@ -239,6 +239,10 @@ public class TilesDataManager : MonoBehaviour
     {
         return tiles.Where(x => x.Value.terrainTile.terrainType == type).Select(x => x.Value);
     }
+    public IEnumerable<BaseTileData> GetTilesWithStrucureType(StructureType type)
+    {
+        return tiles.Where(x => (x.Value.structureTile != null && x.Value.structureTile.structureType == type)).Select(x => x.Value);
+    }
     #endregion
 
     #region Bindings
