@@ -35,7 +35,6 @@ public class WaterClusterManager : MonoBehaviour
         List<WaterCluster> clustersToFlood = new List<WaterCluster>();
         foreach(WaterCluster cluster in clusters)
         {
-            cluster.UpdateFloodAmount();
             if(cluster.FloodLevel >= floodThreshold)
             {
                 clustersToFlood.Add(cluster);
@@ -51,6 +50,7 @@ public class WaterClusterManager : MonoBehaviour
         {
             FloodNeighbour(cluster);
         }
+        cluster.RemoveFlood(neighboursToFlood * floodThreshold);
         RecreateAllClusters(TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water));
     }
 
@@ -61,8 +61,6 @@ public class WaterClusterManager : MonoBehaviour
         BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
         TilesDataManager.Instance.ChangeTileTerrain(tileToFlood.gridPosition, TerrainType.Water);
         cluster.AddTile(tileToFlood);
-        cluster.RemoveFlood(floodThreshold);
-        cluster.BalanceCluster();
     }
 
     public void CreateAllClusters(IEnumerable<BaseTileData> waterTiles)
@@ -72,21 +70,21 @@ public class WaterClusterManager : MonoBehaviour
         _tilesChecked = 0;
         _nextClusterId = 0;
 
-        // Reset clusterIds, as they are our reference for the all algorithm
+        // Reset clusters, as they are our reference for the all algorithm
         foreach (BaseTileData tile in waterTiles)
         {
-            ((WaterTile)tile.terrainTile).clusterId = 0;
+            ((WaterTile)tile.terrainTile).cluster = null;
         }
 
         foreach(BaseTileData tile in waterTiles)
         {
-            if (((WaterTile)tile.terrainTile).clusterId == 0)
+            if (((WaterTile)tile.terrainTile).cluster == null)
             {
                 _nextClusterId++;
                 WaterCluster cluster = new WaterCluster(_nextClusterId);
                 FlagTileAndPropagate(tile, cluster);
+                cluster.RecountFloodLevel();
                 clusters.Add(cluster);
-                cluster.BalanceCluster();
             }
         }
         Debug.Log("Water clusters parsed");
@@ -107,11 +105,11 @@ public class WaterClusterManager : MonoBehaviour
             // Basic security
             throw new AlgorithmTakesTooLongException();
         }
-        ((WaterTile)tile.terrainTile).clusterId = cluster.id;
+        ((WaterTile)tile.terrainTile).cluster = cluster;
         cluster.AddTile(tile);
         foreach(BaseTileData neighbourTile in GetDirectNeighbours(tile))
         {
-            if(((WaterTile)neighbourTile.terrainTile).clusterId == 0)
+            if(((WaterTile)neighbourTile.terrainTile).cluster == null)
             {
                 FlagTileAndPropagate(neighbourTile, cluster);
             }

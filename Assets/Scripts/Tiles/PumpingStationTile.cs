@@ -2,6 +2,8 @@
 
 public class PumpingStationTile : StructureTile
 {
+    public int pumpingAmount = 5 ;
+
     public override StructureType GetStructureType()
     {
         return StructureType.PumpingStation;
@@ -17,7 +19,7 @@ public class PumpingStationTile : StructureTile
                 if (tile.terrainTile is WaterTile)
                 {
                     // PUMP
-                    ((WaterTile)tile.terrainTile).Drain();
+                    ((WaterTile)tile.terrainTile).cluster.RemoveFlood(pumpingAmount);
                 }
             }
         }

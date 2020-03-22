@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class WaterTile : TerrainTile
 {
-    public int FloodLevel { get; set; }
-    public int clusterId;
+    public int FloodLevel { get; set; } = 0;
+    public WaterCluster cluster;
 
     public override TerrainType GetTerrainType()
     {
@@ -13,7 +13,8 @@ public class WaterTile : TerrainTile
 
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
-        UpFlood();
+        FloodLevel++;
+        cluster.AddFlood(1);
     }
 
     public override string GetDebugText()
@@ -21,14 +22,10 @@ public class WaterTile : TerrainTile
         return FloodLevel.ToString();
     }
 
-    private void UpFlood()
+    public int RemoveFlood(int amount)
     {
-        // Should not be on all maps
-        FloodLevel++;
-    }
-
-    public void Drain()
-    {
-        FloodLevel = Math.Max(0, FloodLevel - 2);
+        int amountToRemove = amount >= FloodLevel ? FloodLevel : amount;
+        FloodLevel -= amountToRemove;
+        return amountToRemove;
     }
 }
