@@ -11,7 +11,7 @@ public class BuildingSelector : MonoBehaviour
 
     public StructureType SelectedStructure { get; private set; }
 
-    private IEnumerable<BuildingBinding> _structures;
+    private IEnumerable<StructureBinding> _structures;
     private BuildingSelectorCell _selectedCell;
 
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class BuildingSelector : MonoBehaviour
 
     void InstantiateCells()
     {
-        foreach (BuildingBinding building in _structures)
+        foreach (StructureBinding building in _structures)
         {
             BuildingSelectorCell cell = Instantiate(_cellTemplate, Vector3.zero, Quaternion.identity, transform);
             cell.InitWithBuilding(building);

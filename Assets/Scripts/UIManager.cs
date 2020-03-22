@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _woodText;
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private Button _undoButton;
-    private Dictionary<int, BuildingBinding> _optionsDico;
+    private Dictionary<int, StructureBinding> _optionsDico;
 
 #pragma warning restore 0649
     #endregion

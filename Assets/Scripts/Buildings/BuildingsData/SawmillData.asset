@@ -16,7 +16,7 @@ MonoBehaviour:
   consumedEnergyAmount: 1
   isConstructible: 1
   structureName: Sawmill
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e087eabf08cdc4fb18d1e5f7412524ef, type: 3}
   costs:
   - amount: 50
     type: 1
