@@ -57,10 +57,13 @@ public class WaterClusterManager : MonoBehaviour
     public void FloodNeighbour(WaterCluster cluster)
     {
         IEnumerable<BaseTileData> floodableTiles = GetFloodableTiles(cluster);
-        int selectedIndex = Alea.GetInt(0, floodableTiles.Count());
-        BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
-        TilesDataManager.Instance.ChangeTileTerrain(tileToFlood.gridPosition, TerrainType.Water);
-        cluster.AddTile(tileToFlood);
+        if (floodableTiles.Any())
+        {
+            int selectedIndex = Alea.GetInt(0, floodableTiles.Count());
+            BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
+            TilesDataManager.Instance.ChangeTileTerrain(tileToFlood.gridPosition, TerrainType.Water);
+            cluster.AddTile(tileToFlood);
+        }
     }
 
     public void CreateAllClusters(IEnumerable<BaseTileData> waterTiles)
