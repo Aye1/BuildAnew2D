@@ -30,11 +30,6 @@ public class WaterCluster
         ((WaterTile)tile.terrainTile).clusterId = 0;
     }
 
-    public void IncreaseFlood(int amount)
-    {
-        FloodLevel += amount;
-    }
-
     public void UpdateFloodAmount()
     {
         FloodLevel = 0;
@@ -44,4 +39,16 @@ public class WaterCluster
         }
     }
 
+    public void RemoveFlood(int amount)
+    {
+        int individualAmount = amount / tiles.Count - 1;
+        tiles.ForEach(x => ((WaterTile)x.terrainTile).FloodLevel -= individualAmount);
+    }
+
+    public void BalanceCluster()
+    {
+        UpdateFloodAmount();
+        int newIndividualFloodAmount = FloodLevel / tiles.Count;
+        tiles.ForEach(x => ((WaterTile)x.terrainTile).FloodLevel = newIndividualFloodAmount);
+    }
 }

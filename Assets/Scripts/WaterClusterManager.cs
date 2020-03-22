@@ -41,7 +41,17 @@ public class WaterClusterManager : MonoBehaviour
                 clustersToFlood.Add(cluster);
             }
         }
-        clustersToFlood.ForEach(FloodNeighbour);
+        clustersToFlood.ForEach(FloodAndBalance);
+    }
+
+    public void FloodAndBalance(WaterCluster cluster)
+    {
+        int neighboursToFlood = cluster.FloodLevel / floodThreshold;
+        for(int i=0; i<neighboursToFlood; i++)
+        {
+            FloodNeighbour(cluster);
+        }
+        RecreateAllClusters(TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water));
     }
 
     public void FloodNeighbour(WaterCluster cluster)
@@ -50,6 +60,9 @@ public class WaterClusterManager : MonoBehaviour
         int selectedIndex = Alea.GetInt(0, floodableTiles.Count());
         BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
         TilesDataManager.Instance.ChangeTileTerrain(tileToFlood.gridPosition, TerrainType.Water);
+        cluster.AddTile(tileToFlood);
+        cluster.RemoveFlood(floodThreshold);
+        cluster.BalanceCluster();
     }
 
     public void CreateAllClusters(IEnumerable<BaseTileData> waterTiles)
@@ -73,6 +86,7 @@ public class WaterClusterManager : MonoBehaviour
                 WaterCluster cluster = new WaterCluster(_nextClusterId);
                 FlagTileAndPropagate(tile, cluster);
                 clusters.Add(cluster);
+                cluster.BalanceCluster();
             }
         }
         Debug.Log("Water clusters parsed");

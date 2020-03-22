@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class WaterTile : TerrainTile
 {
-    public int FloodLevel { get; private set; }
+    public int FloodLevel { get; set; }
     public int clusterId;
 
     public override TerrainType GetTerrainType()
@@ -18,7 +18,7 @@ public class WaterTile : TerrainTile
 
     public override string GetDebugText()
     {
-        return clusterId.ToString();
+        return FloodLevel.ToString();
     }
 
     private void UpFlood()

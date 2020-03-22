@@ -355,11 +355,6 @@ public class TilesDataManager : MonoBehaviour
 
         _terrainTilemap.SetTile(position, newTilebase);
         data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
-
-        if(type.Equals(TerrainType.Water))
-        {
-            WaterClusterManager.Instance.RecreateAllClusters(GetTilesWithTerrainType(TerrainType.Water));
-        }
     }
 
     public void DebugChangeToWater()
@@ -374,4 +369,5 @@ public class TilesDataManager : MonoBehaviour
     {
         return _templates.First(x => x.type == type).data.costs;
     }
+
 }
