@@ -121,7 +121,7 @@ public class TilesDataManager : MonoBehaviour
             BaseTileData data = GetTileDataAtPos(pos);
             data.structureTile = CreateStructureFromType(type, data);
             ResourcesManager.Instance.Pay(CostForStructure(type));
-            data.structureTile.ToggleStructureIfPossible();
+            data.structureTile.ActivateStructureIfPossible();
         }
     }
 

@@ -55,17 +55,37 @@ public abstract class StructureTile : ActiveTile
         return activationState;
     }
 
-    public void DestroyStructure()
+    public bool DeactivateStructureIfPossible()
     {
         if (IsOn)
+        {
+            ToggleStructureIfPossible();
+        }
+        return IsOn;
+    }
+
+    public bool ActivateStructureIfPossible()
+    {
+        if(!IsOn)
+        {
+            ToggleStructureIfPossible();
+        }
+        return IsOn;
+    }
+
+
+    public void DestroyStructure()
+    {
+        bool willNeedRecomputation = IsOn;
+        ResourcesManager.Instance.UnregisterStructure(this);
+        if (willNeedRecomputation)
         {
             ActivationState state = CanToggleStructure();
             if (state == ActivationState.ImpossibleNeedEnergy)
             {
-                //must toggle a structure using energy
+                ResourcesManager.Instance.RecomputeActiveStructure();
             }
         }
-        ResourcesManager.Instance.UnregisterStructure(this);
         IsOn = false;
        
     }

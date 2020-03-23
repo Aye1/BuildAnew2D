@@ -161,4 +161,30 @@ public class ResourcesManager : MonoBehaviour
         EnergyAvailable = EnergyTotal - _energyConsumingStructures.Where(x => x.IsOn)
                                                                   .Sum(x => x.structureData.consumedEnergyAmount);
     }
+
+    public void RecomputeActiveStructure()
+    {
+        UpdateEnergyValues();
+        bool mustDeactivateStructure = false;
+        int energyConsumed = 0;
+        foreach (StructureTile structure in _energyConsumingStructures)
+        {
+            if (!mustDeactivateStructure)
+            {
+                if (structure.IsOn)
+                {
+                    energyConsumed += structure.structureData.consumedEnergyAmount;
+                    if (energyConsumed > EnergyTotal) //Structure must be deactivated
+                    {
+                        structure.DeactivateStructureIfPossible();
+                        mustDeactivateStructure = true;
+                    }
+                }
+            }
+            else
+            {
+                structure.DeactivateStructureIfPossible();
+            }
+        }
+    }
 }
