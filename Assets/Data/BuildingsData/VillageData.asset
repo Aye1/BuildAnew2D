@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
-  m_Name: PumpingStationData
+  m_Name: VillageData
   m_EditorClassIdentifier: 
   producedEnergyAmount: 0
-  consumedEnergyAmount: 4
-  isConstructible: 1
-  structureName: Pumping Station
-  icon: {fileID: 21300000, guid: 4d83d5bcf00f34fc5b8eea10111451d1, type: 3}
-  costs:
-  - amount: 500
-    type: 1
+  consumedEnergyAmount: 10
+  isConstructible: 0
+  structureName: Village
+  icon: {fileID: 21300000, guid: cd49faa02296540cc9eceafb80d3c15e, type: 3}
+  costs: []
+  inconstructibleTerrainTypes: 0200000003000000

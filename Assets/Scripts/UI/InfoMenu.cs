@@ -4,11 +4,12 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 [System.Serializable]
-    public class ErrorText
-    {
-        public ActivationState state;
-        public string errorText;
-    }
+public class ErrorText
+{
+    public ActivationState state;
+    public string errorText;
+}
+
 public class InfoMenu : MonoBehaviour
 {
     #region Editor objects
@@ -27,7 +28,7 @@ public class InfoMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            _errorText.text = "";
+        _errorText.text = "";
         _errorTextDico = new Dictionary<ActivationState, string>();
         foreach (ErrorText errorText in _errors)
         {

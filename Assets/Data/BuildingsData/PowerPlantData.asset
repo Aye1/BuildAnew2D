@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
-  m_Name: SawmillData
+  m_Name: PowerPlantData
   m_EditorClassIdentifier: 
-  producedEnergyAmount: 0
-  consumedEnergyAmount: 1
+  producedEnergyAmount: 2
+  consumedEnergyAmount: 0
   isConstructible: 1
-  structureName: Sawmill
-  icon: {fileID: 21300000, guid: e087eabf08cdc4fb18d1e5f7412524ef, type: 3}
+  structureName: Power Plant
+  icon: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}
   costs:
   - amount: 50
     type: 1
+  inconstructibleTerrainTypes: 02000000

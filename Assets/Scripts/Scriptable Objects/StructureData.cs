@@ -10,6 +10,7 @@ public class StructureData : ScriptableObject
     public string structureName = "";
     public Sprite icon;
     public List<Cost> costs;
+    public List<TerrainType> inconstructibleTerrainTypes;
 
     public bool ProducesEnergy
     {

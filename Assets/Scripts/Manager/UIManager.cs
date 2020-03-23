@@ -10,9 +10,8 @@ public class UIManager : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _woodText;
     [SerializeField] private TextMeshProUGUI _energyText;
+    [SerializeField] private TextMeshProUGUI _endGameText;
     [SerializeField] private Button _undoButton;
-    private Dictionary<int, StructureBinding> _optionsDico;
-
 #pragma warning restore 0649
     #endregion
 
@@ -28,6 +27,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        _endGameText.enabled = false;
     } 
 
     private void Start()
@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        _woodText.text = ResourcesManager.Instance.WoodAmount.ToString();
+        _woodText.text = ResourcesManager.Instance.GetResourceForType(ResourceType.Wood).amount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
@@ -49,5 +49,16 @@ public class UIManager : MonoBehaviour
     public void ToggleBuildMode()
     {
         BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
+    }
+
+    public void TriggerGameOver()
+    {
+        _endGameText.enabled = true;
+        _endGameText.text = "You loose !";
+    }
+    public void TriggerGameSuccess()
+    {
+        _endGameText.enabled = true;
+        _endGameText.text = "You Win !";
     }
 }

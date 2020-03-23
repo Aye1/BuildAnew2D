@@ -137,6 +137,7 @@ public class TilesDataManager : MonoBehaviour
             BaseTileData data = GetTileDataAtPos(pos);
             data.structureTile = CreateStructureFromType(type, data);
             ResourcesManager.Instance.Pay(CostForStructure(type));
+            data.structureTile.ActivateStructureIfPossible();
         }
     }
 
@@ -144,7 +145,8 @@ public class TilesDataManager : MonoBehaviour
     {
         BaseTileData data = GetTileDataAtPos(pos);
         bool canBuild = true;
-        canBuild = canBuild && !data.terrainTile.terrainType.Equals(TerrainType.Water);
+        StructureBinding binding = GetStructureBindingFromType(type);
+        canBuild = canBuild && !binding.data.inconstructibleTerrainTypes.Contains(data.terrainTile.terrainType);
         canBuild = canBuild && data.structureTile == null;
         canBuild = canBuild && ResourcesManager.Instance.CanPay(CostForStructure(type));
         return canBuild;
@@ -162,6 +164,7 @@ public class TilesDataManager : MonoBehaviour
             }
 
             // Warning: possible memory leak
+            structure.DestroyStructure();
             Destroy(structure.building.gameObject);
             data.structureTile = null;
         }
@@ -271,6 +274,10 @@ public class TilesDataManager : MonoBehaviour
     public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type, bool predict = false)
     {
         return GetTiles(predict).Where(x => x.terrainTile.terrainType == type);
+    }
+    public IEnumerable<BaseTileData> GetTilesWithStrucureType(StructureType type)
+    {
+        return tiles.Where(x => (x.structureTile != null && x.structureTile.structureType == type));
     }
     #endregion
 
