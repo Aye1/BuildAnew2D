@@ -18,3 +18,4 @@ MonoBehaviour:
   structureName: Village
   icon: {fileID: 21300000, guid: cd49faa02296540cc9eceafb80d3c15e, type: 3}
   costs: []
+  inconstructibleTerrainTypes: 0200000003000000

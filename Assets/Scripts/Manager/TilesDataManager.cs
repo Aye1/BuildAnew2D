@@ -128,7 +128,8 @@ public class TilesDataManager : MonoBehaviour
     {
         BaseTileData data = GetTileDataAtPos(pos);
         bool canBuild = true;
-        canBuild = canBuild && !data.terrainTile.terrainType.Equals(TerrainType.Water);
+        StructureBinding binding = GetStructureBindingFromType(type);
+        canBuild = canBuild && !binding.data.inconstructibleTerrainTypes.Contains(data.terrainTile.terrainType);
         canBuild = canBuild && data.structureTile == null;
         canBuild = canBuild && ResourcesManager.Instance.CanPay(CostForStructure(type));
         return canBuild;
@@ -412,6 +413,7 @@ public class TilesDataManager : MonoBehaviour
             TileBase newTilebase = terrainBinding.terrainTile;
             _terrainTilemap.SetTile(position, newTilebase);
             data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
+            //data.structureTile.
         }
     }
 
