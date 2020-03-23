@@ -31,7 +31,14 @@ public class TurnManager : MonoBehaviour
 
     public void Start()
     {
-        PredictNextTurn();
+        if (TilesDataManager.AreTileLoaded)
+        {
+            PredictNextTurn();
+        }
+        else
+        {
+            TilesDataManager.OnTilesLoaded += PredictNextTurn;
+        }
     }
 
     public void NextTurn()
