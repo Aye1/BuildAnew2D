@@ -23,7 +23,7 @@ public class SawmillTile : StructureTile
             //.OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
             IEnumerable<WoodsTile> woodsTiles = neighbours.Where(x => x.terrainTile is WoodsTile)
                                                           .Select(x => (WoodsTile)x.terrainTile);
-           ResourcesManager.Instance.AddWood(CutWoodOnTiles(woodsTiles));
+           ResourcesManager.Instance.AddResource(new Cost( CutWoodOnTiles(woodsTiles), ResourceType.Wood));
 
         }
     }

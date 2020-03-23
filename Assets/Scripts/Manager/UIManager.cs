@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        _woodText.text = ResourcesManager.Instance.WoodAmount.ToString();
+        _woodText.text = ResourcesManager.Instance.GetResourceForType(ResourceType.Wood).amount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
