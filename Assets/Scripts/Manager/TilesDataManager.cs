@@ -147,6 +147,7 @@ public class TilesDataManager : MonoBehaviour
             }
 
             // Warning: possible memory leak
+            structure.DestroyStructure();
             Destroy(structure.building.gameObject);
             data.structureTile = null;
         }
@@ -413,7 +414,13 @@ public class TilesDataManager : MonoBehaviour
             TileBase newTilebase = terrainBinding.terrainTile;
             _terrainTilemap.SetTile(position, newTilebase);
             data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
-            //data.structureTile.
+            if(data.structureTile != null)
+            {
+                if(data.structureTile.structureData.inconstructibleTerrainTypes.Contains(type))
+                {
+                    RemoveStructureAtPos(position, false);
+                }
+            }
         }
     }
 
