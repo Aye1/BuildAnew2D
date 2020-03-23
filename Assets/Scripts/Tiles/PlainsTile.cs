@@ -6,5 +6,4 @@ public class PlainsTile : TerrainTile
     {
         return TerrainType.Plains;
     }
-
 }

@@ -71,6 +71,7 @@ public class DebugTextManager : MonoBehaviour
         Destroy(templateText);
         TurnManager.OnTurnStart += UpdateTilesDebugText;
         ActiveTile.OnTileModified += UpdateTilesDebugText;
+        WaterClusterManager.OnFloodDone += UpdateTilesDebugText;
         TilesDataManager.OnTilesLoaded -= InitTilesDebugText;
         UpdateTilesDebugText();
     }
@@ -80,7 +81,7 @@ public class DebugTextManager : MonoBehaviour
         foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
         {
             _debugTextsDico.TryGetValue(pos, out TextMeshProUGUI text);
-            BaseTileData data = _tileDataManager.GetTileDataAtPos(pos);
+            BaseTileData data = _tileDataManager.GetTileDataAtPos(pos, true);
             text.text = _isVisible ? data.terrainTile.GetDebugText() : "";
         }
     }

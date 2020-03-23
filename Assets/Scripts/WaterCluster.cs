@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -26,17 +25,28 @@ public class WaterCluster
 
     public void RemoveFlood(int amount)
     {
-        int individualAmount = amount / tiles.Count;
-        int remainingAmount = amount;
+        FloodLevel = Mathf.Max(0, FloodLevel - amount);
+        BalanceFlood(false);
+    }
+
+    public void BalanceFlood(bool forceRecount)
+    {
+        if(forceRecount)
+        {
+            RecountFloodLevel();
+        }
+        int remainingFlood = FloodLevel;
         int remainingTiles = tiles.Count;
 
-        IOrderedEnumerable<BaseTileData> orderedTiles = tiles.OrderBy(x => ((WaterTile)x.terrainTile).FloodLevel);
-        foreach(BaseTileData tile in orderedTiles)
-        {
-            individualAmount = remainingAmount / remainingTiles;
+        // Try to keep the same flood balancing among the cluster
+        // If the tile had low water compared to the cluster, it will still have low water after the balancing
+        IEnumerable<BaseTileData> orderedTiles = tiles.OrderBy(x => ((WaterTile)x.terrainTile).NTFloodLevel);
 
-            int realAmount = ((WaterTile)tile.terrainTile).RemoveFlood(individualAmount);
-            remainingAmount -= realAmount;
+        foreach (BaseTileData tile in orderedTiles)
+        {
+            int individualAmount = remainingFlood / remainingTiles;
+            ((WaterTile)tile.terrainTile).NTFloodLevel = individualAmount;
+            remainingFlood -= individualAmount;
             remainingTiles--;
         }
         RecountFloodLevel();
@@ -44,7 +54,6 @@ public class WaterCluster
 
     public void RecountFloodLevel()
     {
-        FloodLevel = 0;
-        tiles.ForEach(x => FloodLevel += ((WaterTile)x.terrainTile).FloodLevel);
+        FloodLevel = tiles.Sum(x => ((WaterTile)x.terrainTile).NTFloodLevel);
     }
 }

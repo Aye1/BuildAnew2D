@@ -12,6 +12,8 @@ public class TurnManager : MonoBehaviour
     #region Events
     public delegate void TurnStart();
     public static event TurnStart OnTurnStart;
+    public delegate void TurnPredict();
+    public static event TurnPredict OnTurnPredict;
     #endregion
 
     private void Awake()
@@ -27,6 +29,11 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        PredictNextTurn();
+    }
+
     public void NextTurn()
     {
         _turnCounter++;
@@ -39,5 +46,19 @@ public class TurnManager : MonoBehaviour
             }
         }
         OnTurnStart?.Invoke();
+        PredictNextTurn();
+        OnTurnPredict?.Invoke();
+    }
+
+    private void PredictNextTurn()
+    {
+        foreach(Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        {
+            if(TilesDataManager.Instance.HasTile(pos))
+            {
+                BaseTileData tile = TilesDataManager.Instance.GetTileDataAtPos(pos);
+                tile.PredictOnTurnStarts();
+            }
+        }
     }
 }

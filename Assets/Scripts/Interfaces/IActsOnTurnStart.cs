@@ -3,4 +3,5 @@
 public interface IActsOnTurnStart
 {
     void OnTurnStarts();
+    void PredictOnTurnStarts();
 }

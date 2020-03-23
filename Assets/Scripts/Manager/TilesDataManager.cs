@@ -33,7 +33,13 @@ public class TilesDataManager : MonoBehaviour
 #pragma warning restore 0649
     #endregion
 
-    public Dictionary<Vector3Int, BaseTileData> tiles;
+    private Tilemap _NTterrainTilemap;
+
+    public List<BaseTileData> tiles;
+    public List<BaseTileData> NTtiles;
+
+    private List<BaseTileData> _modifiedNTTiles;
+
     public static TilesDataManager Instance { get; private set; }
     public static bool AreTileLoaded { get; private set; }
 
@@ -69,24 +75,26 @@ public class TilesDataManager : MonoBehaviour
     {
         InitTerrainTiles();
         InitStructuresTiles();
-        WaterClusterManager.Instance.CreateAllClusters(GetTilesWithTerrainType(TerrainType.Water));
+        InitPredictedTiles();
         AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
+        TurnManager.OnTurnStart += GoToNextTurnState;
     }
 
+    #region Init
     private void InitTerrainTiles()
     {
-        tiles = new Dictionary<Vector3Int, BaseTileData>();
+        tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
         {
             TileBase tile = _terrainTilemap.GetTile(pos);
             if (tile != null)
             {
-                BaseTileData newTileData = GetTileDataFromTileBase(tile);
+                BaseTileData newTileData = CreateBaseTileData(tile);
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
                 newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
-                tiles.Add(pos, newTileData);
+                tiles.Add(newTileData);
             }
         }
     }
@@ -109,11 +117,19 @@ public class TilesDataManager : MonoBehaviour
         }
     }
 
-    public bool HasTile(Vector3Int pos)
+    private void InitPredictedTiles()
     {
-        return _terrainTilemap.HasTile(pos);
-    }
+        _NTterrainTilemap = Instantiate(_terrainTilemap, Vector3.zero, Quaternion.identity, _terrainTilemap.GetComponentInParent<Grid>().transform);
+        _NTterrainTilemap.name = "Next turn Terrain Tilemap";
+        _NTterrainTilemap.GetComponent<TilemapRenderer>().sortOrder = 0;
+        _NTterrainTilemap.gameObject.SetActive(false);
+        NTtiles = new List<BaseTileData>(tiles);
 
+        _modifiedNTTiles = new List<BaseTileData>();
+    }
+    #endregion
+
+    #region Build and destroy structures
     public void BuildStructureAtPos(StructureType type, Vector3Int pos)
     {
         if (CanBuildStructureAtPos(type, pos))
@@ -150,20 +166,36 @@ public class TilesDataManager : MonoBehaviour
             data.structureTile = null;
         }
     }
+    #endregion
 
     #region Get Tiles
-    public BaseTileData GetTileDataAtPos(Vector3Int pos)
+    private List<BaseTileData> GetTiles(bool predict)
     {
-        BaseTileData data = tiles.FirstOrDefault(x => x.Value.gridPosition == pos).Value;
+        return predict ? NTtiles : tiles;
+    }
+
+    private Tilemap GetTerrainTilemap(bool predict)
+    {
+        return predict ? _NTterrainTilemap : _terrainTilemap;
+    }
+
+    public bool HasTile(Vector3Int pos)
+    {
+        return _terrainTilemap.HasTile(pos);
+    }
+
+    public BaseTileData GetTileDataAtPos(Vector3Int pos, bool predict = false)
+    {
+        BaseTileData data = GetTiles(predict).FirstOrDefault(x => x.gridPosition == pos);
         return data;
     }
 
-    public IEnumerable<BaseTileData> GetTilesInBounds(BoundsInt bounds)
+    public IEnumerable<BaseTileData> GetTilesInBounds(BoundsInt bounds, bool predict = false)
     {
         List<BaseTileData> res = new List<BaseTileData>();
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            BaseTileData tile = GetTileDataAtPos(pos);
+            BaseTileData tile = GetTileDataAtPos(pos, predict);
             if (tile != null)
             {
                 res.Add(tile);
@@ -172,12 +204,12 @@ public class TilesDataManager : MonoBehaviour
         return res;
     }
 
-    public IEnumerable<BaseTileData> GetTilesAtPos(IEnumerable<Vector3Int> positions)
+    public IEnumerable<BaseTileData> GetTilesAtPos(IEnumerable<Vector3Int> positions, bool predict = false)
     {
         List<BaseTileData> res = new List<BaseTileData>();
         foreach (Vector3Int pos in positions)
         {
-            BaseTileData tile = GetTileDataAtPos(pos);
+            BaseTileData tile = GetTileDataAtPos(pos, predict);
             if (tile != null)
             {
                 res.Add(tile);
@@ -187,9 +219,9 @@ public class TilesDataManager : MonoBehaviour
 
     }
 
-    public IEnumerable<BaseTileData> GetTilesAroundTileAtPos(Vector3Int pos)
+    public IEnumerable<BaseTileData> GetTilesAroundTileAtPos(Vector3Int pos, bool predict = false)
     {
-        if (_terrainTilemap.cellBounds.Contains(pos))
+        if (GetTerrainTilemap(predict).cellBounds.Contains(pos))
         {
             BoundsInt localBounds = new BoundsInt(pos.x - 1, pos.y - 1, pos.z, 3, 3, 1);
 
@@ -198,31 +230,32 @@ public class TilesDataManager : MonoBehaviour
         return null;
     }
 
-    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTileAtPos(Vector3Int pos)
+    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTileAtPos(Vector3Int pos, bool predict = false)
     {
-        if (_terrainTilemap.cellBounds.Contains(pos))
+        if (GetTerrainTilemap(predict).cellBounds.Contains(pos))
         {
-            return GetTilesAtPos(GetDirectNeighboursPositions(pos));
+            return GetTilesAtPos(GetDirectNeighboursPositions(pos), predict);
         }
         return null;
     }
 
-    public IEnumerable<BaseTileData> GetTilesAroundTile(BaseTileData tile)
+    public IEnumerable<BaseTileData> GetTilesAroundTile(BaseTileData tile, bool predict = false)
     {
-        return GetTilesAroundTileAtPos(tile.gridPosition);
+        return GetTilesAroundTileAtPos(tile.gridPosition, predict);
     }
 
-    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTile(BaseTileData tile)
+    public IEnumerable<BaseTileData> GetTilesDirectlyAroundTile(BaseTileData tile, bool predict = false)
     {
-        return GetTilesDirectlyAroundTileAtPos(tile.gridPosition);
+        return GetTilesDirectlyAroundTileAtPos(tile.gridPosition, predict);
     }
 
-    public BaseTileData GetTileAtWorldPos(Vector3 pos)
+    public BaseTileData GetTileAtWorldPos(Vector3 pos, bool predict = false)
     {
-        Vector3Int tilePos = _terrainTilemap.WorldToCell(pos);
+        Vector3Int tilePos = GetTerrainTilemap(predict).WorldToCell(pos);
         return GetTileDataAtPos(tilePos);
     }
 
+    // TODO: move into an helper/utils class
     public IEnumerable<Vector3Int> GetDirectNeighboursPositions(Vector3Int position)
     {
         IEnumerable<Vector3Int> neighbours = new List<Vector3Int>
@@ -235,38 +268,82 @@ public class TilesDataManager : MonoBehaviour
         return neighbours;
     }
 
-    public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type)
+    public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type, bool predict = false)
     {
-        return tiles.Where(x => x.Value.terrainTile.terrainType == type).Select(x => x.Value);
+        return GetTiles(predict).Where(x => x.terrainTile.terrainType == type);
     }
     #endregion
 
-    #region Bindings
-
-    public BaseTileData GetTileDataFromTileBase(TileBase tile)
+    public void ChangeTileTerrain(Vector3Int position, TerrainType type, bool predict = false)
     {
-        BaseTileData data = new BaseTileData
-        {
-            terrainTile = CreateTerrainTileFromTileBase(tile)
-        };
-        return data;
+        TerrainTile newTerrain = CreateTerrainFromType(type);
+        BaseTileData oldTile = GetTileDataAtPos(position, predict);
+        SwapTileTerrain(oldTile, newTerrain, predict);
     }
 
-    public TerrainTile CreateTerrainTileFromTileBase(TileBase tile)
+    public void SwapTileTerrain(BaseTileData baseTile, TerrainTile newTileTerrain, bool predict = false)
     {
-        if (tile.name.Equals(PLAINS))
+        TerrainBinding terrainBinding = GetTerrainBindingFromType(newTileTerrain.terrainType);
+        if (terrainBinding != null)
         {
-            return new PlainsTile();
+            TileBase newTilebase = terrainBinding.terrainTile;
+            GetTerrainTilemap(predict).SetTile(baseTile.gridPosition, newTilebase);
+            baseTile.terrainTile = newTileTerrain;
+            if (predict)
+            {
+                _modifiedNTTiles.Add(baseTile);
+            }
         }
-        if (tile.name.Equals(WATER))
+    }
+
+    public BaseTileData CreateNewTileForNextTurn(BaseTileData oldTile, TerrainType type)
+    {
+        BaseTileData createdTile = new BaseTileData(oldTile);
+        createdTile.terrainTile = CreateTerrainFromType(type);
+        ChangeTerrainTile(createdTile.gridPosition, TerrainType.Water, true);
+        NTtiles.Remove(oldTile);
+        NTtiles.Add(createdTile);
+        _modifiedNTTiles.Add(oldTile);
+        return createdTile;
+    }
+
+    public void ChangeTerrainTile(Vector3Int position, TerrainType type, bool predict = false)
+    {
+        TerrainBinding binding = GetTerrainBindingFromType(type);
+        TileBase tilebase = binding?.terrainTile;
+        GetTerrainTilemap(predict).SetTile(position, tilebase);
+    }
+
+    private void GoToNextTurnState()
+    {
+        foreach (BaseTileData oldTile in _modifiedNTTiles)
         {
-            return new WaterTile();
+            BaseTileData newTile = GetTileDataAtPos(oldTile.gridPosition, true);
+            SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
         }
-        if (tile.name.Equals(WOODS))
+        _modifiedNTTiles.Clear();
+
+        foreach (BaseTileData oldTile in tiles)
         {
-            return new WoodsTile();
+            oldTile.ApplyPrediction();
         }
-        return new DefaultTile();
+    }
+
+    private void SwapTileFromCurrentToNewTilemap(BaseTileData oldTile, BaseTileData newTile, bool predict = false)
+    {
+        tiles.Remove(oldTile);
+        tiles.Add(newTile);
+        ChangeTerrainTile(oldTile.gridPosition, newTile.terrainTile.terrainType, false);
+    }
+
+    #region Bindings
+
+    public BaseTileData CreateBaseTileData(TileBase tile)
+    {
+        BaseTileData data = new BaseTileData();
+        TerrainBinding binding = GetTerrainBindingFromTile(tile);
+        data.terrainTile = CreateTerrainFromType(binding.type);
+        return data;
     }
 
     public StructureType GetStructureTypeFromTile(TileBase tile)
@@ -377,6 +454,34 @@ public class TilesDataManager : MonoBehaviour
         return newTile;
     }
 
+    public TerrainTile CreateTerrainFromType(TerrainType type)
+    {
+        TerrainTile newTile = null;
+
+        TerrainBinding terrainBinding = GetTerrainBindingFromType(type);
+        if (terrainBinding != null)
+        {
+            switch (type)
+            {
+                case TerrainType.Plains:
+                    newTile = new PlainsTile();
+                    break;
+
+                case TerrainType.Water:
+                    newTile = new WaterTile();
+                    break;
+
+                case TerrainType.Wood:
+                    newTile = new WoodsTile();
+                    break;
+
+                default:
+                    throw new MissingTerrainTypeDefinitionException();
+            }
+        }
+        return newTile;
+    }
+
     public Sprite GetSpriteForStructure(StructureType type)
     {
         StructureBinding structureBinding = GetStructureBindingFromType(type);
@@ -397,18 +502,6 @@ public class TilesDataManager : MonoBehaviour
     public IEnumerable<StructureBinding> GetAllConstructiblesStructures()
     {
         return _structureTemplates.Where(x => x.data.isConstructible);
-    }
-
-    public void ChangeTileTerrain(Vector3Int position, TerrainType type)
-    {
-        BaseTileData data = GetTileDataAtPos(position);
-        TerrainBinding terrainBinding = GetTerrainBindingFromType(type);
-        if (terrainBinding != null)
-        {
-            TileBase newTilebase = terrainBinding.terrainTile;
-            _terrainTilemap.SetTile(position, newTilebase);
-            data.terrainTile = CreateTerrainTileFromTileBase(newTilebase);
-        }
     }
 
     public List<Cost> CostForStructure(StructureType type)
