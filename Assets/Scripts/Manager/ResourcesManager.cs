@@ -13,7 +13,7 @@ public class ResourcesManager : MonoBehaviour
 
     private List<StructureTile> _energyProducingStructures;
     private List<StructureTile> _energyConsumingStructures;
-
+    [SerializeField] private List<ResourceData> resourceDatas;
     private List<Cost> _currentResources;
     private void Awake()
     {
@@ -35,9 +35,9 @@ public class ResourcesManager : MonoBehaviour
     private void ResourcesInitialisation()
     {
         _currentResources = new List<Cost>();
-        foreach(ResourceType resourceType in Enum.GetValues(typeof( ResourceType)))
+        foreach(ResourceData resourceData in resourceDatas)
         {
-            _currentResources.Add(new Cost( 0, resourceType));
+            _currentResources.Add(new Cost( 0, resourceData.resourceType));
         }
     }
 
