@@ -20,4 +20,4 @@ MonoBehaviour:
   costs:
   - amount: 500
     type: 1
-  inconstructibleTerrainTypes: 03000000
+  constructibleTerrainTypes: 0200000001000000
