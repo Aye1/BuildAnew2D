@@ -12,10 +12,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private TextMeshProUGUI _endGameText;
     [SerializeField] private Button _undoButton;
+    [SerializeField] private LanguageConstantString _languageTexts;
+
 #pragma warning restore 0649
     #endregion
 
     public static UIManager Instance { get; private set; }
+
 
     private void Awake()
     {
@@ -54,11 +57,11 @@ public class UIManager : MonoBehaviour
     public void TriggerGameOver()
     {
         _endGameText.enabled = true;
-        _endGameText.text = "You loose !";
+        _endGameText.text = _languageTexts.lossText;
     }
     public void TriggerGameSuccess()
     {
         _endGameText.enabled = true;
-        _endGameText.text = "You Win !";
+        _endGameText.text = _languageTexts.winText;
     }
 }

@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e49dfa243a5014f178b2d911eee101c1, type: 3}
-  m_Name: Level1
+  m_Script: {fileID: 11500000, guid: 699bf9b22c4b441348331a3abeefdf18, type: 3}
+  m_Name: English
   m_EditorClassIdentifier: 
-  _successConditions:
-  - {fileID: 11400000, guid: 3a1950543ebad43aca1bee1d7e8852aa, type: 2}
-  _defeatConditions: []
-  _initialResources:
-  - amount: 200
-    type: 1
+  winText: You WIn !!
+  lossText: You lose :/
+  sucessConditions: 
+  defeatConditions: 
+  getResources: 
+  buildingActivated: 
+  resourcesTitle: 
