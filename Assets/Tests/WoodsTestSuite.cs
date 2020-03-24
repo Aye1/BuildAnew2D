@@ -30,7 +30,7 @@ namespace Tests
             {
                 if(i < values.Length)
                 {
-                    _woodsTile[i].WoodAmount = values[i];
+                    _woodsTile[i]._resourceAmount = values[i];
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace Tests
         {
             for(int i = 0; i < values.Length; i++)
             {
-                Assert.AreEqual(values[i], _woodsTile[i].WoodAmount);
+                Assert.AreEqual(values[i], _woodsTile[i].WoodAmount());
             }
         }
 
@@ -48,7 +48,7 @@ namespace Tests
         public IEnumerator InitIsOK()
         {
             // Not really useful at the moment
-            int initWoodAmount = _firstTile.WoodAmount;
+            int initWoodAmount = _firstTile.WoodAmount();
             Assert.LessOrEqual(initWoodAmount, 500);
             Assert.GreaterOrEqual(initWoodAmount, 300);
             yield return null;
@@ -57,9 +57,9 @@ namespace Tests
         [UnityTest]
         public IEnumerator Cut50Woods()
         {
-            int initialWoodAmount = _firstTile.WoodAmount;
-            _firstTile.CutWood(50);
-            Assert.AreEqual(initialWoodAmount - 50, _firstTile.WoodAmount);
+            int initialWoodAmount = _firstTile.WoodAmount();
+            _firstTile.CutResource(50);
+            Assert.AreEqual(initialWoodAmount - 50, _firstTile.WoodAmount());
             yield return null;
         }
 
@@ -67,14 +67,14 @@ namespace Tests
         public IEnumerator CutUntilEmptyButDontGoNegative()
         {
             // Cut all wood
-            while(_firstTile.WoodAmount > 0)
+            while(_firstTile.WoodAmount() > 0)
             {
-                _firstTile.CutWood(50);
+                _firstTile.CutResource(50);
             }
             // Cut one more wood
             _firstTile
-            .CutWood(1);
-            Assert.AreEqual(0, _firstTile.WoodAmount);
+            .CutResource(1);
+            Assert.AreEqual(0, _firstTile.WoodAmount());
             yield return null;
         }
 
@@ -85,7 +85,7 @@ namespace Tests
             SetWoodsValues(values);
 
             // Sawmill cuts 100 at total
-            _sawmillTile.CutWoodOnTiles(_woodsTile);
+            _sawmillTile.strategy.GenerateResource(_woodsTile,100);
 
             int[] expectedValues = { 80, 80, 80, 80, 80, 0, 0, 0 };
             AssertWoodValues(expectedValues);
@@ -100,14 +100,14 @@ namespace Tests
             SetWoodsValues(values);
 
             // Sawmill cuts 100 at total
-            _sawmillTile.CutWoodOnTiles(_woodsTile);
+            _sawmillTile.strategy.GenerateResource(_woodsTile, 100);
 
             // Removes the 10 from the lowest tile
             // Removes (100-10)/6 = 15 from the other tiles
             int[] expectedResults = { 85, 35, 5, 0, 5, 35, 85, 0 };
             AssertWoodValues(expectedResults);
 
-            _sawmillTile.CutWoodOnTiles(_woodsTile);
+            _sawmillTile.strategy.GenerateResource(_woodsTile, 100);
 
             int[] newExpectedResults = { 62, 13, 0, 0, 0, 13, 62, 0 };
             AssertWoodValues(newExpectedResults);
@@ -122,7 +122,7 @@ namespace Tests
             SetWoodsValues(values);
 
             // Can't cut 100 here, only 80 should be cut at total
-            int totalCutWood = _sawmillTile.CutWoodOnTiles(_woodsTile);
+            int totalCutWood = _sawmillTile.strategy.GenerateResource(_woodsTile, 100);
 
             int[] expectedValues = { 0, 0, 0, 0, 0, 0, 0, 0 };
             AssertWoodValues(expectedValues);

@@ -1,30 +1,21 @@
 ﻿using System;
 
-public class WoodsTile : TerrainTile
+public class WoodsTile : ResourceTile
 {
-    public int WoodAmount { get; set; }
+    public int WoodAmount()
+    {
+        return _resourceAmount;
+    }
 
     public override TerrainType GetTerrainType()
     {
         return TerrainType.Wood;
     }
+
     public override void Init()
     {
+        _resourceType = ResourceType.Wood;
+        _resourceAmount = Alea.GetInt(300, 500);
         base.Init();
-         WoodAmount = Alea.GetInt(300, 500);
-    }
-
-    public override string GetDebugText() 
-    {
-        return WoodAmount.ToString();
-    }
-
-
-    // Returns the real amount of wood cut
-    public int CutWood(int amount)
-    {
-        int realCutAmount = amount <= WoodAmount ? amount : WoodAmount;
-        WoodAmount -= realCutAmount;
-        return realCutAmount;
     }
 }
