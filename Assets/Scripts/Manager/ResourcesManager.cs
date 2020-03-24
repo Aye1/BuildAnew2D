@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+public enum ResourceType { None, Wood , Stone}
+
 public class ResourcesManager : MonoBehaviour
 {
     public static ResourcesManager Instance { get; private set; }
@@ -13,7 +15,7 @@ public class ResourcesManager : MonoBehaviour
 
     private List<StructureTile> _energyProducingStructures;
     private List<StructureTile> _energyConsumingStructures;
-    [SerializeField] private List<ResourceData> resourceDatas;
+    [SerializeField] private List<ResourceData> _resourceDatas;
     private List<Cost> _currentResources;
     private void Awake()
     {
@@ -31,11 +33,15 @@ public class ResourcesManager : MonoBehaviour
 
         ResourcesInitialisation();
     }
-
+    public List<Cost> GetCurrentResource()
+    {
+        return _currentResources;
+        
+    }
     private void ResourcesInitialisation()
     {
         _currentResources = new List<Cost>();
-        foreach(ResourceData resourceData in resourceDatas)
+        foreach(ResourceData resourceData in _resourceDatas)
         {
             _currentResources.Add(new Cost( 0, resourceData.resourceType));
         }
@@ -46,6 +52,10 @@ public class ResourcesManager : MonoBehaviour
         UpdateEnergyValues();
     }
 
+    public ResourceData GetResourceDataForType(ResourceType type)
+    {
+        return _resourceDatas.Find(x => x.resourceType == type);
+    }
     public Cost GetResourceForType(ResourceType type)
     {
         return _currentResources.Find(x => x.type == type);
@@ -62,6 +72,7 @@ public class ResourcesManager : MonoBehaviour
         {
             Debug.LogWarning("Resource is not properly initialized");
         }
+        UIManager.Instance.RefreshResources(); //TODO :use event instead
     }
 
     public void RemoveResource(Cost resource)
@@ -78,6 +89,7 @@ public class ResourcesManager : MonoBehaviour
 
             }
         }
+        UIManager.Instance.RefreshResources(); //TODO : use event instead
     }
 
     public bool CanPay(List<Cost> costs)

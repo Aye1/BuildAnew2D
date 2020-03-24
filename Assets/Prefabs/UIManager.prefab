@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _woodText: {fileID: 0}
   _energyText: {fileID: 0}
-  _buildTypeDropdown: {fileID: 0}
-  _buildButtonText: {fileID: 0}
+  _endGameText: {fileID: 0}
   _undoButton: {fileID: 0}
+  _languageTexts: {fileID: 11400000, guid: 3bd103e5e07ac4e6f8045c638ed1a470, type: 2}
+  _resourceList: {fileID: 0}

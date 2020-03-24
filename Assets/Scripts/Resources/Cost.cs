@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-public enum ResourceType { None, Wood }
-
 [System.Serializable]
 public class Cost
 {

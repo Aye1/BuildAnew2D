@@ -8,12 +8,11 @@ public class UIManager : MonoBehaviour
 {
     #region Editor objects
 #pragma warning disable 0649
-    [SerializeField] private TextMeshProUGUI _woodText;
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private TextMeshProUGUI _endGameText;
     [SerializeField] private Button _undoButton;
     [SerializeField] private LanguageConstantString _languageTexts;
-
+    [SerializeField] private ResourcesList _resourceList;
 #pragma warning restore 0649
     #endregion
 
@@ -35,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeResourcesLayout();
     }
 
     private void Update()
@@ -44,7 +44,6 @@ public class UIManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        _woodText.text = ResourcesManager.Instance.GetResourceForType(ResourceType.Wood).amount.ToString();
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
     }
@@ -64,4 +63,13 @@ public class UIManager : MonoBehaviour
         _endGameText.enabled = true;
         _endGameText.text = _languageTexts.winText;
     }
+
+    public void InitializeResourcesLayout()
+	{
+        _resourceList.CreateResourcesList(ResourcesManager.Instance.GetCurrentResource());
+    }
+    public void RefreshResources()
+	{
+        _resourceList.RefreshResourcesList(ResourcesManager.Instance.GetCurrentResource());
+	}
 }

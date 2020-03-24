@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winText: You WIn !!
   lossText: You lose :/
-  sucessConditions: 
-  defeatConditions: 
-  getResources: 
-  buildingActivated: 
-  resourcesTitle: 
+  sucessConditions: 'Sucess Conditions :'
+  defeatConditions: 'Defeat Conditions :'
+  getResources: Get /i /s resources
+  buildingActivated: Get /s /s activated
+  resourcesTitle: 'Resources :'
