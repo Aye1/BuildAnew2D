@@ -83,6 +83,7 @@ public abstract class StructureTile : ActiveTile
             ActivationState state = CanToggleStructure();
             if (state == ActivationState.ImpossibleNeedEnergy)
             {
+                Debug.Log("Energy consumption");
                 ResourcesManager.Instance.RecomputeActiveStructure();
             }
         }

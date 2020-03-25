@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WoodRequired
   m_EditorClassIdentifier: 
   _resourcesRequired:
-  - amount: 200
-    type: 1
+  - amount: 100
+    type: 2

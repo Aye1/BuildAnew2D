@@ -14,6 +14,10 @@ public class SawmillTile : ResourceGenerationStructureTile
     {
         return ResourceType.Wood;
     }
+    public override int GetResourceAmount()
+    {
+        return 100;
+    }
     public override IEnumerable<ResourceTile> GetNeighbour(IEnumerable<BaseTileData> neighbours)
     {
         IEnumerable<WoodsTile> woodsTiles = neighbours.Where(x => x.terrainTile is WoodsTile)

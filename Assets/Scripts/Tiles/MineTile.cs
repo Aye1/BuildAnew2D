@@ -14,7 +14,10 @@ public class MineTile : ResourceGenerationStructureTile
                                                           .Select(x => (StoneTile)x.terrainTile);
         return stoneTiles;
     }
-
+    public override int GetResourceAmount()
+    {
+        return 3;
+    }
     public override ResourceType GetResourceGeneratedType()
     {
         return ResourceType.Stone;
