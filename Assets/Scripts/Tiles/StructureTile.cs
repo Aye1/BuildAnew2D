@@ -73,6 +73,19 @@ public abstract class StructureTile : ActiveTile
         return IsOn;
     }
 
+    public bool CanStructureBeFlooded()
+    {
+        return structureData.constructibleTerrainTypes.Contains(TerrainType.Water);
+    }
+
+    public void WarnStructureDestruction()
+    {
+        building.WarnDestruction();
+    }
+    public void DisableWarnStructureDestruction()
+    {
+        building.DisableWarningDestruction();
+    }
 
     public void DestroyStructure()
     {

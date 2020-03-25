@@ -72,4 +72,26 @@ public class BaseTileData : IActsOnTurnStart
         }
         return returnActivationState;
     }
+
+    public void HandleFloodPrevision()
+    {
+        if(structureTile != null)
+        {
+            if(!structureTile.CanStructureBeFlooded())
+            {
+                structureTile.WarnStructureDestruction();
+            }
+        }
+    }
+
+    public void HandleFlood()
+    {
+        if(structureTile != null)
+        {
+            if(!structureTile.CanStructureBeFlooded())
+            {
+                structureTile = null;
+            }
+        }
+    }
 }

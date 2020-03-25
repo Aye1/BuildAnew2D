@@ -38,4 +38,13 @@ public class Building : MonoBehaviour
     {
         _renderer.sprite = dataTile.IsOn ? _spriteON : _spriteOFF;
     }
+
+    public void WarnDestruction()
+    {
+        _renderer.color = Color.red;
+    }
+    public void DisableWarningDestruction()
+    {
+        _renderer.color = Color.white;
+    }
 }

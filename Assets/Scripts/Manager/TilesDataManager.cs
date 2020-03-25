@@ -308,6 +308,8 @@ public class TilesDataManager : MonoBehaviour
         BaseTileData createdTile = new BaseTileData(oldTile);
         createdTile.terrainTile = CreateTerrainFromType(type);
         ChangeTerrainTile(createdTile.gridPosition, TerrainType.Water, true);
+        createdTile.HandleFlood();
+        oldTile.HandleFloodPrevision();
         NTtiles.Remove(oldTile);
         NTtiles.Add(createdTile);
         _modifiedNTTiles.Add(oldTile);
@@ -326,8 +328,13 @@ public class TilesDataManager : MonoBehaviour
         foreach (BaseTileData oldTile in _modifiedNTTiles)
         {
             BaseTileData newTile = GetTileDataAtPos(oldTile.gridPosition, true);
+            if(newTile.structureTile == null && oldTile.structureTile != null)
+            {
+                RemoveStructureAtPos(oldTile.gridPosition, false);
+            }
             SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
         }
+
         _modifiedNTTiles.Clear();
 
         foreach (BaseTileData oldTile in tiles)
