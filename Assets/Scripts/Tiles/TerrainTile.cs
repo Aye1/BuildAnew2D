@@ -1,5 +1,5 @@
 ﻿
-public enum TerrainType { Default, Plains, Water, Wood };
+public enum TerrainType { Default, Plains, Water, Wood, Stone, Sand };
 
 public abstract class TerrainTile : ActiveTile
 {

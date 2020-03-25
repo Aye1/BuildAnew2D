@@ -449,6 +449,10 @@ public class TilesDataManager : MonoBehaviour
                     newTile = new VillageTile();
                     break;
 
+                case StructureType.Mine:
+                    newTile = new MineTile();
+                    break;
+
                 default:
                     throw new MissingStructureTypeDefinitionException();
             }
@@ -480,6 +484,13 @@ public class TilesDataManager : MonoBehaviour
 
                 case TerrainType.Wood:
                     newTile = new WoodsTile();
+                    break;
+                case TerrainType.Stone:
+                    newTile = new StoneTile();
+                    break;
+
+                case TerrainType.Sand:
+                    newTile = new SandTile();
                     break;
 
                 default:

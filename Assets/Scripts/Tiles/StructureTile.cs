@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village };
+public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure };
 public abstract class StructureTile : ActiveTile
 {

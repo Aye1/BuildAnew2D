@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2489063646643402553}
   - component: {fileID: 2489063646643402554}
-  - component: {fileID: 2489063646643402552}
+  - component: {fileID: 1478777792}
   m_Layer: 0
   m_Name: VIllage
   m_TagString: Untagged
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2489063646643402552
+--- !u!114 &1478777792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2489063646643402555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c36ceb0c8e584ffebded13c3ee5ebab, type: 3}
+  m_Script: {fileID: 11500000, guid: 885f6144233524a0891351c578d3b727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteON: {fileID: 21300000, guid: cd49faa02296540cc9eceafb80d3c15e, type: 3}
