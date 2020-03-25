@@ -115,6 +115,8 @@ public class TilesDataManager : MonoBehaviour
                 data.structureTile = CreateStructureFromType(type, data);
             }
         }
+        _structuresTilemap.gameObject.SetActive(false);
+
     }
 
     private void InitPredictedTiles()
