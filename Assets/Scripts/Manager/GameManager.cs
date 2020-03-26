@@ -26,7 +26,13 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        if(_levelData != null)
+        LoadLevel();
+        MouseManager.OnPlayerClick += OnPlayerClick;
+    }
+
+    public void LoadLevel()
+    {
+        if (_levelData != null)
         {
             ResourcesManager.Instance.Repay(_levelData.GetInitialResources());
         }
@@ -34,9 +40,12 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Missing level data into GameManager");
         }
-        MouseManager.OnPlayerClick += OnPlayerClick;
     }
 
+    public void Reset()
+    {
+        TilesDataManager.Instance.ResetLevel();
+    }
 
     private void OnPlayerClick()
     {

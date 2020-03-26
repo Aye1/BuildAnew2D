@@ -76,12 +76,35 @@ public class TilesDataManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LoadLevel();
+        TurnManager.OnTurnStart += GoToNextTurnState;
+    }
+
+    public void LoadLevel()
+    {
         InitTerrainTiles();
         InitStructuresTiles();
         InitPredictedTiles();
         AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
-        TurnManager.OnTurnStart += GoToNextTurnState;
+    }
+
+    private void ClearLevel()
+    {
+        AreTileLoaded = false;
+        foreach(BaseTileData tileData in tiles)
+        {
+            RemoveStructureAtPos(tileData.gridPosition, false);
+        }
+        Destroy(_terrainTilemap.gameObject);
+        Destroy(_structuresTilemap.gameObject);
+        Destroy(_NTterrainTilemap.gameObject);
+    }
+
+    public void ResetLevel()
+    {
+        ClearLevel();
+        LoadLevel();
     }
 
     #region Init
@@ -289,6 +312,11 @@ public class TilesDataManager : MonoBehaviour
         return tiles.Where(x => (x.structureTile != null && x.structureTile.structureType == type));
     }
     #endregion
+
+    public BoundsInt GetTilemapBounds()
+    {
+        return _terrainTilemap.cellBounds;
+    }
 
     public void ChangeTileTerrain(Vector3Int position, TerrainType type, bool predict = false)
     {

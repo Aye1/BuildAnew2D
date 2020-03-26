@@ -5,8 +5,6 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance { get; private set; }
 
-    private Tilemap tilemap;
-
     private int _turnCounter;
 
     #region Events
@@ -39,13 +37,12 @@ public class TurnManager : MonoBehaviour
         {
             TilesDataManager.OnTilesLoaded += PredictNextTurn;
         }
-        tilemap = GameManager.Instance.LevelData.GetTerrainTilemap();
     }
 
     public void NextTurn()
     {
         _turnCounter++;
-        foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int pos in TilesDataManager.Instance.GetTilemapBounds().allPositionsWithin)
         {
             if(TilesDataManager.Instance.HasTile(pos))
             {
@@ -60,7 +57,7 @@ public class TurnManager : MonoBehaviour
 
     private void PredictNextTurn()
     {
-        foreach(Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        foreach(Vector3Int pos in TilesDataManager.Instance.GetTilemapBounds().allPositionsWithin)
         {
             if(TilesDataManager.Instance.HasTile(pos))
             {
