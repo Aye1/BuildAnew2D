@@ -13,10 +13,8 @@ public class LevelData : ScriptableObject
     [Header("Resources")]
     [SerializeField] private List<Cost> _initialResources;
     [Header("TileMap")]
-    [SerializeField] private Tilemap _terrainTilemap;
     public string _terrainTileMapPath;
     public string _structureTileMapPath;
-    [SerializeField] private Tilemap _structuresTilemap;
 #pragma warning restore 0649
 #endregion
     

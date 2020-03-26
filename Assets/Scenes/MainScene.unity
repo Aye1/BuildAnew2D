@@ -2513,7 +2513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7daf776eac64a8ebf2c3cd102dcf9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
   templateText: {fileID: 780234983}
   _debugIsVisible: 1
 --- !u!1 &2070621809
