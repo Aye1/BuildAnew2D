@@ -33,7 +33,11 @@ public class DebugTextManager : MonoBehaviour
     {
         _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
         _tileDataManager = TilesDataManager.Instance;
-        tilemap = GameManager.Instance.LevelData.GetTerrainTilemap();
+        GameManager.OnLevelLoaded += OnLevelLoaded;
+    }
+    private void OnLevelLoaded()
+    {
+        tilemap = GameManager.Instance.GetLevelData().GetTerrainTilemap();
 
         if (TilesDataManager.AreTileLoaded)
         {

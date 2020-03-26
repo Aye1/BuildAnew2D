@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    #region Editor objects
-#pragma warning disable 0649
-    [SerializeField] private LevelData _levelData;
-#pragma warning restore 0649
-#endregion
 
-    public LevelData LevelData { get => _levelData;}
+    private LevelData _levelData;
+    #region Events
+    public delegate void LevelLoaded();
+    public static event LevelLoaded OnLevelLoaded;
+    #endregion
     private void Awake()
     {
         if (Instance == null)
@@ -27,14 +28,20 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         LoadLevel();
+        OnLevelLoaded?.Invoke();
         MouseManager.OnPlayerClick += OnPlayerClick;
+    }
+    public LevelData GetLevelData()
+    {
+        return _levelData;
     }
 
     public void LoadLevel()
     {
+        _levelData = LevelManager.Instance.GetCurrentLevel();
         if (_levelData != null)
         {
-            ResourcesManager.Instance.Repay(_levelData.GetInitialResources());
+            ResourcesManager.Instance.InitializeResources(_levelData.GetInitialResources());
         }
         else
         {
@@ -44,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
+        LoadLevel();
         TilesDataManager.Instance.ResetLevel();
     }
 

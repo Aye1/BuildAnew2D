@@ -76,8 +76,8 @@ public class TilesDataManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LoadLevel();
         TurnManager.OnTurnStart += GoToNextTurnState;
+        GameManager.OnLevelLoaded += LoadLevel;
     }
 
     public void LoadLevel()
@@ -111,7 +111,7 @@ public class TilesDataManager : MonoBehaviour
     private void InitTerrainTiles()
     {
         
-        _terrainTilemap = Instantiate(GameManager.Instance.LevelData.GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
+        _terrainTilemap = Instantiate(GameManager.Instance.GetLevelData().GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
         tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
         {
@@ -129,7 +129,7 @@ public class TilesDataManager : MonoBehaviour
 
     private void InitStructuresTiles()
     {
-        _structuresTilemap = Instantiate(GameManager.Instance.LevelData.GetStructureTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
+        _structuresTilemap = Instantiate(GameManager.Instance.GetLevelData().GetStructureTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
 
         foreach (Vector3Int pos in _structuresTilemap.cellBounds.allPositionsWithin)
         {

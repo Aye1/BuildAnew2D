@@ -84,6 +84,19 @@ public class ResourcesManager : MonoBehaviour
         }
         OnResourcesModification?.Invoke();
     }
+    public void InitializeResource(Cost resource)
+    {
+       Cost modifiedResource = GetResourceForType(resource.type);
+        if(modifiedResource != null)
+        {
+            modifiedResource.amount = resource.amount;
+        }
+        else
+        {
+            Debug.LogWarning("Resource is not properly initialized");
+        }
+        OnResourcesModification?.Invoke();
+    }
 
     public void RemoveResource(Cost resource)
     {
@@ -131,6 +144,10 @@ public class ResourcesManager : MonoBehaviour
     public void Repay(Cost cost)
     {
         AddResource(cost);
+    }
+    public void InitializeResources(List<Cost> costs)
+    {
+        costs.ForEach(InitializeResource);
     }
 
     public void RegisterStructure(StructureTile structure)
