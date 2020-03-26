@@ -20,8 +20,8 @@ public abstract class ResourceGenerationStructureTile : StructureTile
             //.OrderBy(x => ((WoodsTile)x.terrainTile).WoodAmount);
             IEnumerable<ResourceTile> neighboursTiles = GetNeighbour(neighbours);
             IEnumerable<ResourceTile> orderedTiles = neighboursTiles.OrderBy(x => x._resourceAmount);
-            int resourceAmount = GetGenerationStrategy().GenerateResource(orderedTiles, _resourceGenerationAmount);
-            ResourcesManager.Instance.AddResource(new Cost(GetResourceAmount(), GetResourceGeneratedType()));
+            int resourceAmount = GetGenerationStrategy().GenerateResource(orderedTiles, GetResourceAmount());
+            ResourcesManager.Instance.AddResource(new Cost(resourceAmount, GetResourceGeneratedType()));
 
         }
     }
