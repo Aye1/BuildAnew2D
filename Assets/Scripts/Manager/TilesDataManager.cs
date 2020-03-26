@@ -25,10 +25,11 @@ public class TerrainBinding
 
 public class TilesDataManager : MonoBehaviour
 {
+    private Tilemap _terrainTilemap;
+    private Tilemap _structuresTilemap;
     #region Editor objects
 #pragma warning disable 0649
-    [SerializeField] private Tilemap _terrainTilemap;
-    [SerializeField] private Tilemap _structuresTilemap;
+    [SerializeField] private Grid _grid;
     [SerializeField] private List<StructureBinding> _structureTemplates;
     [SerializeField] private List<TerrainBinding> _terrainTemplates;
 
@@ -86,6 +87,8 @@ public class TilesDataManager : MonoBehaviour
     #region Init
     private void InitTerrainTiles()
     {
+        
+        _terrainTilemap = Instantiate(GameManager.Instance.LevelData.GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
         tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
         {
@@ -103,6 +106,8 @@ public class TilesDataManager : MonoBehaviour
 
     private void InitStructuresTiles()
     {
+        _structuresTilemap = Instantiate(GameManager.Instance.LevelData.GetStructureTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
+
         foreach (Vector3Int pos in _structuresTilemap.cellBounds.allPositionsWithin)
         {
             TileBase tile = _structuresTilemap.GetTile(pos);
@@ -123,7 +128,7 @@ public class TilesDataManager : MonoBehaviour
 
     private void InitPredictedTiles()
     {
-        _NTterrainTilemap = Instantiate(_terrainTilemap, Vector3.zero, Quaternion.identity, _terrainTilemap.GetComponentInParent<Grid>().transform);
+        _NTterrainTilemap = Instantiate(_terrainTilemap, Vector3.zero, Quaternion.identity, _grid.transform);
         _NTterrainTilemap.name = "Next turn Terrain Tilemap";
         _NTterrainTilemap.GetComponent<TilemapRenderer>().sortOrder = 0;
         _NTterrainTilemap.gameObject.SetActive(false);

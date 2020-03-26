@@ -6,6 +6,6 @@ public class ResourceData : ScriptableObject
 {
     public ResourceType resourceType;
     public Sprite icon;
-    public string name;
+    public string resourceName;
 
 }

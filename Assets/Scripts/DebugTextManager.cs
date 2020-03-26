@@ -6,7 +6,7 @@ using System;
 
 public class DebugTextManager : MonoBehaviour
 {
-    public Tilemap tilemap;
+    private Tilemap tilemap;
     public TextMeshProUGUI templateText;
 
     private Dictionary<Vector3Int, TextMeshProUGUI> _debugTextsDico;
@@ -33,6 +33,7 @@ public class DebugTextManager : MonoBehaviour
     {
         _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
         _tileDataManager = TilesDataManager.Instance;
+        tilemap = GameManager.Instance.LevelData.GetTerrainTilemap();
 
         if (TilesDataManager.AreTileLoaded)
         {

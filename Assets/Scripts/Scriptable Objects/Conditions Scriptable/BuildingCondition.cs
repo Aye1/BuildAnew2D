@@ -7,8 +7,12 @@ public enum StructureNumber { None, AtLeastOne, All };
 
 public abstract class BuildingCondition : BaseCondition
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private StructureNumber structureNumber;
     [SerializeField] private StructureType structureType;
+#pragma warning restore 0649
+#endregion
     public abstract bool IsStructureVerifyingCondition(BaseTileData tile);
     public override bool IsConditionVerified()
     {

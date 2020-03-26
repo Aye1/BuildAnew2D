@@ -15,7 +15,11 @@ public class ResourcesManager : MonoBehaviour
 
     private List<StructureTile> _energyProducingStructures;
     private List<StructureTile> _energyConsumingStructures;
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private List<ResourceData> _resourceDatas;
+#pragma warning restore 0649
+    #endregion
     private List<Cost> _currentResources;
 
     #region Events

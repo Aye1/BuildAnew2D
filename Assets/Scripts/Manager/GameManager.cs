@@ -4,7 +4,13 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private LevelData _levelData;
+#pragma warning restore 0649
+#endregion
+
+    public LevelData LevelData { get => _levelData;}
     private void Awake()
     {
         if (Instance == null)

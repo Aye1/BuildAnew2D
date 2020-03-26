@@ -5,7 +5,11 @@ using System.Linq;
 
 public class ResourcesList : MonoBehaviour
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private ResourceInfo templateResourceInfo;
+#pragma warning restore 0649
+#endregion
     private List<ResourceInfo> resourcesInfo;
 
     public void CreateResourcesList(List<Cost> resources)

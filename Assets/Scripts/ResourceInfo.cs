@@ -6,8 +6,12 @@ using TMPro;
 
 public class ResourceInfo : MonoBehaviour
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _resourceText;
     [SerializeField] private Image _resourceIcon;
+#pragma warning restore 0649
+    #endregion
     public Cost cost; 
     
     public void Initialize(Cost resource)

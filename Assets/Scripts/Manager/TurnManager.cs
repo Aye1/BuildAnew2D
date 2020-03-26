@@ -5,7 +5,7 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance { get; private set; }
 
-    public Tilemap tilemap;
+    private Tilemap tilemap;
 
     private int _turnCounter;
 
@@ -39,6 +39,7 @@ public class TurnManager : MonoBehaviour
         {
             TilesDataManager.OnTilesLoaded += PredictNextTurn;
         }
+        tilemap = GameManager.Instance.LevelData.GetTerrainTilemap();
     }
 
     public void NextTurn()

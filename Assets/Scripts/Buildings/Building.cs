@@ -8,15 +8,15 @@ public class Building : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private Sprite _spriteON;
     [SerializeField] private Sprite _spriteOFF;
+    // This object does not store data, but it's the only way to acceed it from the editor
+    // Thus, the ability to turn on/off the building is done here
+    [SerializeField] private bool _forceDebugIsOn;
+
 #pragma warning restore 0649
     #endregion
     private SpriteRenderer _renderer;
 
     public StructureTile dataTile;
-
-    // This object does not store data, but it's the only way to acceed it from the editor
-    // Thus, the ability to turn on/off the building is done here
-    [SerializeField] private bool _forceDebugIsOn;
 
     // Start is called before the first frame update
     void Start()
