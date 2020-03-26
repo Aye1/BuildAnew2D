@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         InitializeResourcesLayout();
+        ResourcesManager.OnResourcesModification += OnResourcesModification;
     }
 
     private void Update()
@@ -68,8 +70,9 @@ public class UIManager : MonoBehaviour
 	{
         _resourceList.CreateResourcesList(ResourcesManager.Instance.GetCurrentResource());
     }
-    public void RefreshResources()
-	{
+
+    private void OnResourcesModification()
+    {
         _resourceList.RefreshResourcesList(ResourcesManager.Instance.GetCurrentResource());
 	}
 }

@@ -17,6 +17,12 @@ public class ResourcesManager : MonoBehaviour
     private List<StructureTile> _energyConsumingStructures;
     [SerializeField] private List<ResourceData> _resourceDatas;
     private List<Cost> _currentResources;
+
+    #region Events
+    public delegate void ResourcesModification();
+    public static event ResourcesModification OnResourcesModification;
+    #endregion
+
     private void Awake()
     {
         if (Instance == null)
@@ -72,7 +78,7 @@ public class ResourcesManager : MonoBehaviour
         {
             Debug.LogWarning("Resource is not properly initialized");
         }
-        UIManager.Instance.RefreshResources(); //TODO :use event instead
+        OnResourcesModification?.Invoke();
     }
 
     public void RemoveResource(Cost resource)
@@ -89,7 +95,7 @@ public class ResourcesManager : MonoBehaviour
 
             }
         }
-        UIManager.Instance.RefreshResources(); //TODO : use event instead
+        OnResourcesModification?.Invoke();
     }
 
     public bool CanPay(List<Cost> costs)
