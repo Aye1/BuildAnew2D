@@ -167,7 +167,7 @@ public class WaterClusterManager : MonoBehaviour
             IEnumerable<BaseTileData> currentNeighbours = TilesDataManager.Instance.GetTilesDirectlyAroundTile(tile, true);
             foreach(BaseTileData neighbour in currentNeighbours)
             {
-                if(!possibleNeighbours.Contains(neighbour) && !(neighbour.terrainTile is WaterTile))
+                if(!possibleNeighbours.Contains(neighbour) && neighbour.terrainTile.terrainData.canBeFlooded)
                 {
                     possibleNeighbours.Add(neighbour);
                 }

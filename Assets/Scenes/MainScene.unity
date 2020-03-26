@@ -4245,16 +4245,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
-      propertyPath: _terrainTemplates.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
       propertyPath: _terrainTilemap
       value: 
       objectReference: {fileID: 970060386}
@@ -4263,57 +4253,6 @@ PrefabInstance:
       propertyPath: _structuresTilemap
       value: 
       objectReference: {fileID: 464467817}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _terrainTemplates.Array.data[3].type
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _terrainTemplates.Array.data[3].terrainTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 7ed3d8fb9448045a59cff0131d225131,
-        type: 2}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _terrainTemplates.Array.data[4].type
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _terrainTemplates.Array.data[4].terrainTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 981d9f0627c934e2ea09314f71e019f6,
-        type: 2}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.data[4].type
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.data[4].building
-      value: 
-      objectReference: {fileID: 258457973239627807, guid: f2350b4634af44947992f4f0ebf252d2,
-        type: 3}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.data[4].data
-      value: 
-      objectReference: {fileID: 11400000, guid: 25ab5e9d3b5354ba391a9620b2fc58d2,
-        type: 2}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.data[4].buildingTile
-      value: 
-      objectReference: {fileID: 11400000, guid: cbf001a8cee9340e6ba279495889b88c,
-        type: 2}
-    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
-        type: 3}
-      propertyPath: _structureTemplates.Array.data[3].building
-      value: 
-      objectReference: {fileID: 1478777792, guid: ce074685672d44f388bfc8eadd5c16d3,
-        type: 3}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
       propertyPath: m_LocalPosition.x

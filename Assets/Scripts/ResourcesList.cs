@@ -7,13 +7,10 @@ public class ResourcesList : MonoBehaviour
 {
     [SerializeField] private ResourceInfo templateResourceInfo;
     private List<ResourceInfo> resourcesInfo;
-    void Start()
-    {
-        resourcesInfo = new List<ResourceInfo>();
-    }
 
     public void CreateResourcesList(List<Cost> resources)
     {
+        resourcesInfo = new List<ResourceInfo>();
         foreach (Cost resource in resources)
         {
             ResourceInfo resourceCreated = Instantiate(templateResourceInfo, Vector3.zero, Quaternion.identity, transform);

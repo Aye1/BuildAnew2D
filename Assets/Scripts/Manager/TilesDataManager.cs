@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public class StructureBinding
@@ -17,6 +18,7 @@ public class StructureBinding
 public class TerrainBinding
 {
     public TerrainType type;
+    public TerrainData terrainData;
     [SerializeField] public TileBase terrainTile;
 }
 
@@ -536,4 +538,9 @@ public class TilesDataManager : MonoBehaviour
         return _structureTemplates.First(x => x.type == type).data.costs;
     }
 
+    internal TerrainData GetDataForTerrain(TerrainType terrainType)
+    {
+        TerrainBinding element = _terrainTemplates.First(x => x.type == terrainType);
+        return element?.terrainData;
+    }
 }
