@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        LevelManager.OnLevelNeedReset += Reset;
         LoadLevel();
         OnLevelLoaded?.Invoke();
         MouseManager.OnPlayerClick += OnPlayerClick;

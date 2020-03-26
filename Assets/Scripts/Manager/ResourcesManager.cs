@@ -62,6 +62,15 @@ public class ResourcesManager : MonoBehaviour
         UpdateEnergyValues();
     }
 
+    public void CHEATGiveResources()
+    {
+        foreach(Cost cost in _currentResources)
+        {
+            cost.amount = 1000;
+        }
+        OnResourcesModification?.Invoke();
+    }
+
     public ResourceData GetResourceDataForType(ResourceType type)
     {
         return _resourceDatas.Find(x => x.resourceType == type);
@@ -77,19 +86,6 @@ public class ResourcesManager : MonoBehaviour
         if(modifiedResource != null)
         {
             modifiedResource.amount += resource.amount;
-        }
-        else
-        {
-            Debug.LogWarning("Resource is not properly initialized");
-        }
-        OnResourcesModification?.Invoke();
-    }
-    public void InitializeResource(Cost resource)
-    {
-       Cost modifiedResource = GetResourceForType(resource.type);
-        if(modifiedResource != null)
-        {
-            modifiedResource.amount = resource.amount;
         }
         else
         {
@@ -145,9 +141,20 @@ public class ResourcesManager : MonoBehaviour
     {
         AddResource(cost);
     }
-    public void InitializeResources(List<Cost> costs)
+    public void InitializeResources(List<Cost> newResources)
     {
-        costs.ForEach(InitializeResource);
+        foreach(Cost currentResource in _currentResources)
+        {
+            int newAmout = 0;
+            Cost resourceToAdd = newResources.Find(x => x.type == currentResource.type);
+            if(resourceToAdd != null)
+            {
+                newAmout = resourceToAdd.amount;
+            }
+            currentResource.amount = newAmout;
+
+        }
+        OnResourcesModification?.Invoke();
     }
 
     public void RegisterStructure(StructureTile structure)

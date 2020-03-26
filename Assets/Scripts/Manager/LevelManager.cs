@@ -17,6 +17,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<LevelBinding> _levelsData;
 #pragma warning restore 0649
     #endregion
+    #region Events
+    public delegate void LevelReset();
+    public static event LevelReset OnLevelNeedReset;
+    #endregion
     private int _currentLevelIndex = 0;
     private void Awake()
     {
@@ -29,6 +33,11 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    public void NeedLevelReset()
+    {
+        _currentLevelIndex = _currentLevelIndex == 1 ? 0 : 1 ;
+        OnLevelNeedReset?.Invoke();
     }
 
     public LevelData GetCurrentLevel()
