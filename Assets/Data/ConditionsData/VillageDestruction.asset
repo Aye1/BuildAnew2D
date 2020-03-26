@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23e9989ab3ba43bda91654ca7343d3d, type: 3}
-  m_Name: WoodRequired
+  m_Script: {fileID: 11500000, guid: 6c8a07ddb16074ba89d215d9cea912eb, type: 3}
+  m_Name: VillageDestruction
   m_EditorClassIdentifier: 
-  _resourcesRequired:
-  - amount: 100
-    type: 2
+  structureNumber: 2
+  structureType: 4

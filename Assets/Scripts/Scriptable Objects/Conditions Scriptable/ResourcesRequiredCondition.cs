@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ResourcesRequiredConditionData", order = 1)]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Condition/ResourcesRequiredConditionData", order = 1)]
 
 public class ResourcesRequiredCondition : BaseCondition
 {

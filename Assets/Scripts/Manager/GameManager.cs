@@ -28,9 +28,21 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Missing level data into GameManager");
         }
+        MouseManager.OnPlayerClick += OnPlayerClick;
+    }
+
+
+    private void OnPlayerClick()
+    {
+        ComputeEndGameCondition();
     }
 
     public void NextTurn()
+    {
+        TurnManager.Instance.NextTurn();
+        ComputeEndGameCondition();        
+    }
+    private void ComputeEndGameCondition()
     {
         if (_levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
         {
@@ -39,10 +51,6 @@ public class GameManager : MonoBehaviour
         else if (_levelData.GetSuccessConditions().Count > 0 && _levelData.GetSuccessConditions().All(x => x.IsConditionVerified()))
         {
             TriggerGameSuccess();
-        }
-        else
-        {
-            TurnManager.Instance.NextTurn();
         }
     }
 

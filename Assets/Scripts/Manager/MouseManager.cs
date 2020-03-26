@@ -18,7 +18,10 @@ public class MouseManager : MonoBehaviour
     private Color _invisibleColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
     private Color _transpRedColor = new Color(0.8f, 0.0f, 0.0f, 0.8f);
-
+    #region Events
+    public delegate void PlayerClick();
+    public static event PlayerClick OnPlayerClick;
+    #endregion
     private void Awake()
     {
         if (Instance == null)
@@ -64,7 +67,7 @@ public class MouseManager : MonoBehaviour
             {
                 SelectedTile = null;
             }
-
+            OnPlayerClick?.Invoke();
         }
     }
 
