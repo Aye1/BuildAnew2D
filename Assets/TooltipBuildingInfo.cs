@@ -12,11 +12,7 @@ public class TooltipBuildingInfo : MonoBehaviour
 #pragma warning restore 0649
     #endregion
     private StructureType previousDisplayedType = StructureType.None;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -29,7 +25,7 @@ public class TooltipBuildingInfo : MonoBehaviour
             previousDisplayedType = currentType;
             if(currentType != StructureType.None)
             {
-                StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(currentType);
+                 StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(currentType);
                 _buildingNameText.text = binding.data.structureName;
 
             }

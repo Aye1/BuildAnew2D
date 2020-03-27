@@ -12,7 +12,7 @@ public abstract class StructureTile : ActiveTile
     public StructureLevel structureLevel = StructureLevel.Level0;
     public Building building;
     public abstract StructureType GetStructureType();
-
+    private StructureLevel maxLevel = StructureLevel.Level0;
     public override void Init()
     {
         structureType = GetStructureType();
@@ -22,6 +22,10 @@ public abstract class StructureTile : ActiveTile
         {
             Debug.LogError("Data not found for structure " + structureType.ToString() + "\n"
             + "Check TilesDataManager mapping");
+        }
+        if(structureData.upgradeData != null)
+        {
+            maxLevel = structureData.upgradeData.GetMaxLevel();
         }
     }
 
@@ -119,7 +123,7 @@ public abstract class StructureTile : ActiveTile
 
     public bool CanUpgradeStructure()
     {
-        return ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
+        return structureLevel != maxLevel && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
     }
 
     public void UpgradeStructure()

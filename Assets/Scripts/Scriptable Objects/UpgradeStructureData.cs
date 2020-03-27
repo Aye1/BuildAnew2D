@@ -21,4 +21,8 @@ public class UpgradeStructureData : ScriptableObject
     {
         return upgrades.Find(x => x.level == level);
     }
+    public StructureLevel GetMaxLevel()
+    {
+        return upgrades.Max(x => x.level);
+    }
 }

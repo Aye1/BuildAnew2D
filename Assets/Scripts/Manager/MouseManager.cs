@@ -116,7 +116,7 @@ public class MouseManager : MonoBehaviour
         return tile;
     }
 
-    private Vector3 GetMouseWorldPos()
+    public Vector3 GetMouseWorldPos()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;

@@ -49,7 +49,7 @@ public class InfoMenu : MonoBehaviour
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
             bool isActive = selectedTile != null;
             SetVisible(isActive);
-        if (_previousTile != selectedTile)
+        if (_previousTile != selectedTile) //TODO: refresh ui when player action on click,or on upgrade structure
         {
             if (isActive)
             {
