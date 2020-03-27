@@ -15,8 +15,11 @@ public class UpgradeStructureBinding
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/UpgradeStructureData", order = 1)]
 public class UpgradeStructureData : ScriptableObject
 {
+    #region Editor objects
+#pragma warning disable 0649
     [SerializeField] private List<UpgradeStructureBinding> upgrades;
-
+#pragma warning restore 0649
+    #endregion
     public UpgradeStructureBinding GetUpgradeBindingForLevel(StructureLevel level)
     {
         return upgrades.Find(x => x.level == level);
