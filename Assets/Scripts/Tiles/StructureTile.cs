@@ -128,6 +128,7 @@ public abstract class StructureTile : ActiveTile
         {
             ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
             structureLevel = GetNextLevel();
+            building.UpgradeBuilding();
         }
     }
 }

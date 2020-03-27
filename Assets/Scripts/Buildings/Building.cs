@@ -47,4 +47,9 @@ public class Building : MonoBehaviour
     {
         _renderer.color = Color.white;
     }
+
+    public void UpgradeBuilding()
+    {
+        _renderer.color = Color.green;
+    }
 }
