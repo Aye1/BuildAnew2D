@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Button))]
-public class BuildingSelectorCell : MonoBehaviour
+public class BuildingSelectorCell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 #pragma warning disable 0649
     [SerializeField] private Image _iconImage;
@@ -42,5 +43,17 @@ public class BuildingSelectorCell : MonoBehaviour
     public void UnregisterButtonOnClick(ClickDelegate methodToCall)
     {
         _button.onClick.RemoveListener(() => methodToCall(this));
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ((IPointerEnterHandler)_button).OnPointerEnter(eventData);
+        UIManager.Instance.HoveredStructure = building.type;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ((IPointerExitHandler)_button).OnPointerExit(eventData);
+        UIManager.Instance.HoveredStructure = StructureType.None;
     }
 }

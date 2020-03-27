@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 #pragma warning restore 0649
     #endregion
 
+    public StructureType HoveredStructure { get; set; }
     public static UIManager Instance { get; private set; }
 
 
