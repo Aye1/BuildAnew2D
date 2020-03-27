@@ -113,7 +113,12 @@ public class ResourcesManager : MonoBehaviour
 
     public bool CanPay(List<Cost> costs)
     {
-        return costs.All(CanPay);
+        bool canPay = false;
+        if(costs != null)
+        {
+            canPay = costs.All(CanPay);
+        }
+        return canPay;
     }
 
     public bool CanPay(Cost cost)

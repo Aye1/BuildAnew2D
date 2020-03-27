@@ -19,6 +19,7 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _structureText;
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private Button _toggleButton;
+    [SerializeField] private Button _upgradeButton;
     [SerializeField] private List<ErrorText> _errors;
     private Dictionary<ActivationState, string> _errorTextDico;
     private BaseTileData _previousTile;
@@ -56,6 +57,7 @@ public class InfoMenu : MonoBehaviour
                 _typeText.text = selectedTile.GetTerrainText();
                 _structureText.text = selectedTile.GetStructureText();
                 _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
+                _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
                 
             }
             _errorText.text = "";
@@ -76,6 +78,11 @@ public class InfoMenu : MonoBehaviour
         {
             _errorText.text = "";
         }
+    }
+    public void UpgradeStructure()
+    {
+        BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
+        selectedTile.structureTile.UpgradeStructure();
     }
 
     private void SetVisible(bool visibility)

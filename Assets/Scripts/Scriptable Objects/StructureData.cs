@@ -23,15 +23,20 @@ public class StructureData : ScriptableObject
 
     public List<Cost> GetCreationCost()
     {
-        List<Cost> creationCost = null;
-        if(upgradeData != null)
+        return GetUpgradeCostForLevel(StructureLevel.Level0);
+    }
+
+    public List<Cost> GetUpgradeCostForLevel(StructureLevel level)
+    {
+        List<Cost> upgradeCost = null;
+        if (upgradeData != null)
         {
-            UpgradeStructureBinding binding = upgradeData.GetUpgradeBindingForLevel(StructureLevel.Level0);
-            if(binding != null)
+            UpgradeStructureBinding binding = upgradeData.GetUpgradeBindingForLevel(level);
+            if (binding != null)
             {
-                creationCost = binding.upgradeCosts;
+                upgradeCost = binding.upgradeCosts;
             }
         }
-        return creationCost;
+        return upgradeCost;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine };
 public enum StructureLevel { Level0, Level1 };
@@ -106,8 +107,27 @@ public abstract class StructureTile : ActiveTile
        
     }
 
+    private StructureLevel GetNextLevel()
+    {
+        return StructureLevel.Level1; // TODO : check real next level
+    }
+
+    private List<Cost> GetUpgradeCostForNextLevel()
+    {
+        return structureData.GetUpgradeCostForLevel(GetNextLevel());
+    }
+
+    public bool CanUpgradeStructure()
+    {
+        return ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
+    }
+
     public void UpgradeStructure()
     {
-        structureLevel = StructureLevel.Level1;
+        if(CanUpgradeStructure())
+        {
+            ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
+            structureLevel = GetNextLevel();
+        }
     }
 }
