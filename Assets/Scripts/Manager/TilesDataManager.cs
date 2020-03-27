@@ -563,12 +563,12 @@ public class TilesDataManager : MonoBehaviour
 
     public IEnumerable<StructureBinding> GetAllConstructiblesStructures()
     {
-        return _structureTemplates.Where(x => x.data.isConstructible);
+        return _structureTemplates.Where(x => x.data.upgradeData != null );
     }
 
     public List<Cost> CostForStructure(StructureType type)
     {
-        return _structureTemplates.First(x => x.type == type).data.costs;
+        return _structureTemplates.First(x => x.type == type).data.GetCreationCost();
     }
 
     internal TerrainData GetDataForTerrain(TerrainType terrainType)

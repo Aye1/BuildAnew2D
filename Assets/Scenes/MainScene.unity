@@ -4063,7 +4063,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _structureTemplates.Array.data[1].data
       value: 
-      objectReference: {fileID: 11400000, guid: 1bdbfc439b55f49629ab9ae25a298af1,
+      objectReference: {fileID: 11400000, guid: 3a167dcc273324b6190ae3c7e0784408,
         type: 2}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}

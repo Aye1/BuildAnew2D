@@ -8,18 +8,18 @@ public abstract class ResourceGenerationStructureTile : StructureTile
     public abstract ResourceGenerationStrategy GetGenerationStrategy();
     public int GetResourceAmount()
     {
-        return GetStructureData().resourceGenerated.amount;
+        return GetResourceGenerated().amount;
     }
     public ResourceType GetResourceGeneratedType()
     {
-        return GetStructureData().resourceGenerated.type;
+        return GetResourceGenerated().type;
     }
 
     public abstract IEnumerable<ResourceTile> GetNeighbour(IEnumerable<BaseTileData> neighbours);
 
-    protected ResourceGenerationStructureData GetStructureData()
+    protected Cost GetResourceGenerated()
     {
-        return (ResourceGenerationStructureData)(structureData);
+        return structureData.upgradeData.GetUpgradeBindingForLevel(structureLevel).resourceGenerated;
     }
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {

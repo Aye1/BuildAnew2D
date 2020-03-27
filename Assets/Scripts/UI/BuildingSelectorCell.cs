@@ -31,7 +31,7 @@ public class BuildingSelectorCell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _button.interactable = ResourcesManager.Instance.CanPay(building.data.costs);
+        _button.interactable = ResourcesManager.Instance.CanPay(building.data.GetCreationCost());
     }
 
     public void RegisterButtonOnClick(ClickDelegate methodToCall) 

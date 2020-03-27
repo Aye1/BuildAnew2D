@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
+  m_Name: PumpingStationData
+  m_EditorClassIdentifier: 
+  producedEnergyAmount: 0
+  consumedEnergyAmount: 4
+  isConstructible: 1
+  structureName: Pumping Station
+  icon: {fileID: 21300000, guid: ec6f99d6f2fc742f7843c34793e9999e, type: 3}
+  creationCosts: []
+  constructibleTerrainTypes: 0200000001000000
+  upgradeData: {fileID: 11400000, guid: fd1864ac91a0343baad3bcbc5c8ae221, type: 2}
