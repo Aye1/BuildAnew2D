@@ -4053,6 +4053,18 @@ PrefabInstance:
       propertyPath: _grid
       value: 
       objectReference: {fileID: 521220547}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[4].data
+      value: 
+      objectReference: {fileID: 11400000, guid: d0e8e4c0164cc4dc0b4200d039ab3f89,
+        type: 2}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[1].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bdbfc439b55f49629ab9ae25a298af1,
+        type: 2}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
       propertyPath: m_LocalPosition.x

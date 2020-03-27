@@ -4,12 +4,23 @@ using System.Collections.Generic;
 
 public abstract class ResourceGenerationStructureTile : StructureTile
 {
-    [SerializeField] private int _resourceGenerationAmount = 100;
     public ResourceGenerationStrategy strategy;
     public abstract ResourceGenerationStrategy GetGenerationStrategy();
-    public abstract int GetResourceAmount();
-    public abstract ResourceType GetResourceGeneratedType();
+    public int GetResourceAmount()
+    {
+        return GetStructureData().resourceGenerated.amount;
+    }
+    public ResourceType GetResourceGeneratedType()
+    {
+        return GetStructureData().resourceGenerated.type;
+    }
+
     public abstract IEnumerable<ResourceTile> GetNeighbour(IEnumerable<BaseTileData> neighbours);
+
+    protected ResourceGenerationStructureData GetStructureData()
+    {
+        return (ResourceGenerationStructureData)(structureData);
+    }
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         base.OnTurnStarts(neighbours);

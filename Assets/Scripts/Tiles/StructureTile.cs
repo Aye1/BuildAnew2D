@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine };
+public enum StructureLevel { Level0, Level1 };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure };
 public abstract class StructureTile : ActiveTile
 {
     public StructureType structureType;
     public StructureData structureData;
     public bool IsOn;
+    public StructureLevel structureLevel = StructureLevel.Level0;
     public Building building;
     public abstract StructureType GetStructureType();
 
@@ -102,5 +104,10 @@ public abstract class StructureTile : ActiveTile
         }
         IsOn = false;
        
+    }
+
+    public void UpgradeStructure()
+    {
+        structureLevel = StructureLevel.Level1;
     }
 }
