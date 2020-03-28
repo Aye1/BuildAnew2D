@@ -22,12 +22,13 @@ public class TooltipBuildingInfo : MonoBehaviour
     {
         StructureType currentType = UIManager.Instance.HoveredStructure;
         childObject.SetActive(currentType != StructureType.None);
-
-        if(currentType != previousDisplayedType)
+        if(currentType != StructureType.None)
         {
-            previousDisplayedType = currentType;
-            if(currentType != StructureType.None)
+            Vector3 pos = MouseManager.Instance.GetMouseScreenPos();
+            childObject.transform.position = pos;
+            if(currentType != previousDisplayedType)
             {
+                previousDisplayedType = currentType;
                  StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(currentType);
                 _buildingNameText.text = binding.data.structureName;
                 List<Cost> creationCost = binding.data.GetCreationCost();
