@@ -1535,7 +1535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -100.00006, y: 150.00002}
+  m_AnchoredPosition: {x: 0, y: -0}
   m_SizeDelta: {x: 300, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &983368805
@@ -2176,6 +2176,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildingNameText: {fileID: 1952645490}
   childObject: {fileID: 954131848}
+  panel: {fileID: 311782722}
+  templateResourceInfo: {fileID: 2325871640510972250, guid: 39c7357e673a244c3801f336fbaf9843,
+    type: 3}
 --- !u!1 &1338279050
 GameObject:
   m_ObjectHideFlags: 0
