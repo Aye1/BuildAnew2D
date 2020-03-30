@@ -20,6 +20,7 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private Button _toggleButton;
     [SerializeField] private Button _upgradeButton;
+    [SerializeField] private ResourceInfo _energyInfo;
     [SerializeField] private List<ErrorText> _errors;
     private Dictionary<ActivationState, string> _errorTextDico;
     private BaseTileData _previousTile;
@@ -29,7 +30,7 @@ public class InfoMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _errorText.text = "";
+        _errorText.gameObject.SetActive(false);
         _errorTextDico = new Dictionary<ActivationState, string>();
         foreach (ErrorText errorText in _errors)
         {
@@ -58,9 +59,10 @@ public class InfoMenu : MonoBehaviour
                 _structureText.text = selectedTile.GetStructureText();
                 _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
                 _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
-                
+                _energyInfo.gameObject.SetActive(selectedTile.structureTile.structureData.ConsumesEnergy);
+                _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
             }
-            _errorText.text = "";
+            _errorText.gameObject.SetActive(false);
             _previousTile = selectedTile;
         }
     }
@@ -72,11 +74,12 @@ public class InfoMenu : MonoBehaviour
         string currentErrorText;
         if(_errorTextDico.TryGetValue(activationState, out currentErrorText))
         {
+            _errorText.gameObject.SetActive(true);
             _errorText.text = currentErrorText;
         }
         else
         {
-            _errorText.text = "";
+            _errorText.gameObject.SetActive(false);
         }
     }
     public void UpgradeStructure()
