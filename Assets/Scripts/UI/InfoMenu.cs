@@ -59,8 +59,11 @@ public class InfoMenu : MonoBehaviour
                 _structureText.text = selectedTile.GetStructureText();
                 _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
                 _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
-                _energyInfo.gameObject.SetActive(selectedTile.structureTile.structureData.ConsumesEnergy);
-                _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
+                _energyInfo.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.structureData.ConsumesEnergy);
+                if(selectedTile.structureTile != null)
+                {
+                    _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
+                }
             }
             _errorText.gameObject.SetActive(false);
             _previousTile = selectedTile;
