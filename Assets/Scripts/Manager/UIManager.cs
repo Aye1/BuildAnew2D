@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
         _infoMenu.Hide();
         _tooltipBuildingInfo.SetVisible(false);
         _endGameConditionsUI.HideConditions();
+        _endGameText.enabled = false;
     }
 
     public void ToggleBuildMode()

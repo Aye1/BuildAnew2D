@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tutorial1
   m_EditorClassIdentifier: 
   _tutorialSetps:
+  - {fileID: 11400000, guid: 72871dfcc944748ea9192cef531f98a7, type: 2}
   - {fileID: 11400000, guid: 5dd7c90af2a34456ca8cd2af5b40cfcc, type: 2}
   - {fileID: 11400000, guid: bbb37fed9642a47b2b14944e4fa56b42, type: 2}
-  - {fileID: 11400000, guid: 14d24fba2b9534f93994edda35795afa, type: 2}

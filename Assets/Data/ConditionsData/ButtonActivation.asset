@@ -7,11 +7,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a6cc2976eace4b31b545cba5835a136, type: 3}
-  m_Name: T1S3
+  m_Script: {fileID: 11500000, guid: a5580f3be7c274851abecbd46dde2f72, type: 3}
+  m_Name: ButtonActivation
   m_EditorClassIdentifier: 
-  _conditions:
-  - {fileID: 11400000, guid: 23e9032c5c9a64700a0922b8f99b67f8, type: 2}
-  _requestText: Activate the village
+  _button: {fileID: 0}
