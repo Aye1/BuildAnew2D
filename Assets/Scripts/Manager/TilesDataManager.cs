@@ -74,11 +74,7 @@ public class TilesDataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         TurnManager.OnTurnStart += GoToNextTurnState;
         GameManager.OnLevelLoaded += LoadLevel;
     }

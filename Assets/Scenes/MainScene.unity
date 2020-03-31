@@ -4398,7 +4398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3027d6ff4ccec4790b303e7c6da0710f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floodThreshold: 30
 --- !u!4 &1547407405
 Transform:
   m_ObjectHideFlags: 0

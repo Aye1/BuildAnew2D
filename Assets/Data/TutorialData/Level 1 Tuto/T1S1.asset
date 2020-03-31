@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a6cc2976eace4b31b545cba5835a136, type: 3}
-  m_Name: T1S2
+  m_Name: T1S1
   m_EditorClassIdentifier: 
   _conditions:
-  - {fileID: 11400000, guid: bc58aa696d5194fe987b3887dc2210da, type: 2}
-  _requestText: You Need TO activate mine
+  - {fileID: 11400000, guid: 7aa3160dbd8e1469db5e2a3422ea90d2, type: 2}
+  _requestText: Create a powerplant

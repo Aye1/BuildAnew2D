@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a6cc2976eace4b31b545cba5835a136, type: 3}
-  m_Name: T1S1
+  m_Name: T1S3
   m_EditorClassIdentifier: 
   _conditions:
-  - {fileID: 11400000, guid: 3f78d6bfe5cff446797c976ba5a07e21, type: 2}
-  _requestText: 'You need to collect 2 Stones '
+  - {fileID: 11400000, guid: 23e9032c5c9a64700a0922b8f99b67f8, type: 2}
+  _requestText: Activate the village

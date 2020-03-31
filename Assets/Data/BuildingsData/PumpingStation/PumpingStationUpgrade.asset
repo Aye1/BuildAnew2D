@@ -17,8 +17,9 @@ MonoBehaviour:
     upgradeCosts:
     - amount: 500
       type: 1
-    - amount: 3
+    - amount: 10
       type: 2
     resourceGenerated:
       amount: 0
       type: 0
+    sellingGain: []
