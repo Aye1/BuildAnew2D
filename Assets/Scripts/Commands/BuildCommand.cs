@@ -34,5 +34,10 @@ public class BuildCommand : Command
     {
         TilesDataManager.Instance.RemoveStructureAtPos(position);
     }
+
+    public override string GetDescription()
+    {
+        return "Building structure " + type.ToString() + " at position " + position.ToString(); 
+    }
 }
 

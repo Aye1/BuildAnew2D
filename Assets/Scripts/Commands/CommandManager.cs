@@ -8,6 +8,12 @@ public class CommandManager : MonoBehaviour
 
     private Stack<Command> _commandsQueue;
 
+    #region Events
+    public delegate void CommandExecution(Command cmd);
+    public static CommandExecution OnCommandDone;
+    public static CommandExecution OnCommandUndone;
+    #endregion
+
     private void Awake()
     {
         if(Instance == null)
@@ -26,6 +32,8 @@ public class CommandManager : MonoBehaviour
     {
         _commandsQueue.Push(cmd);
         cmd.Execute();
+        Debug.Log("Executing command - " + cmd.GetDescription());
+        OnCommandDone?.Invoke(cmd);
     }
 
     public void UndoLastCommand()
@@ -34,6 +42,8 @@ public class CommandManager : MonoBehaviour
         {
             Command cmd = _commandsQueue.Pop();
             cmd.Undo();
+            Debug.Log("Undoing command - " + cmd.GetDescription());
+            OnCommandUndone?.Invoke(cmd);
         }
     }
 

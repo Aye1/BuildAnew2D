@@ -63,7 +63,11 @@ public class WaterClusterManager : MonoBehaviour
         }
         clustersToFlood.ForEach(FloodAndBalance);
         RecreateClusters(TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, true));
-        clusters.ForEach(x => x.BalanceFlood(true));
+        foreach(WaterCluster cluster in clusters)
+        {
+            WaterClusterBalanceCommand balanceCommand = new WaterClusterBalanceCommand(cluster);
+            CommandManager.Instance.ExecuteCommand(balanceCommand);
+        }
     }
 
     public void FloodAndBalance(WaterCluster cluster)
@@ -73,7 +77,8 @@ public class WaterClusterManager : MonoBehaviour
         {
             FloodNeighbour(cluster);
         }
-        cluster.RemoveFlood(neighboursToFlood * floodThreshold);
+        WaterClusterRemoveFloodCommand removeFloodCommand = new WaterClusterRemoveFloodCommand(cluster, neighboursToFlood * floodThreshold);
+        CommandManager.Instance.ExecuteCommand(removeFloodCommand);
     }
 
     public void FloodNeighbour(WaterCluster cluster)

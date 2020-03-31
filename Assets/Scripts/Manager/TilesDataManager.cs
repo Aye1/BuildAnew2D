@@ -58,6 +58,9 @@ public class TilesDataManager : MonoBehaviour
     #region Events
     public delegate void TilesLoaded();
     public static event TilesLoaded OnTilesLoaded;
+
+    public delegate void TilemapModified();
+    public static event TilemapModified OnTilemapModified;
     #endregion
 
     private void Awake()
@@ -318,28 +321,6 @@ public class TilesDataManager : MonoBehaviour
         return _terrainTilemap.cellBounds;
     }
 
-    public void ChangeTileTerrain(Vector3Int position, TerrainType type, bool predict = false)
-    {
-        TerrainTile newTerrain = CreateTerrainFromType(type);
-        BaseTileData oldTile = GetTileDataAtPos(position, predict);
-        SwapTileTerrain(oldTile, newTerrain, predict);
-    }
-
-    public void SwapTileTerrain(BaseTileData baseTile, TerrainTile newTileTerrain, bool predict = false)
-    {
-        TerrainBinding terrainBinding = GetTerrainBindingFromType(newTileTerrain.terrainType);
-        if (terrainBinding != null)
-        {
-            TileBase newTilebase = terrainBinding.terrainTile;
-            GetTerrainTilemap(predict).SetTile(baseTile.gridPosition, newTilebase);
-            baseTile.terrainTile = newTileTerrain;
-            if (predict)
-            {
-                _modifiedNTTiles.Add(baseTile);
-            }
-        }
-    }
-
     public BaseTileData CreateNewTileForNextTurn(BaseTileData oldTile, TerrainType type)
     {
         BaseTileData createdTile = new BaseTileData(oldTile);
@@ -347,10 +328,17 @@ public class TilesDataManager : MonoBehaviour
         ChangeTerrainTile(createdTile.gridPosition, TerrainType.Water, true);
         createdTile.HandleFlood();
         oldTile.HandleFloodPrevision();
-        NTtiles.Remove(oldTile);
-        NTtiles.Add(createdTile);
-        _modifiedNTTiles.Add(oldTile);
+        ChangeTileCommand swapCommand = new ChangeTileCommand(oldTile, createdTile);
+        CommandManager.Instance.ExecuteCommand(swapCommand);
         return createdTile;
+    }
+
+    public void SwapTiles(BaseTileData oldTile, BaseTileData newTile)
+    {
+        NTtiles.Remove(oldTile);
+        NTtiles.Add(newTile);
+        _modifiedNTTiles.Add(oldTile);
+        OnTilemapModified?.Invoke();
     }
 
     public void ChangeTerrainTile(Vector3Int position, TerrainType type, bool predict = false)
