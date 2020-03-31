@@ -135,4 +135,18 @@ public abstract class StructureTile : ActiveTile
             building.UpgradeBuilding();
         }
     }
+    public bool CanSellStructure()
+    {
+        List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
+        return sellingRefund!= null && sellingRefund.Count != 0;
+    }
+    public void SellStructure(Vector3Int position)
+    {
+        if (CanSellStructure())
+        {
+            List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
+            ResourcesManager.Instance.Repay(sellingRefund);
+            TilesDataManager.Instance.RemoveStructureAtPos(position, false);
+        }
+    }
 }

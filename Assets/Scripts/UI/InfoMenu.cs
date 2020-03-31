@@ -20,13 +20,14 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private Button _toggleButton;
     [SerializeField] private Button _upgradeButton;
+    [SerializeField] private Button _sellButton;
     [SerializeField] private ResourceInfo _energyInfo;
     [SerializeField] private List<ErrorText> _errors;
     private Dictionary<ActivationState, string> _errorTextDico;
     private BaseTileData _previousTile;
 #pragma warning restore 0649
     #endregion
-
+    private bool _needRefresh = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,38 +37,42 @@ public class InfoMenu : MonoBehaviour
         {
             _errorTextDico.Add(errorText.state, errorText.errorText);
         }
-        _previousTile = null; 
+        _previousTile = null;
+        MouseManager.OnPlayerClick += Refresh;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateUI();
+        if (_needRefresh)
+        {
+            UpdateUI();
+            _needRefresh = false;
+        }
     }
 
     private void UpdateUI()
     {
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
-            bool isActive = selectedTile != null;
-            SetVisible(isActive);
-        if (_previousTile != selectedTile) //TODO: refresh ui when player action on click,or on upgrade structure
+        bool isActive = selectedTile != null;
+        SetVisible(isActive);
+        if (isActive)
         {
-            if (isActive)
+            _posText.text = selectedTile.gridPosition.ToString();
+            _typeText.text = selectedTile.GetTerrainText();
+            _structureText.text = selectedTile.GetStructureText();
+            _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
+            _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
+            _sellButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanSellStructure());
+            _energyInfo.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.structureData.ConsumesEnergy);
+            if (selectedTile.structureTile != null)
             {
-                _posText.text = selectedTile.gridPosition.ToString();
-                _typeText.text = selectedTile.GetTerrainText();
-                _structureText.text = selectedTile.GetStructureText();
-                _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
-                _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
-                _energyInfo.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.structureData.ConsumesEnergy);
-                if(selectedTile.structureTile != null)
-                {
-                    _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
-                }
+                _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
             }
-            _errorText.gameObject.SetActive(false);
-            _previousTile = selectedTile;
         }
+        _errorText.gameObject.SetActive(false);
+        _previousTile = selectedTile;
     }
 
     public void ToggleStructure()
@@ -75,7 +80,7 @@ public class InfoMenu : MonoBehaviour
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
         ActivationState activationState = selectedTile.ToggleStructureIfPossible();
         string currentErrorText;
-        if(_errorTextDico.TryGetValue(activationState, out currentErrorText))
+        if (_errorTextDico.TryGetValue(activationState, out currentErrorText))
         {
             _errorText.gameObject.SetActive(true);
             _errorText.text = currentErrorText;
@@ -89,11 +94,29 @@ public class InfoMenu : MonoBehaviour
     {
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
         selectedTile.structureTile.UpgradeStructure();
+        Refresh();
     }
 
+    public void SellStructure()
+    {
+        BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
+        selectedTile.structureTile.SellStructure(selectedTile.gridPosition);
+        Refresh();
+    }
+
+    public void Refresh()
+    {
+        _needRefresh = true;
+    }
+
+    public void Hide()
+    {
+        SetVisible(false);
+        Refresh();
+    }
     private void SetVisible(bool visibility)
-    { 
-        foreach(Transform child in transform)
+    {
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(visibility);
         }

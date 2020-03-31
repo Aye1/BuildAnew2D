@@ -10,6 +10,7 @@ public class UpgradeStructureBinding
     public StructureLevel level;
     public List<Cost> upgradeCosts;
     public Cost resourceGenerated;
+    public List<Cost> sellingGain;
 }
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/UpgradeStructureData", order = 1)]

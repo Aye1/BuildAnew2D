@@ -34,6 +34,12 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void ResetCurrentLevel()
+    {
+        OnLevelNeedReset?.Invoke();
+    }
+
     public void NeedLevelReset()
     {
         _currentLevelIndex = _currentLevelIndex == 1 ? 0 : 1 ;

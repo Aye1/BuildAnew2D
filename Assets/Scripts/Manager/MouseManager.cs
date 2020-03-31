@@ -36,6 +36,17 @@ public class MouseManager : MonoBehaviour
         phantomBuildingSprite.color = _transpColor;
     }
 
+    public void Start()
+    {
+        LevelManager.OnLevelNeedReset += Reset;
+    }
+
+    private void Reset()
+    {
+        SelectedTile = null;
+        HoveredTile = null;
+    }
+
     void Update()
     {
         ManageHover();

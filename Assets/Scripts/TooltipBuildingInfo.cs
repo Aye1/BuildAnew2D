@@ -84,5 +84,11 @@ public class TooltipBuildingInfo : MonoBehaviour
             resourcesInfo.Add(resourceCreated);
         }
     }
-
+    public void SetVisible(bool visibility)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(visibility);
+        }
+    }
 }

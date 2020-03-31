@@ -50,10 +50,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Reset()
+    private void Reset()
     {
         LoadLevel();
         TilesDataManager.Instance.ResetLevel();
+        UIManager.Instance.ResetUI();
     }
 
     private void OnPlayerClick()

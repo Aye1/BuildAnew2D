@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button _undoButton;
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
+
+    [SerializeField] private InfoMenu _infoMenu;
+    [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
 #pragma warning restore 0649
     #endregion
 
@@ -49,6 +52,12 @@ public class UIManager : MonoBehaviour
     {
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
+    }
+
+    public void ResetUI()
+    {
+        _infoMenu.Hide();
+        _tooltipBuildingInfo.SetVisible(false);
     }
 
     public void ToggleBuildMode()

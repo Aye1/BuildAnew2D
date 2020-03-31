@@ -39,4 +39,17 @@ public class StructureData : ScriptableObject
         }
         return upgradeCost;
     }
+    public List<Cost> GetSellingRefundResourcesForLevel(StructureLevel level)
+    {
+        List<Cost> sellingRefund = null;
+        if (upgradeData != null)
+        {
+            UpgradeStructureBinding binding = upgradeData.GetUpgradeBindingForLevel(level);
+            if (binding != null)
+            {
+                sellingRefund = binding.sellingGain;
+            }
+        }
+        return sellingRefund;
+    }
 }
