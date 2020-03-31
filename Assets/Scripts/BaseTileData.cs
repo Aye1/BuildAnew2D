@@ -84,14 +84,25 @@ public class BaseTileData : IActsOnTurnStart
         }
     }
 
-    public void HandleFlood()
+    public void RemoveFloodPrevision()
+    { 
+        if(structureTile != null)
+        {
+            structureTile.DisableWarnStructureDestruction();
+        }
+    }
+
+    public StructureTile HandleFlood()
     {
         if(structureTile != null)
         {
             if(!structureTile.CanStructureBeFlooded())
             {
+                StructureTile structureToRemove = structureTile;
                 structureTile = null;
+                return structureTile;
             }
         }
+        return null;
     }
 }

@@ -1,10 +1,10 @@
 ﻿
-public class ChangeTileCommand : Command
+public class SwapTilesCommand : Command
 {
     private BaseTileData _oldTile;
     private BaseTileData _newTile;
 
-    public ChangeTileCommand(BaseTileData oldTile, BaseTileData newTile)
+    public SwapTilesCommand(BaseTileData oldTile, BaseTileData newTile)
     {
         _oldTile = oldTile;
         _newTile = newTile;
@@ -12,12 +12,12 @@ public class ChangeTileCommand : Command
 
     public override void Execute()
     {
-        TilesDataManager.Instance.SwapTiles(_oldTile, _newTile);
+        TilesDataManager.Instance.SwapNextTurnTiles(_oldTile, _newTile);
     }
 
     public override void Undo()
     {
-        TilesDataManager.Instance.SwapTiles(_newTile, _oldTile);
+        TilesDataManager.Instance.SwapNextTurnTiles(_newTile, _oldTile);
     }
 
     public override string GetDescription()

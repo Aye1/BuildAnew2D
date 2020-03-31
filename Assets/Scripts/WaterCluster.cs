@@ -25,13 +25,17 @@ public class WaterCluster
         }
     }
 
-    // Warning: does not rebalance the flood amount between all tiles
-    // This method should not be called directly
-    // Use 
+    public void RemoveTile(BaseTileData tile)
+    {
+        tiles.Remove(tile);
+    }
+
+    /// Warning: does not rebalance the flood amount between all tiles
+    /// This method should not be called directly
+    /// Use <see cref="WaterClusterRemoveFloodCommand"/> instead
     public void RemoveFlood(int amount)
     {
         _pendingFloodModification -= amount;
-        //FloodLevel = Mathf.Max(0, FloodLevel - amount);
     }
 
     private void ApplyPendingFloodModifications()

@@ -89,6 +89,7 @@ public abstract class StructureTile : ActiveTile
     {
         building.WarnDestruction();
     }
+
     public void DisableWarnStructureDestruction()
     {
         building.DisableWarningDestruction();
