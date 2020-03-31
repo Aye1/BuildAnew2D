@@ -21,7 +21,7 @@ public class EndGameConditionUI : MonoBehaviour
 
     public void ToggleConditions()
     {
-        if(isConditionDisplayed)
+        if (isConditionDisplayed)
         {
             HideConditions();
         }
@@ -44,7 +44,7 @@ public class EndGameConditionUI : MonoBehaviour
 
     private void InstantiateConditions(List<BaseCondition> baseConditions, string titleCondition)
     {
-        if(baseConditions != null && baseConditions.Count != 0)
+        if (baseConditions != null && baseConditions.Count != 0)
         {
             TextMeshProUGUI title = Instantiate(_genericText, Vector3.zero, Quaternion.identity, panel.transform);
             conditions.Add(title);
@@ -60,11 +60,15 @@ public class EndGameConditionUI : MonoBehaviour
 
     public void HideConditions()
     {
-        foreach(TextMeshProUGUI text in conditions)
+        if (conditions != null && conditions.Count > 0)
         {
-            Destroy(text.gameObject);
+
+            foreach (TextMeshProUGUI text in conditions)
+            {
+                Destroy(text.gameObject);
+            }
+            conditions.Clear();
         }
-        conditions.Clear();
         SetVisible(false);
     }
 
