@@ -12,6 +12,7 @@ public class PumpingStationTile : StructureTile
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         base.OnTurnStarts(neighbours);
+        //List<WaterCluster> modifiedClusters = new List<WaterCluster>();
         if (IsOn)
         {
             foreach (BaseTileData tile in neighbours)
@@ -19,9 +20,14 @@ public class PumpingStationTile : StructureTile
                 if (tile.terrainTile is WaterTile)
                 {
                     // PUMP
-                    WaterClusterManager.Instance.GetClusterForTile(tile).RemoveFlood(pumpingAmount);
+                    WaterCluster currentCluster = WaterClusterManager.Instance.GetClusterForTile(tile);
+                    WaterClusterRemoveFloodCommand removeFloodCommand = new WaterClusterRemoveFloodCommand(currentCluster, pumpingAmount);
+                    CommandManager.Instance.ExecuteCommand(removeFloodCommand);
+                    //currentCluster.RemoveFlood(pumpingAmount);
+                    //modifiedClusters.Add(currentCluster);
                 }
             }
+            //modifiedClusters.ForEach(x => x.BalanceFlood());
         }
     }
 }

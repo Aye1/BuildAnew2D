@@ -58,8 +58,7 @@ public class DebugTextManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        TurnManager.OnTurnStart -= UpdateTilesDebugText;
-        ActiveTile.OnTileModified -= UpdateTilesDebugText;
+        UnregisterCallbacks();
     }
 
     private void InitTilesDebugText()
@@ -74,9 +73,7 @@ public class DebugTextManager : MonoBehaviour
                 newText.transform.position = data.worldPosition;
         }
         Destroy(templateText);
-        TurnManager.OnTurnStart += UpdateTilesDebugText;
-        ActiveTile.OnTileModified += UpdateTilesDebugText;
-        WaterClusterManager.OnFloodDone += UpdateTilesDebugText;
+        RegisterCallbacks();
         TilesDataManager.OnTilesLoaded -= InitTilesDebugText;
         UpdateTilesDebugText();
     }
@@ -89,5 +86,30 @@ public class DebugTextManager : MonoBehaviour
             BaseTileData data = _tileDataManager.GetTileDataAtPos(pos, true);
             text.text = _isVisible ? data.terrainTile.GetDebugText() : "";
         }
+    }
+
+    private void UpdateTilesDebugText(Command cmd)
+    {
+        UpdateTilesDebugText();
+    }
+
+    private void RegisterCallbacks()
+    {
+        TurnManager.OnTurnStart += UpdateTilesDebugText;
+        ActiveTile.OnTileModified += UpdateTilesDebugText;
+        WaterClusterManager.OnFloodDone += UpdateTilesDebugText;
+        TilesDataManager.OnTilemapModified += UpdateTilesDebugText;
+        CommandManager.OnCommandDone += UpdateTilesDebugText;
+        CommandManager.OnCommandUndone += UpdateTilesDebugText;
+    }
+
+    private void UnregisterCallbacks()
+    {
+        TurnManager.OnTurnStart -= UpdateTilesDebugText;
+        ActiveTile.OnTileModified -= UpdateTilesDebugText;
+        WaterClusterManager.OnFloodDone -= UpdateTilesDebugText;
+        TilesDataManager.OnTilemapModified -= UpdateTilesDebugText;
+        CommandManager.OnCommandDone -= UpdateTilesDebugText;
+        CommandManager.OnCommandUndone -= UpdateTilesDebugText;
     }
 }

@@ -7,6 +7,8 @@ public class WaterCluster
     public List<BaseTileData> tiles;
     public int id;
 
+    private int _pendingFloodModification = 0;
+
     public int FloodLevel { get; private set; }
 
     public WaterCluster(int id)
@@ -23,18 +25,26 @@ public class WaterCluster
         }
     }
 
+    // Warning: does not rebalance the flood amount between all tiles
+    // This method should not be called directly
+    // Use 
     public void RemoveFlood(int amount)
     {
-        FloodLevel = Mathf.Max(0, FloodLevel - amount);
-        BalanceFlood(false);
+        _pendingFloodModification -= amount;
+        //FloodLevel = Mathf.Max(0, FloodLevel - amount);
     }
 
-    public void BalanceFlood(bool forceRecount)
+    private void ApplyPendingFloodModifications()
     {
-        if(forceRecount)
-        {
-            RecountFloodLevel();
-        }
+        FloodLevel = Mathf.Max(0, FloodLevel + _pendingFloodModification);
+        _pendingFloodModification = 0;
+    }
+
+    public Dictionary<BaseTileData, int> BalanceFlood()
+    {
+        Dictionary<BaseTileData, int> oldFloodLevels = new Dictionary<BaseTileData, int>();
+        RecountFloodLevel();
+        ApplyPendingFloodModifications();
         int remainingFlood = FloodLevel;
         int remainingTiles = tiles.Count;
 
@@ -44,12 +54,14 @@ public class WaterCluster
 
         foreach (BaseTileData tile in orderedTiles)
         {
+            oldFloodLevels.Add(tile, ((WaterTile)tile.terrainTile).NTFloodLevel);
             int individualAmount = remainingFlood / remainingTiles;
             ((WaterTile)tile.terrainTile).NTFloodLevel = individualAmount;
             remainingFlood -= individualAmount;
             remainingTiles--;
         }
         RecountFloodLevel();
+        return oldFloodLevels;
     }
 
     public void RecountFloodLevel()
