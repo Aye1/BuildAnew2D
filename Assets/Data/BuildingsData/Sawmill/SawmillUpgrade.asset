@@ -21,7 +21,7 @@ MonoBehaviour:
       amount: 100
       type: 1
     sellingGain:
-    - amount: 50
+    - amount: 25
       type: 1
   - level: 1
     upgradeCosts:
@@ -31,5 +31,5 @@ MonoBehaviour:
       amount: 100
       type: 1
     sellingGain:
-    - amount: 200
+    - amount: 300
       type: 1
