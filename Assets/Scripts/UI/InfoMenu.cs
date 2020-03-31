@@ -39,7 +39,7 @@ public class InfoMenu : MonoBehaviour
         }
         _previousTile = null;
         MouseManager.OnPlayerClick += Refresh;
-
+        Refresh();
     }
 
     // Update is called once per frame
