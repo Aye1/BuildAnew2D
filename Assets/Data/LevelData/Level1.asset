@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49dfa243a5014f178b2d911eee101c1, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  _successConditions: []
+  _successConditions:
+  - {fileID: 11400000, guid: 23e9032c5c9a64700a0922b8f99b67f8, type: 2}
   _defeatConditions:
   - {fileID: 11400000, guid: 93d67f620661a423a83bf351c4fe7dc8, type: 2}
   _initialResources:
@@ -20,9 +21,5 @@ MonoBehaviour:
     type: 1
   - amount: 1
     type: 2
-  _terrainTilemap: {fileID: 520428303638452566, guid: ffb0b87aa309d4fc28bda866a7375877,
-    type: 3}
   _terrainTileMapPath: Assets/Resources/TileMapForLevel/Level1/Terrain_Tilemap.prefab
   _structureTileMapPath: Assets/Resources/TileMapForLevel/Level1/Structures_Tilemap.prefab
-  _structuresTilemap: {fileID: 8958175556208345732, guid: 394beb9f154024edfab03c78dafcc37b,
-    type: 3}

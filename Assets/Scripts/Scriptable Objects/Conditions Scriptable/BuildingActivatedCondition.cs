@@ -10,4 +10,9 @@ public class BuildingActivatedCondition : BuildingCondition
     {
         return tile.structureTile.IsOn;
     }
+
+    protected override string GetBuildingSpecificCondition()
+    {
+        return " Activate ";
+    }
 }

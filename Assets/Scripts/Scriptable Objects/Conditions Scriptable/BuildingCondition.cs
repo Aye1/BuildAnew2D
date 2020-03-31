@@ -32,4 +32,30 @@ public abstract class BuildingCondition : BaseCondition
         }
         return isConditionVerified;
     }
+
+    protected abstract string GetBuildingSpecificCondition();
+
+    public string GetNumberString()
+    {
+        string returnText = "";
+        switch (structureNumber)
+        {
+            case StructureNumber.None:
+                returnText = " No ";
+                break;
+            case StructureNumber.AtLeastOne:
+                returnText = " At Least One ";
+                
+                break;
+            case StructureNumber.All:
+                returnText = " All ";
+                break;
+        }
+        return returnText;
+    }
+    public override string GetText()
+    {
+        StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(structureType);
+        return GetBuildingSpecificCondition() + GetNumberString() + binding.data.structureName ;
+    }
 }

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 1
   icon: {fileID: 21300000, guid: d32211beebcf2471d8613bd6e38118be, type: 3}
-  name: Wood
+  resourceName: Wood

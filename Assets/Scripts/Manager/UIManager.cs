@@ -15,8 +15,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
 
+    [Header("UI References")]
     [SerializeField] private InfoMenu _infoMenu;
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
+    [SerializeField] private EndGameConditionUI _endGameConditionsUI;
 #pragma warning restore 0649
     #endregion
 
@@ -58,6 +60,7 @@ public class UIManager : MonoBehaviour
     {
         _infoMenu.Hide();
         _tooltipBuildingInfo.SetVisible(false);
+        _endGameConditionsUI.HideConditions();
     }
 
     public void ToggleBuildMode()
@@ -74,6 +77,11 @@ public class UIManager : MonoBehaviour
     {
         _endGameText.enabled = true;
         _endGameText.text = _languageTexts.winText;
+    }
+
+    public LanguageConstantString GetLanguageConstant()
+    {
+        return _languageTexts;
     }
 
     public void InitializeResourcesLayout()

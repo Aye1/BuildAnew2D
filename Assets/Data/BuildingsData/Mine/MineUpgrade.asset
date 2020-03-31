@@ -20,10 +20,18 @@ MonoBehaviour:
     resourceGenerated:
       amount: 1
       type: 2
+    sellingGain:
+    - amount: 200
+      type: 1
   - level: 1
     upgradeCosts:
     - amount: 5
       type: 2
     resourceGenerated:
       amount: 3
+      type: 2
+    sellingGain:
+    - amount: 200
+      type: 1
+    - amount: 2
       type: 2
