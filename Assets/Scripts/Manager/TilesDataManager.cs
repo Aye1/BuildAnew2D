@@ -321,18 +321,6 @@ public class TilesDataManager : MonoBehaviour
         return _terrainTilemap.cellBounds;
     }
 
-    /*public BaseTileData CreateNewTileForNextTurn(BaseTileData oldTile, TerrainType type)
-    {
-        BaseTileData createdTile = new BaseTileData(oldTile);
-        createdTile.terrainTile = CreateTerrainFromType(type);
-        ChangeTerrainTileInTilemap(createdTile.gridPosition, TerrainType.Water, true);
-        createdTile.HandleFlood();
-        oldTile.HandleFloodPrevision();
-        SwapTilesCommand swapCommand = new SwapTilesCommand(oldTile, createdTile);
-        CommandManager.Instance.ExecuteCommand(swapCommand);
-        return createdTile;
-    }*/
-
     public void SwapNextTurnTiles(BaseTileData oldTile, BaseTileData newTile)
     {
         NTtiles.Remove(oldTile);

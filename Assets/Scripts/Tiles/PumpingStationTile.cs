@@ -23,11 +23,8 @@ public class PumpingStationTile : StructureTile
                     WaterCluster currentCluster = WaterClusterManager.Instance.GetClusterForTile(tile);
                     WaterClusterRemoveFloodCommand removeFloodCommand = new WaterClusterRemoveFloodCommand(currentCluster, pumpingAmount);
                     CommandManager.Instance.ExecuteCommand(removeFloodCommand);
-                    //currentCluster.RemoveFlood(pumpingAmount);
-                    //modifiedClusters.Add(currentCluster);
                 }
             }
-            //modifiedClusters.ForEach(x => x.BalanceFlood());
         }
     }
 }
