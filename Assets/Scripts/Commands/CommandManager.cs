@@ -30,9 +30,12 @@ public class CommandManager : MonoBehaviour
 
     public void ExecuteCommand(Command cmd)
     {
-        _commandsQueue.Push(cmd);
+        if (cmd.isUndoable)
+        {
+            _commandsQueue.Push(cmd);
+        }
         cmd.Execute();
-        Debug.Log("Executing command - " + cmd.GetDescription());
+        Debug.Log("Executing command - " + cmd.GetDescription() + (cmd.isUndoable ? "" : " (not undoable)"));
         OnCommandDone?.Invoke(cmd);
     }
 

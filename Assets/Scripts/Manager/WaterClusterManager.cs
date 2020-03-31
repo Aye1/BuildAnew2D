@@ -7,7 +7,7 @@ public class WaterClusterManager : MonoBehaviour
     public static WaterClusterManager Instance { get; private set; }
     public List<WaterCluster> clusters;
 
-    public int floodThreshold = 50;
+    public static int floodThreshold = 30;
 
     private int _nextClusterId = 0;
     private int _tilesChecked; // Used to prevent infinite loop in case of error
@@ -44,7 +44,6 @@ public class WaterClusterManager : MonoBehaviour
 
     private void PredictFlooding()
     {
-        Debug.Log("Predicting flooding");
         CheckFlooding();
         OnFloodDone?.Invoke();
     }
@@ -62,7 +61,8 @@ public class WaterClusterManager : MonoBehaviour
             }
         }
         clustersToFlood.ForEach(FloodAndBalance);
-        RecreateClusters(TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, true));
+        CreateClustersCommand createClustersCommand = new CreateClustersCommand();
+        CommandManager.Instance.ExecuteCommand(createClustersCommand);
         foreach(WaterCluster cluster in clusters)
         {
             WaterClusterBalanceCommand balanceCommand = new WaterClusterBalanceCommand(cluster);
@@ -77,31 +77,39 @@ public class WaterClusterManager : MonoBehaviour
         {
             FloodNeighbour(cluster);
         }
-        WaterClusterRemoveFloodCommand removeFloodCommand = new WaterClusterRemoveFloodCommand(cluster, neighboursToFlood * floodThreshold);
-        CommandManager.Instance.ExecuteCommand(removeFloodCommand);
+        //WaterClusterRemoveFloodCommand removeFloodCommand = new WaterClusterRemoveFloodCommand(cluster, neighboursToFlood * floodThreshold);
+        //CommandManager.Instance.ExecuteCommand(removeFloodCommand);
     }
 
     public void FloodNeighbour(WaterCluster cluster)
     {
-        Debug.Log("Flood");
         IEnumerable<BaseTileData> floodableTiles = GetFloodableTiles(cluster);
         if (floodableTiles.Any())
         {
             int selectedIndex = Alea.GetInt(0, floodableTiles.Count());
             BaseTileData tileToFlood = floodableTiles.ElementAt(selectedIndex);
-            BaseTileData tileFlooded = TilesDataManager.Instance.CreateNewTileForNextTurn(tileToFlood, TerrainType.Water);
-            cluster.AddTile(tileFlooded);
+            /*BaseTileData tileFlooded = TilesDataManager.Instance.CreateNewTileForNextTurn(tileToFlood, TerrainType.Water);
+            cluster.AddTile(tileFlooded);*/
+            FloodTileCommand floodTileCommand = new FloodTileCommand(cluster, tileToFlood);
+            CommandManager.Instance.ExecuteCommand(floodTileCommand);
         }
     }
 
     public void InitAllClusters()
     {
-        IEnumerable<BaseTileData> waterTiles = TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, false);
-        CreateClusters(waterTiles);
+        CreateClustersCommand createClustersCommand = new CreateClustersCommand
+        {
+            isUndoable = false
+        };
+        CommandManager.Instance.ExecuteCommand(createClustersCommand);
     }
 
     public void CreateClusters(IEnumerable<BaseTileData> waterTiles)
     { 
+        if(clusters != null)
+        {
+            clusters.Clear();
+        }
         clusters = new List<WaterCluster>();
 
         _tilesChecked = 0;
@@ -125,14 +133,6 @@ public class WaterClusterManager : MonoBehaviour
             }
         }
         Debug.Log("Water clusters parsed: " + clusters.Count);
-    }
-
-    public void RecreateClusters(IEnumerable<BaseTileData> waterTiles)
-    {
-        Debug.Log("Recreate clusters");
-        // WARNING: possible memory leak
-        clusters.Clear();
-        CreateClusters(waterTiles);
     }
 
     private void FlagTileAndPropagate(BaseTileData tile, WaterCluster cluster)

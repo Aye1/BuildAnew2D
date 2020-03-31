@@ -321,19 +321,19 @@ public class TilesDataManager : MonoBehaviour
         return _terrainTilemap.cellBounds;
     }
 
-    public BaseTileData CreateNewTileForNextTurn(BaseTileData oldTile, TerrainType type)
+    /*public BaseTileData CreateNewTileForNextTurn(BaseTileData oldTile, TerrainType type)
     {
         BaseTileData createdTile = new BaseTileData(oldTile);
         createdTile.terrainTile = CreateTerrainFromType(type);
-        ChangeTerrainTile(createdTile.gridPosition, TerrainType.Water, true);
+        ChangeTerrainTileInTilemap(createdTile.gridPosition, TerrainType.Water, true);
         createdTile.HandleFlood();
         oldTile.HandleFloodPrevision();
-        ChangeTileCommand swapCommand = new ChangeTileCommand(oldTile, createdTile);
+        SwapTilesCommand swapCommand = new SwapTilesCommand(oldTile, createdTile);
         CommandManager.Instance.ExecuteCommand(swapCommand);
         return createdTile;
-    }
+    }*/
 
-    public void SwapTiles(BaseTileData oldTile, BaseTileData newTile)
+    public void SwapNextTurnTiles(BaseTileData oldTile, BaseTileData newTile)
     {
         NTtiles.Remove(oldTile);
         NTtiles.Add(newTile);
@@ -341,7 +341,7 @@ public class TilesDataManager : MonoBehaviour
         OnTilemapModified?.Invoke();
     }
 
-    public void ChangeTerrainTile(Vector3Int position, TerrainType type, bool predict = false)
+    public void ChangeTerrainTileInTilemap(Vector3Int position, TerrainType type, bool predict = false)
     {
         TerrainBinding binding = GetTerrainBindingFromType(type);
         TileBase tilebase = binding?.terrainTile;
@@ -372,7 +372,7 @@ public class TilesDataManager : MonoBehaviour
     {
         tiles.Remove(oldTile);
         tiles.Add(newTile);
-        ChangeTerrainTile(oldTile.gridPosition, newTile.terrainTile.terrainType, false);
+        ChangeTerrainTileInTilemap(oldTile.gridPosition, newTile.terrainTile.terrainType, false);
     }
 
     #region Bindings
