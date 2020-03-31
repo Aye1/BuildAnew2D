@@ -9,4 +9,8 @@ public class BuildingDestruction : BuildingCondition
     {
         return tile.structureTile == null;
     }
+    protected override string GetBuildingSpecificCondition()
+    {
+        return " Destroy ";
+    }
 }
