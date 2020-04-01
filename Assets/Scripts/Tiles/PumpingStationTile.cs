@@ -11,7 +11,7 @@ public class PumpingStationTile : StructureTile
 
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
-        base.OnTurnStarts(neighbours);
+        /*base.OnTurnStarts(neighbours);
         //List<WaterCluster> modifiedClusters = new List<WaterCluster>();
         if (IsOn)
         {
@@ -25,6 +25,6 @@ public class PumpingStationTile : StructureTile
                     CommandManager.Instance.ExecuteCommand(removeFloodCommand);
                 }
             }
-        }
+        }*/
     }
 }
