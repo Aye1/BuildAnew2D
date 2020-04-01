@@ -14,15 +14,11 @@ public class WaterTile : TerrainTile
 
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
-        //FloodLevel++;
-        //ApplyPrediction();
-        //OnSpecificTileModified();
     }
 
     public override void PredictOnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
         ApplyPrediction();
-        NTFloodLevel++;
         OnSpecificTileModified();
     }
 
@@ -34,6 +30,16 @@ public class WaterTile : TerrainTile
     public override string GetDebugText()
     {
         return FloodLevel.ToString() + "(" + NTFloodLevel +")";
+    }
+
+    public void IncrementFlood()
+    {
+        NTFloodLevel++;
+    }
+
+    public void DecrementFlood()
+    {
+        NTFloodLevel--;
     }
 
     public int RemoveFlood(int amount, bool predict = false)

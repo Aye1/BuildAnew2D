@@ -6,12 +6,19 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static bool IsGameReady;
+    public static bool IsLevelLoaded;
 
     private LevelData _levelData;
+
     #region Events
     public delegate void LevelLoaded();
     public static event LevelLoaded OnLevelLoaded;
+
+    public delegate void GameReady();
+    public static event GameReady OnGameReady;
     #endregion
+
     private void Awake()
     {
         if (Instance == null)
@@ -27,11 +34,39 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        RegisterGameReadyCallbacks();
         LevelManager.OnLevelNeedReset += Reset;
         LoadLevel();
-        OnLevelLoaded?.Invoke();
         MouseManager.OnPlayerClick += OnPlayerClick;
+        CheckIfGameIsReady();
     }
+
+    private void RegisterGameReadyCallbacks()
+    {
+        TilesDataManager.OnTilesLoaded += CheckIfGameIsReady;
+        WaterClusterManager.OnClustersCreated += CheckIfGameIsReady;
+    }
+
+    private void UnregisterGameReadyCallbacks()
+    {
+        TilesDataManager.OnTilesLoaded -= CheckIfGameIsReady;
+        WaterClusterManager.OnClustersCreated -= CheckIfGameIsReady;
+    }
+
+    private void CheckIfGameIsReady()
+    {
+        bool gameReady = true;
+        gameReady &= IsLevelLoaded;
+        gameReady &= TilesDataManager.AreTileLoaded;
+        gameReady &= WaterClusterManager.AreClustersCreated;
+        if(gameReady)
+        {
+            IsGameReady = true;
+            OnGameReady?.Invoke();
+            UnregisterGameReadyCallbacks();
+        }
+    }
+
     public LevelData GetLevelData()
     {
         return _levelData;
@@ -39,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        IsLevelLoaded = false;
         _levelData = LevelManager.Instance.GetCurrentLevel();
         if (_levelData != null)
         {
@@ -48,6 +84,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Missing level data into GameManager");
         }
+        IsLevelLoaded = true;
+        OnLevelLoaded?.Invoke();
     }
 
     private void Reset()
