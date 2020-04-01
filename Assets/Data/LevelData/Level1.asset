@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49dfa243a5014f178b2d911eee101c1, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
+  _levelName: Initial Level
   _successConditions:
   - {fileID: 11400000, guid: 23e9032c5c9a64700a0922b8f99b67f8, type: 2}
   _defeatConditions: []

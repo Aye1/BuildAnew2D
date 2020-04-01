@@ -31,26 +31,14 @@ public class DebugTextManager : MonoBehaviour
 
     void Start()
     {
-        _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
         _tileDataManager = TilesDataManager.Instance;
-        GameManager.OnLevelLoaded += OnLevelLoaded;
-    }
-    private void OnLevelLoaded()
-    {
-        tilemap = GameManager.Instance.GetLevelData().GetTerrainTilemap();
-
-        if (TilesDataManager.AreTileLoaded)
+        TilesDataManager.OnTilesLoaded += InitTilesDebugText;
+        if(TilesDataManager.AreTileLoaded)
         {
-            // Tiles already loaded, we can init debug texts
             InitTilesDebugText();
         }
-        else
-        {
-            // Wait for the tiles loading finished to init debug texts
-            TilesDataManager.OnTilesLoaded += InitTilesDebugText;
-        }
     }
-
+    
     private void Update()
     {
         IsVisible = _debugIsVisible;
@@ -63,6 +51,9 @@ public class DebugTextManager : MonoBehaviour
 
     private void InitTilesDebugText()
     {
+        tilemap = GameManager.Instance.GetLevelData().GetTerrainTilemap();
+        _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
+
         foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
         {
             TextMeshProUGUI newText = Instantiate(templateText, Vector3.zero, Quaternion.identity, transform);

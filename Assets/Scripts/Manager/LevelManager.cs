@@ -35,12 +35,22 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public List<LevelBinding> GetLevelBindings()
+    {
+        return _levelsData;
+    }
+
     public void ResetCurrentLevel()
     {
         OnLevelNeedReset?.Invoke();
     }
 
-    public void NeedLevelReset()
+    public void SetLevel(int index)
+    {
+        _currentLevelIndex = index ;
+        OnLevelNeedReset?.Invoke();
+    }
+    public void LoadNextLevel()
     {
         _currentLevelIndex = _currentLevelIndex == 1 ? 0 : 1 ;
         OnLevelNeedReset?.Invoke();

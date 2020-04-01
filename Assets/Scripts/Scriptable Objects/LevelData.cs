@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
+using System;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/LevelData", order = 1)]
 public class LevelData : ScriptableObject
 {
     #region Editor objects
 #pragma warning disable 0649
+
+    [Header("UI Info")]
+    [SerializeField] private string _levelName;
+
     [Header("Conditions")]
     [SerializeField] private List<BaseCondition> _successConditions;
     [SerializeField] private List<BaseCondition> _defeatConditions;
@@ -19,9 +24,11 @@ public class LevelData : ScriptableObject
     public string _structureTileMapPath;
     private Tilemap _terrainTilemap;
     private Tilemap _structuresTilemap;
-#pragma warning restore 0649
-#endregion
+
     
+#pragma warning restore 0649
+    #endregion
+
     public List<BaseCondition> GetSuccessConditions()
     {
         return _successConditions;
@@ -53,5 +60,10 @@ public class LevelData : ScriptableObject
             _structuresTilemap = Resources.Load<Tilemap>(path);
         }
         return _structuresTilemap;
+    }
+
+    public string GetLevelName()
+    {
+        return _levelName;
     }
 }
