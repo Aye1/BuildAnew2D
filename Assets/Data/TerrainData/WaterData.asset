@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b1a18eb08334a4f82d2e00677f554c, type: 3}
   m_Name: WaterData
   m_EditorClassIdentifier: 
-  canBeFlooded: 1
+  canBeFlooded: 0

@@ -29,13 +29,13 @@ public class TurnManager : MonoBehaviour
 
     public void Start()
     {
-        if (TilesDataManager.AreTileLoaded)
+        if (GameManager.IsGameReady)
         {
-            PredictNextTurn();
+            PredictFirstTurn();
         }
         else
         {
-            TilesDataManager.OnTilesLoaded += PredictNextTurn;
+            GameManager.OnGameReady += PredictFirstTurn;
         }
     }
 
@@ -52,7 +52,12 @@ public class TurnManager : MonoBehaviour
         }
         OnTurnStart?.Invoke();
         PredictNextTurn();
-        OnTurnPredict?.Invoke();
+    }
+
+    private void PredictFirstTurn()
+    {
+        GameManager.OnGameReady -= PredictFirstTurn;
+        PredictNextTurn();
     }
 
     private void PredictNextTurn()
@@ -65,5 +70,6 @@ public class TurnManager : MonoBehaviour
                 tile.PredictOnTurnStarts();
             }
         }
+        OnTurnPredict?.Invoke();
     }
 }
