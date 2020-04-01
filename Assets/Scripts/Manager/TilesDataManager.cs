@@ -81,6 +81,10 @@ public class TilesDataManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        if(AreTileLoaded)
+        {
+            ClearLevel();
+        }
         InitTerrainTiles();
         InitStructuresTiles();
         InitPredictedTiles();
