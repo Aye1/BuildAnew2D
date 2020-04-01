@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5358940280823613981}
   - component: {fileID: 5358940280823613982}
   - component: {fileID: 5358940280823613980}
+  - component: {fileID: 3004879163197904134}
   m_Layer: 0
   m_Name: PowerPlant
   m_TagString: Untagged
@@ -96,4 +97,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteON: {fileID: 21300000, guid: 03a44e8a1410741d1855251435b1b066, type: 3}
   _spriteOFF: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}
-  _debugIsOn: 0
+  _forceDebugIsOn: 0
+--- !u!95 &3004879163197904134
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5358940280823613983}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 490e431b0c3ec4b6cb177152c9a646aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

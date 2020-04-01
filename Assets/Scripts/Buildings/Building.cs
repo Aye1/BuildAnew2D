@@ -11,10 +11,10 @@ public class Building : MonoBehaviour
     // This object does not store data, but it's the only way to acceed it from the editor
     // Thus, the ability to turn on/off the building is done here
     [SerializeField] private bool _forceDebugIsOn;
-
 #pragma warning restore 0649
     #endregion
     private SpriteRenderer _renderer;
+    private Animator _animator;
 
     public StructureTile dataTile;
 
@@ -23,6 +23,7 @@ public class Building : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _renderer.sortingOrder = 10;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -30,6 +31,10 @@ public class Building : MonoBehaviour
         if(_forceDebugIsOn)
         {
             dataTile.IsOn = _forceDebugIsOn;
+        }
+        if(_animator != null)
+        {
+            _animator.SetBool("IsOn", dataTile.IsOn);
         }
         UpdateSprite();
     }
