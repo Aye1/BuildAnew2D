@@ -12,15 +12,18 @@ public class LevelBinding
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
+
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private List<LevelBinding> _levelsData;
 #pragma warning restore 0649
     #endregion
+
     #region Events
     public delegate void LevelReset();
     public static event LevelReset OnLevelNeedReset;
     #endregion
+
     private int _currentLevelIndex = 0;
     private void Awake()
     {
@@ -33,6 +36,11 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Start()
+    {
+        SetLevel(0);
     }
 
     public List<LevelBinding> GetLevelBindings()

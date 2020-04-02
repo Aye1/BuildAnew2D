@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
-using System;
 
 [System.Serializable]
 public class StructureBinding
@@ -45,13 +43,6 @@ public class TilesDataManager : MonoBehaviour
 
     public static TilesDataManager Instance { get; private set; }
     public static bool AreTileLoaded { get; private set; }
-
-    private const string PLAINS = "PlainsTile";
-    private const string WATER = "WaterRuleTile";
-    private const string WOODS = "WoodsTile";
-    private const string POWERPLANT = "PowerPlantTile";
-    private const string SAWMILL = "SawmillTile";
-    private const string PUMPINGSTATION = "PumpingStationTile";
 
     private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
@@ -102,12 +93,6 @@ public class TilesDataManager : MonoBehaviour
         Destroy(_terrainTilemap.gameObject);
         Destroy(_structuresTilemap.gameObject);
         Destroy(_NTterrainTilemap.gameObject);
-    }
-
-    public void ResetLevel()
-    {
-        ClearLevel();
-        LoadLevel();
     }
 
     #region Init

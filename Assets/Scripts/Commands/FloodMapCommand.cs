@@ -7,16 +7,34 @@ public class FloodMapCommand : Command
 {
     private Stack<FloodClusterCommand> _floodClusterCommands;
     private CreateClustersCommand _recreateClustersCommand;
+    private bool _ignoreStructures;
+
+    public FloodMapCommand(bool ignoreStructures)
+    {
+        _ignoreStructures = ignoreStructures;
+    }
 
     public override void Execute()
     {
-        _floodClusterCommands = new Stack<FloodClusterCommand>();
+        // Flood individual tiles
         IEnumerable<BaseTileData> waterTiles = TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water);
         waterTiles.ToList().ForEach(x => ((WaterTile)x.terrainTile).IncrementFlood());
+
+        if (_ignoreStructures)
+        {
+            // WARNING: this is not reversible at the moment
+            // Ignoring structures => creating possible flooded tiles
+            WaterClusterManager.Instance.ClearPossibleFloodTiles();
+        }
+        else
+        {
+            // We put the structures in the flood computing
+        }
+
+        _floodClusterCommands = new Stack<FloodClusterCommand>();
         List<WaterCluster> clustersToFlood = new List<WaterCluster>();
-        // Flooding may change the cluster configuration
-        // Thus, we don't do it in the first foreach
-        // There's a bit of logic which was clear at first for me, but isn't anymore
+        // Flooding may change the clusters list
+        // Thus, we can't do it in this foreach, because we use its enumerator
         foreach(WaterCluster cluster in WaterClusterManager.Instance.clusters)
         {
             cluster.RecountFloodLevel();
@@ -27,7 +45,7 @@ public class FloodMapCommand : Command
         }
         foreach(WaterCluster cluster in clustersToFlood)
         {
-            FloodClusterCommand floodClusterCommand = new FloodClusterCommand(cluster);
+            FloodClusterCommand floodClusterCommand = new FloodClusterCommand(cluster, _ignoreStructures);
             floodClusterCommand.Execute();
             _floodClusterCommands.Push(floodClusterCommand);
         }
