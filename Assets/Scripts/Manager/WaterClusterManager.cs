@@ -13,11 +13,15 @@ public class WaterClusterManager : MonoBehaviour
     private int _nextClusterId = 0;
     private int _tilesChecked; // Used to prevent infinite loop in case of error
 
+    private Dictionary<WaterCluster, Stack<BaseTileData>> _possibleFloodTiles;
+
+    #region Events
     public delegate void ClustersCreated();
     public static ClustersCreated OnClustersCreated;
 
     public delegate void FloodDone();
     public static FloodDone OnFloodDone;
+    #endregion
 
 
     private void Awake()
@@ -35,27 +39,27 @@ public class WaterClusterManager : MonoBehaviour
 
     private void Start()
     {
-        if (TilesDataManager.AreTileLoaded)
-        {
-            InitClusters();
-        }
-        else
-        {
-            TilesDataManager.OnTilesLoaded += InitClusters;
-        }
+        TilesDataManager.OnTilesLoaded += Init;
         TurnManager.OnTurnPredict += PredictFlooding;
+    }
+
+    private void Init()
+    {
+        ClearPossibleFloodTiles();
+        _possibleFloodTiles = new Dictionary<WaterCluster, Stack<BaseTileData>>();
+        RecreateClusters();
     }
 
     private void PredictFlooding()
     {
-        FloodMapCommand floodMapCommand = new FloodMapCommand();
-        CommandManager.Instance.ExecuteCommand(floodMapCommand); OnFloodDone?.Invoke();
-    }
+        // First pass on the flooding, ignoring structures, and saving possible flooded tiles
+        PrepareFloodedTilesCommand prepareFloodedTilesCommand = new PrepareFloodedTilesCommand();
+        CommandManager.Instance.ExecuteCommand(prepareFloodedTilesCommand);
 
-    public void InitClusters()
-    {
-        RecreateClusters();
-        TilesDataManager.OnTilesLoaded -= InitClusters;
+        // Second pass, taking structures in the count
+        FloodMapCommand floodMapCommand = new FloodMapCommand(false);
+        CommandManager.Instance.ExecuteCommand(floodMapCommand); 
+        OnFloodDone?.Invoke();
     }
 
     public void RecreateClusters()
@@ -169,4 +173,44 @@ public class WaterClusterManager : MonoBehaviour
         }
         return res;
     }
+
+    #region Manage possible flood tiles
+    public void ClearPossibleFloodTiles()
+    {
+        if (_possibleFloodTiles != null)
+        {
+            foreach (Stack<BaseTileData> associatedTiles in _possibleFloodTiles.Values)
+            {
+                associatedTiles.Clear();
+            }
+            _possibleFloodTiles.Clear();
+        }
+    }
+
+    public void AddPossibleFloodTile(WaterCluster cluster, BaseTileData tile)
+    {
+        if(_possibleFloodTiles.ContainsKey(cluster))
+        {
+            _possibleFloodTiles.TryGetValue(cluster, out Stack<BaseTileData> associatedTiles);
+            associatedTiles.Push(tile);
+        }
+        else
+        {
+            Stack<BaseTileData> associatedTiles = new Stack<BaseTileData>();
+            associatedTiles.Push(tile);
+            _possibleFloodTiles.Add(cluster, associatedTiles);
+        }
+    }
+
+    public BaseTileData UsePossibleFloodTile(WaterCluster cluster)
+    {
+        if(!_possibleFloodTiles.ContainsKey(cluster))
+        {
+            throw new NoFloodableTileForClusterException();
+        }
+        _possibleFloodTiles.TryGetValue(cluster, out Stack<BaseTileData> associatedTiles);
+        return associatedTiles.Pop();
+    }
+
+    #endregion
 }

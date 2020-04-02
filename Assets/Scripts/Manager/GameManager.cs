@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static bool IsLevelLoaded;
 
     private LevelData _levelData;
+    private bool _shouldRaiseGameReady;
 
     #region Events
     public delegate void LevelLoaded();
@@ -35,9 +36,9 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         RegisterGameReadyCallbacks();
+        MouseManager.OnPlayerClick += OnPlayerClick;
         LevelManager.OnLevelNeedReset += Reset;
         LoadLevel();
-        MouseManager.OnPlayerClick += OnPlayerClick;
         CheckIfGameIsReady();
     }
 
@@ -55,15 +56,14 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfGameIsReady()
     {
-        bool gameReady = true;
-        gameReady &= IsLevelLoaded;
+        bool gameReady = IsLevelLoaded;
         gameReady &= TilesDataManager.AreTileLoaded;
         gameReady &= WaterClusterManager.AreClustersCreated;
-        if(gameReady)
+        if(gameReady && _shouldRaiseGameReady)
         {
             IsGameReady = true;
             OnGameReady?.Invoke();
-            UnregisterGameReadyCallbacks();
+            _shouldRaiseGameReady = false;
         }
     }
 
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        _shouldRaiseGameReady = true;
         IsLevelLoaded = false;
         _levelData = LevelManager.Instance.GetCurrentLevel();
         if (_levelData != null)
@@ -91,7 +92,6 @@ public class GameManager : MonoBehaviour
     private void Reset()
     {
         LoadLevel();
-        TilesDataManager.Instance.ResetLevel();
         UIManager.Instance.ResetUI();
     }
 
@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
         TurnManager.Instance.NextTurn();
         ComputeEndGameCondition();        
     }
+
     private void ComputeEndGameCondition()
     {
         if (_levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
@@ -121,6 +122,7 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Instance.TriggerGameOver();
     }
+
     private void TriggerGameSuccess()
     {
         UIManager.Instance.TriggerGameSuccess();

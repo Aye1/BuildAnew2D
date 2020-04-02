@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class TurnManager : MonoBehaviour
 {
@@ -25,18 +24,13 @@ public class TurnManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameManager.OnGameReady += InitTurns;
     }
 
-    public void Start()
+    private void InitTurns()
     {
-        if (GameManager.IsGameReady)
-        {
-            PredictFirstTurn();
-        }
-        else
-        {
-            GameManager.OnGameReady += PredictFirstTurn;
-        }
+        _turnCounter = 0;
+        PredictNextTurn();
     }
 
     public void NextTurn()
@@ -51,12 +45,6 @@ public class TurnManager : MonoBehaviour
             }
         }
         OnTurnStart?.Invoke();
-        PredictNextTurn();
-    }
-
-    private void PredictFirstTurn()
-    {
-        GameManager.OnGameReady -= PredictFirstTurn;
         PredictNextTurn();
     }
 

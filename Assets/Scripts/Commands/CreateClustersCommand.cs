@@ -7,7 +7,12 @@ public class CreateClustersCommand : Command
 
     public override void Execute()
     {
-        _oldClusters = WaterClusterManager.Instance.clusters;
+        _oldClusters = new List<WaterCluster>();
+        List<WaterCluster> currentClusters = WaterClusterManager.Instance.clusters;
+        if(currentClusters != null)
+        {
+            _oldClusters.AddRange(currentClusters);
+        }
         IEnumerable<BaseTileData> waterTiles = TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, true);
         WaterClusterManager.Instance.CreateClusters(waterTiles);
         _balanceClustersCommand = new BalanceAllWaterClustersCommand();
