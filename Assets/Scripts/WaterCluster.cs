@@ -9,7 +9,7 @@ public class WaterCluster
 
     private int _pendingFloodModification = 0;
 
-    public int FloodLevel { get; private set; }
+    public int FloodLevel { get; set; }
 
     public WaterCluster(int id)
     {
@@ -28,6 +28,11 @@ public class WaterCluster
     public void RemoveTile(BaseTileData tile)
     {
         tiles.Remove(tile);
+    }
+
+    public bool ContainsTile(BaseTileData tile)
+    {
+        return tiles.Contains(tile);
     }
 
     /// Warning: does not rebalance the flood amount between all tiles

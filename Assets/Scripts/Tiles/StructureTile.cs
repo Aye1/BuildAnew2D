@@ -58,6 +58,10 @@ public abstract class StructureTile : ActiveTile
         if (activationState == ActivationState.ActivationPossible)
         {
             IsOn = !IsOn;
+            if(this is PumpingStationTile)
+            {
+                WaterClusterManager.Instance.RecomputeFlooding();
+            }
         }
         return activationState;
     }

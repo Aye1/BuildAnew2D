@@ -25,12 +25,12 @@ public class TilesDataManager : MonoBehaviour
 {
     private Tilemap _terrainTilemap;
     private Tilemap _structuresTilemap;
+
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private Grid _grid;
     [SerializeField] private List<StructureBinding> _structureTemplates;
     [SerializeField] private List<TerrainBinding> _terrainTemplates;
-
 #pragma warning restore 0649
     #endregion
 
@@ -181,6 +181,11 @@ public class TilesDataManager : MonoBehaviour
             if (repay)
             {
                 ResourcesManager.Instance.Repay(CostForStructure(data.structureTile.structureType));
+            }
+
+            if(structure is PowerPlantTile)
+            {
+                WaterClusterManager.Instance.UnregisterPumpingStation(data);
             }
 
             // Warning: possible memory leak
@@ -448,6 +453,7 @@ public class TilesDataManager : MonoBehaviour
 
                 case StructureType.PumpingStation:
                     newTile = new PumpingStationTile();
+                    WaterClusterManager.Instance.RegisterPumpingStation(data);
                     break;
 
                 case StructureType.Village:

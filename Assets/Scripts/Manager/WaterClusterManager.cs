@@ -13,7 +13,9 @@ public class WaterClusterManager : MonoBehaviour
     private int _nextClusterId = 0;
     private int _tilesChecked; // Used to prevent infinite loop in case of error
 
-    private Dictionary<WaterCluster, Stack<BaseTileData>> _possibleFloodTiles;
+    private FloodMapCommand _latestFloodCommand;
+    private Dictionary<WaterCluster, Stack<BaseTileData>> _possibleFloodTiles; // the list of floodable tiles for this turn (ignoring structures)
+    private List<BaseTileData> _pumpingStationsTiles; // the list of 
 
     #region Events
     public delegate void ClustersCreated();
@@ -35,6 +37,7 @@ public class WaterClusterManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        _pumpingStationsTiles = new List<BaseTileData>();
     }
 
     private void Start()
@@ -52,13 +55,26 @@ public class WaterClusterManager : MonoBehaviour
 
     private void PredictFlooding()
     {
-        // First pass on the flooding, ignoring structures, and saving possible flooded tiles
+        _latestFloodCommand = null;
+        // First pass on the flooding, we just compute the possible flooded tiles
         PrepareFloodedTilesCommand prepareFloodedTilesCommand = new PrepareFloodedTilesCommand();
         CommandManager.Instance.ExecuteCommand(prepareFloodedTilesCommand);
 
-        // Second pass, taking structures in the count
-        FloodMapCommand floodMapCommand = new FloodMapCommand(false);
-        CommandManager.Instance.ExecuteCommand(floodMapCommand); 
+        // Second pass, we compute flooded tiles, counting the structures
+        RecomputeFlooding();
+    }
+
+    // Computes the flooding
+    // Does not generate the floodable tiles, it has already been done at the start of the turn with PredictFlooding
+    public void RecomputeFlooding()
+    {
+        if(_latestFloodCommand != null)
+        {
+            _latestFloodCommand.Undo();
+        }
+        FloodMapCommand floodMapCommand = new FloodMapCommand();
+        _latestFloodCommand = floodMapCommand;
+        CommandManager.Instance.ExecuteCommand(floodMapCommand);
         OnFloodDone?.Invoke();
     }
 
@@ -131,6 +147,13 @@ public class WaterClusterManager : MonoBehaviour
     {
         IEnumerable<Vector3Int> neighboursPositions = TilesDataManager.Instance.GetDirectNeighboursPositions(refTile.gridPosition);
         return TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, predict).Where(x => neighboursPositions.Contains(x.gridPosition));
+    }
+
+    public BaseTileData RegisterRandomFloodableTile(WaterCluster cluster)
+    {
+        BaseTileData tile = GetRandomFloodableTile(cluster);
+        AddPossibleFloodTile(cluster, tile);
+        return tile;
     }
 
     public BaseTileData GetRandomFloodableTile(WaterCluster cluster)
@@ -212,5 +235,50 @@ public class WaterClusterManager : MonoBehaviour
         return associatedTiles.Pop();
     }
 
+    #endregion
+
+    #region Manage Pumping Stations
+
+    public void RegisterPumpingStation(BaseTileData tile)
+    {
+        if (!_pumpingStationsTiles.Contains(tile))
+        {
+            _pumpingStationsTiles.Add(tile);
+        }
+    }
+
+    public void UnregisterPumpingStation(BaseTileData tile)
+    {
+        _pumpingStationsTiles.Remove(tile);
+    }
+
+    public List<BaseTileData> GetPumpedTiles()
+    {
+        List<BaseTileData> pumpedTiles = new List<BaseTileData>();
+        IEnumerable<BaseTileData> activeStations = _pumpingStationsTiles.Where(x => x.IsStructureOn());
+        foreach(BaseTileData tile in activeStations)
+        {
+            IEnumerable<BaseTileData> pumpedNeighbours = TilesDataManager.Instance.GetTilesDirectlyAroundTile(tile).Where(x => x.terrainTile is WaterTile);
+            if(pumpedNeighbours != null)
+            {
+                pumpedTiles.AddRange(pumpedNeighbours);
+            }
+        }
+        return pumpedTiles;
+    }
+
+    public List<BaseTileData> GetPumpedTilesForCluster(WaterCluster cluster)
+    {
+        List<BaseTileData> pumpedTiles = GetPumpedTiles();
+        List<BaseTileData> clusterPumpedTiles = new List<BaseTileData>();
+        foreach(BaseTileData tile in pumpedTiles)
+        {
+            if(cluster.ContainsTile(tile))
+            {
+                clusterPumpedTiles.Add(tile);
+            }
+        }
+        return clusterPumpedTiles;
+    }
     #endregion
 }

@@ -42,20 +42,15 @@ public class WaterTile : TerrainTile
         NTFloodLevel--;
     }
 
-    public int RemoveFlood(int amount, bool predict = false)
-    {
-        int amountToRemove;
-        if (predict)
-        {
-            amountToRemove = amount >= NTFloodLevel ? NTFloodLevel : amount;
-            NTFloodLevel -= amountToRemove;
-        }
-        else
-        {
-            amountToRemove = amount >= FloodLevel ? FloodLevel : amount;
-            FloodLevel -= amountToRemove;
-        }
+    public void AddFlood(int amount)
+    { 
+        NTFloodLevel += amount;
+    }
 
+    public int RemoveFlood(int amount)
+    {
+        int amountToRemove = amount >= NTFloodLevel ? NTFloodLevel : amount;
+        NTFloodLevel -= amountToRemove;
         return amountToRemove;
     }
 }

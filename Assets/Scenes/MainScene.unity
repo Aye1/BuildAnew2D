@@ -6641,6 +6641,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugTextWorldManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2716294200102470760, guid: eeb5ff0a3efad4ba595dde88ebb821c5,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716294200102470760, guid: eeb5ff0a3efad4ba595dde88ebb821c5,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716294200102470760, guid: eeb5ff0a3efad4ba595dde88ebb821c5,
+        type: 3}
+      propertyPath: m_fontSizeMax
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716294200102470760, guid: eeb5ff0a3efad4ba595dde88ebb821c5,
+        type: 3}
+      propertyPath: m_fontSizeMin
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716294200102470760, guid: eeb5ff0a3efad4ba595dde88ebb821c5,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeb5ff0a3efad4ba595dde88ebb821c5, type: 3}
 --- !u!1001 &2855981616808253740

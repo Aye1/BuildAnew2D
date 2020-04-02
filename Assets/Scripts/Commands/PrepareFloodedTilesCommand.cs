@@ -1,18 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 public class PrepareFloodedTilesCommand : Command
 {
-    FloodMapCommand _floodMapCommand;
-
     public override void Execute()
     {
-        // Create the flooded tilemap
-        _floodMapCommand = new FloodMapCommand(true);
-        _floodMapCommand.Execute();
-
-        // Undo the tilemap creation, but the WaterClusterManager has kept the flooded tiles in memory
-        _floodMapCommand.Undo();
+        WaterClusterManager.Instance.ClearPossibleFloodTiles();
+        FloodWaterTilesCommand temporaryFloodCommand = new FloodWaterTilesCommand();
+        temporaryFloodCommand.Execute();
+        foreach (WaterCluster cluster in WaterClusterManager.Instance.clusters)
+        {
+            cluster.RecountFloodLevel();
+            if (cluster.FloodLevel >= WaterClusterManager.floodThreshold)
+            {
+                int neighboursToFlood = cluster.FloodLevel / WaterClusterManager.floodThreshold;
+                for (int i = 0; i < neighboursToFlood; i++)
+                {
+                    WaterClusterManager.Instance.RegisterRandomFloodableTile(cluster);
+                }
+            }
+        }
+        temporaryFloodCommand.Undo();
     }
 
     public override string GetDescription()
@@ -22,6 +28,8 @@ public class PrepareFloodedTilesCommand : Command
 
     public override void Undo()
     {
+        // We don't exactly go back to the previous state, as we don't reconstruct the possible flood tiles list
+        // But this shouldn't be a problem, as this command is only used at the beginning of the turn
         WaterClusterManager.Instance.ClearPossibleFloodTiles();
     }
 }

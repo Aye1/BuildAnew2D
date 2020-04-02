@@ -1,51 +1,39 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 public class FloodMapCommand : Command
 {
     private Stack<FloodClusterCommand> _floodClusterCommands;
     private CreateClustersCommand _recreateClustersCommand;
-    private bool _ignoreStructures;
-
-    public FloodMapCommand(bool ignoreStructures)
-    {
-        _ignoreStructures = ignoreStructures;
-    }
+    private Stack<PumpWaterClusterCommand> _pumpWaterCommands;
+    private FloodWaterTilesCommand _floodWaterTilesCommand;
 
     public override void Execute()
     {
-        // Flood individual tiles
-        IEnumerable<BaseTileData> waterTiles = TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water);
-        waterTiles.ToList().ForEach(x => ((WaterTile)x.terrainTile).IncrementFlood());
-
-        if (_ignoreStructures)
-        {
-            // WARNING: this is not reversible at the moment
-            // Ignoring structures => creating possible flooded tiles
-            WaterClusterManager.Instance.ClearPossibleFloodTiles();
-        }
-        else
-        {
-            // We put the structures in the flood computing
-        }
+        _floodWaterTilesCommand = new FloodWaterTilesCommand();
+        _floodWaterTilesCommand.Execute();
 
         _floodClusterCommands = new Stack<FloodClusterCommand>();
+        _pumpWaterCommands = new Stack<PumpWaterClusterCommand>();
         List<WaterCluster> clustersToFlood = new List<WaterCluster>();
+
         // Flooding may change the clusters list
         // Thus, we can't do it in this foreach, because we use its enumerator
         foreach(WaterCluster cluster in WaterClusterManager.Instance.clusters)
         {
             cluster.RecountFloodLevel();
-            if(cluster.FloodLevel >= WaterClusterManager.floodThreshold)
+
+            PumpWaterClusterCommand pumpCommand = new PumpWaterClusterCommand(cluster);
+            pumpCommand.Execute();
+            _pumpWaterCommands.Push(pumpCommand);
+
+            if (cluster.FloodLevel >= WaterClusterManager.floodThreshold)
             {
                 clustersToFlood.Add(cluster);
             }
         }
         foreach(WaterCluster cluster in clustersToFlood)
         {
-            FloodClusterCommand floodClusterCommand = new FloodClusterCommand(cluster, _ignoreStructures);
+            FloodClusterCommand floodClusterCommand = new FloodClusterCommand(cluster);
             floodClusterCommand.Execute();
             _floodClusterCommands.Push(floodClusterCommand);
         }
@@ -55,7 +43,7 @@ public class FloodMapCommand : Command
 
     public override string GetDescription()
     {
-        return "Flooding map";
+        return "(Re-)computing flooding";
     }
 
     public override void Undo()
@@ -65,7 +53,10 @@ public class FloodMapCommand : Command
         {
             _floodClusterCommands.Pop().Undo();
         }
-        IEnumerable<BaseTileData> waterTiles = TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water);
-        waterTiles.ToList().ForEach(x => ((WaterTile)x.terrainTile).DecrementFlood());
+        while(_pumpWaterCommands.Count > 0)
+        {
+            _pumpWaterCommands.Pop().Undo();
+        }
+        _floodWaterTilesCommand.Undo();
     }
 }

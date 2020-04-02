@@ -4,40 +4,27 @@ public class FloodClusterCommand : Command
 {
     private WaterCluster _cluster;
     private Stack<FloodTileCommand> _floodCommands;
-    private bool _pickRandomTile;
+    private Stack<BaseTileData> _floodedTiles;
 
     public FloodClusterCommand(WaterCluster cluster)
     {
         _cluster = cluster;
-        _pickRandomTile = false;
-    }
-
-    public FloodClusterCommand(WaterCluster cluster, bool pickRandomTile)
-    {
-        _cluster = cluster;
-        _pickRandomTile = pickRandomTile;
     }
 
     public override void Execute()
     {
         _floodCommands = new Stack<FloodTileCommand>();
+        _floodedTiles = new Stack<BaseTileData>();
         int neighboursToFlood = _cluster.FloodLevel / WaterClusterManager.floodThreshold;
         for (int i = 0; i < neighboursToFlood; i++)
         {
-            BaseTileData tileToFlood = null;
-            // Maybe do the choice on WaterClusterManager side
-            if (_pickRandomTile)
-            {
-                tileToFlood = WaterClusterManager.Instance.GetRandomFloodableTile(_cluster);
-            }
-            else
-            {
-                tileToFlood = WaterClusterManager.Instance.UsePossibleFloodTile(_cluster);
-            }
+            BaseTileData tileToFlood = WaterClusterManager.Instance.UsePossibleFloodTile(_cluster);
             if (tileToFlood == null)
                 return;
 
-            FloodTileCommand floodTileCommand = new FloodTileCommand(_cluster, tileToFlood, _pickRandomTile);
+            _floodedTiles.Push(tileToFlood);
+
+            FloodTileCommand floodTileCommand = new FloodTileCommand(_cluster, tileToFlood);
             floodTileCommand.Execute();
             _floodCommands.Push(floodTileCommand);
         }
@@ -53,6 +40,10 @@ public class FloodClusterCommand : Command
         while(_floodCommands.Count > 0)
         {
             _floodCommands.Pop().Undo();
+        }
+        while(_floodedTiles.Count > 0)
+        {
+            WaterClusterManager.Instance.AddPossibleFloodTile(_cluster, _floodedTiles.Pop());
         }
     }
 }
