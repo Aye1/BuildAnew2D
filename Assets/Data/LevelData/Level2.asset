@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49dfa243a5014f178b2d911eee101c1, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  _levelName: Water Introduction
-  _successConditions:
-  - {fileID: 11400000, guid: febb859cc08894236b04bb9f8a12575e, type: 2}
+  _levelName: 
+  _successConditions: []
   _defeatConditions:
   - {fileID: 11400000, guid: 93d67f620661a423a83bf351c4fe7dc8, type: 2}
   _initialResources:
