@@ -4215,21 +4215,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeOpacity: 0
+  m_FalloffIntensity: 0.251
+  m_Color: {r: 0.93333334, g: 0.78770036, b: 0.34117642, a: 1}
+  m_Intensity: 2
+  m_LightVolumeOpacity: 0.06
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 1
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0
+  m_ShadowIntensity: 0.047
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightOuterRadius: 7.28
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -4268,6 +4268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c820e66888e7d46c484836a64e8b30d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  intensity: 1
 --- !u!1 &1547407403
 GameObject:
   m_ObjectHideFlags: 0
