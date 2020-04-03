@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InfoMenu _infoMenu;
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
     [SerializeField] private EndGameConditionUI _endGameConditionsUI;
+
 #pragma warning restore 0649
     #endregion
 
