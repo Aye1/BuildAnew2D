@@ -5512,7 +5512,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 04bf1f013a2d949a4bcbe65192df4f6d, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!224 &1936740072
@@ -5529,7 +5529,7 @@ RectTransform:
   - {fileID: 1534053975}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -280}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -339.1715}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
