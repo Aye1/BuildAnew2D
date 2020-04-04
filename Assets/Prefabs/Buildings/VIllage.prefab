@@ -94,6 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f6144233524a0891351c578d3b727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteON: {fileID: 21300000, guid: cd49faa02296540cc9eceafb80d3c15e, type: 3}
+  _spriteON: {fileID: 21300000, guid: 52b59d3fa825b4081add7cfbf2ff4e1e, type: 3}
   _spriteOFF: {fileID: 21300000, guid: cd49faa02296540cc9eceafb80d3c15e, type: 3}
   _forceDebugIsOn: 0
