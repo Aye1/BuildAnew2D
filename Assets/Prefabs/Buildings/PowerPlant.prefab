@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c36ceb0c8e584ffebded13c3ee5ebab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteON: {fileID: 21300000, guid: 03a44e8a1410741d1855251435b1b066, type: 3}
-  _spriteOFF: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}
+  _spriteON: {fileID: 21300000, guid: 4bb9a0ebd404742d498bf59f31c0889f, type: 3}
+  _spriteOFF: {fileID: 21300000, guid: f80526d37d88e41d5817e08be23da22a, type: 3}
   _forceDebugIsOn: 0
 --- !u!95 &3004879163197904134
 Animator:
