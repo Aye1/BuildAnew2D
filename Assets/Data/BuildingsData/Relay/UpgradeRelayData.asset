@@ -20,4 +20,6 @@ MonoBehaviour:
     resourceGenerated:
       amount: 0
       type: 0
-    sellingGain: []
+    sellingGain:
+    - amount: 10
+      type: 1
