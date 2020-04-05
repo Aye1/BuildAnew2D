@@ -8,6 +8,7 @@ public class ResourcesList : MonoBehaviour
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private ResourceInfo templateResourceInfo;
+    [SerializeField] private Transform resourcesHolder;
 #pragma warning restore 0649
 #endregion
     private List<ResourceInfo> resourcesInfo;
@@ -17,7 +18,7 @@ public class ResourcesList : MonoBehaviour
         resourcesInfo = new List<ResourceInfo>();
         foreach (Cost resource in resources)
         {
-            ResourceInfo resourceCreated = Instantiate(templateResourceInfo, Vector3.zero, Quaternion.identity, transform);
+            ResourceInfo resourceCreated = Instantiate(templateResourceInfo, Vector3.zero, Quaternion.identity, resourcesHolder);
             resourceCreated.Initialize(resource);
             resourcesInfo.Add(resourceCreated);
         }

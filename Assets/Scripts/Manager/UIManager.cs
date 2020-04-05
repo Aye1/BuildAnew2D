@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button _undoButton;
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
+    [SerializeField] private Button _nextTurnButton;
 
     [Header("UI References")]
     [SerializeField] private InfoMenu _infoMenu;
@@ -43,12 +44,18 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         InitializeResourcesLayout();
+        InitButtons();
         ResourcesManager.OnResourcesModification += OnResourcesModification;
     }
 
     private void Update()
     {
         UpdateUI();
+    }
+
+    private void InitButtons()
+    {
+        _nextTurnButton.onClick.AddListener(TurnManager.Instance.NextTurn);
     }
 
     private void UpdateUI()
