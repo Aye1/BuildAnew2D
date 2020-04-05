@@ -38,10 +38,6 @@ public class WaterClusterManager : MonoBehaviour
             Destroy(gameObject);
         }
         _pumpingStationsTiles = new List<BaseTileData>();
-    }
-
-    private void Start()
-    {
         TilesDataManager.OnTilesLoaded += Init;
         TurnManager.OnTurnPredict += PredictFlooding;
     }
