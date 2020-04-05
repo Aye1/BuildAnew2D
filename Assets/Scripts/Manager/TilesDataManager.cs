@@ -130,7 +130,7 @@ public class TilesDataManager : MonoBehaviour
             else if (tile != null)
             {
                 StructureType type = GetStructureTypeFromTile(tile);
-                data.structureTile = CreateStructureFromType(type, data);
+                CreateStructureFromType(type, data);
             }
         }
         _structuresTilemap.gameObject.SetActive(false);
@@ -155,7 +155,7 @@ public class TilesDataManager : MonoBehaviour
         if (CanBuildStructureAtPos(type, pos))
         {
             BaseTileData data = GetTileDataAtPos(pos);
-            data.structureTile = CreateStructureFromType(type, data);
+            CreateStructureFromType(type, data);
             ResourcesManager.Instance.Pay(CostForStructure(type));
             data.structureTile.ActivateStructureIfPossible();
         }
@@ -169,6 +169,7 @@ public class TilesDataManager : MonoBehaviour
         canBuild = canBuild && binding.data.constructibleTerrainTypes.Contains(data.terrainTile.terrainType);
         canBuild = canBuild && data.structureTile == null;
         canBuild = canBuild && ResourcesManager.Instance.CanPay(CostForStructure(type));
+        canBuild = canBuild && RelayManager.Instance.IsInsideRelayRange(data);
         return canBuild;
     }
 
@@ -189,6 +190,7 @@ public class TilesDataManager : MonoBehaviour
             }
 
             // Warning: possible memory leak
+            RelayManager.Instance.UnregisterStructure(data);
             structure.DestroyStructure();
             Destroy(structure.building.gameObject);
             data.structureTile = null;
@@ -262,7 +264,7 @@ public class TilesDataManager : MonoBehaviour
     {
         if (GetTerrainTilemap(predict).cellBounds.Contains(pos))
         {
-            return GetTilesAtPos(GetDirectNeighboursPositions(pos), predict);
+            return GetTilesAtPos(GridUtils.GetDirectNeighboursPositions(pos), predict);
         }
         return null;
     }
@@ -281,19 +283,6 @@ public class TilesDataManager : MonoBehaviour
     {
         Vector3Int tilePos = GetTerrainTilemap(predict).WorldToCell(pos);
         return GetTileDataAtPos(tilePos);
-    }
-
-    // TODO: move into an helper/utils class
-    public IEnumerable<Vector3Int> GetDirectNeighboursPositions(Vector3Int position)
-    {
-        IEnumerable<Vector3Int> neighbours = new List<Vector3Int>
-        {
-            new Vector3Int(position.x - 1, position.y, position.z),
-            new Vector3Int(position.x + 1, position.y, position.z),
-            new Vector3Int(position.x, position.y - 1, position.z),
-            new Vector3Int(position.x, position.y + 1, position.z)
-        };
-        return neighbours;
     }
 
     public IEnumerable<BaseTileData> GetTilesWithTerrainType(TerrainType type, bool predict = false)
@@ -470,11 +459,12 @@ public class TilesDataManager : MonoBehaviour
                 default:
                     throw new MissingStructureTypeDefinitionException();
             }
-
+            data.structureTile = newTile;
             Building building = Instantiate(structureBinding.building, data.worldPosition, Quaternion.identity, transform);
             building.dataTile = newTile;
             newTile.building = building;
             ResourcesManager.Instance.RegisterStructure(newTile);
+            RelayManager.Instance.RegisterStructure(data);
         }
         return newTile;
     }

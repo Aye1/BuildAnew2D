@@ -12,9 +12,6 @@ public class BaseTileData : IActsOnTurnStart
     public TerrainTile terrainTile;
     public StructureTile structureTile;
 
-    public TerrainTile NTterraintile;
-    public StructureTile NTstructureTile;
-
     public BaseTileData() { }
 
     public BaseTileData(BaseTileData origin)
@@ -24,8 +21,6 @@ public class BaseTileData : IActsOnTurnStart
         originTile = origin.originTile;
         terrainTile = origin.terrainTile;
         structureTile = origin.structureTile;
-        NTterraintile = origin.NTterraintile;
-        NTstructureTile = origin.NTstructureTile;
     }
 
     public void OnTurnStarts()
