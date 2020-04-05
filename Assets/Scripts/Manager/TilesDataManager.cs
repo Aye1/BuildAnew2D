@@ -463,6 +463,9 @@ public class TilesDataManager : MonoBehaviour
                 case StructureType.Mine:
                     newTile = new MineTile();
                     break;
+                case StructureType.Relay:
+                    newTile = new RelayTile();
+                    break;
 
                 default:
                     throw new MissingStructureTypeDefinitionException();

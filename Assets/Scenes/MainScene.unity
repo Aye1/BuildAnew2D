@@ -6635,6 +6635,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
+      propertyPath: _structureTemplates.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
       propertyPath: _terrainTilemap
       value: 
       objectReference: {fileID: 0}
@@ -6659,6 +6664,29 @@ PrefabInstance:
       propertyPath: _structureTemplates.Array.data[1].data
       value: 
       objectReference: {fileID: 11400000, guid: 3a167dcc273324b6190ae3c7e0784408,
+        type: 2}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[5].type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[5].building
+      value: 
+      objectReference: {fileID: -2754062395042325326, guid: 94838513f12754bef95c4793bb9fc268,
+        type: 3}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[5].data
+      value: 
+      objectReference: {fileID: 11400000, guid: 6883abe4d719f4b14826fa37c4c133f4,
+        type: 2}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _structureTemplates.Array.data[5].buildingTile
+      value: 
+      objectReference: {fileID: 11400000, guid: a1843aad9dbee455dadcfdd303d79fc8,
         type: 2}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
