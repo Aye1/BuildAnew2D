@@ -43,7 +43,7 @@ public class RelayManager : MonoBehaviour
         {
             if (baseTile.structureTile != null)
             {
-                baseTile.structureTile.DeactivateStructureIfPossible();
+                baseTile.structureTile.ForceDeactivation();
             }
         }
     }
@@ -54,6 +54,7 @@ public class RelayManager : MonoBehaviour
         IEnumerable<BaseTileData> intersection = _constructiblesTiles;
         _constructiblesTiles.ToList().Clear();
         gameObjectList.ForEach(x => Destroy(x));
+
         List<Vector3Int> uniqueList = new List<Vector3Int>();
         foreach (BaseTileData structureTile in _relayBastTileData)
         {

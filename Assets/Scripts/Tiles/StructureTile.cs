@@ -100,19 +100,26 @@ public abstract class StructureTile : ActiveTile
 
     public void DestroyStructure()
     {
-        bool willNeedRecomputation = IsOn;
         ResourcesManager.Instance.UnregisterStructure(this);
-        if (willNeedRecomputation)
+        ForceDeactivation();
+    }
+
+    public void ForceDeactivation()
+    {
+        bool needRecomputation = IsOn;
+        IsOn = false;
+        if (needRecomputation)
         {
             ActivationState state = CanToggleStructure();
             if (state == ActivationState.ImpossibleNeedEnergy)
             {
-                Debug.Log("Energy consumption");
                 ResourcesManager.Instance.RecomputeActiveStructure();
             }
+            if (this is PumpingStationTile)
+            {
+                WaterClusterManager.Instance.RecomputeFlooding();
+            }
         }
-        IsOn = false;
-       
     }
 
     private StructureLevel GetNextLevel()
