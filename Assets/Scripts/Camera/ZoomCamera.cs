@@ -5,6 +5,8 @@ using System.Collections;
 public class ZoomCamera : MonoBehaviour
 {
     public float zoomSpeed = 0.05f;
+    public float minZoom = 1.0f;
+    public float maxZoom = 5.0f;
 
     private Camera _camera;
 
@@ -25,11 +27,11 @@ public class ZoomCamera : MonoBehaviour
         Vector3 currentScale = transform.localScale;
         Vector3 newScale = currentScale;
 
-        if (InputManager.Instance.GetKey("zoomCameraOut"))
+        if (InputManager.Instance.GetKey("zoomCameraOut") && currentScale.x < maxZoom)
         {
             newScale += Vector3.one * zoomSpeed; ;
         }
-        if (InputManager.Instance.GetKey("zoomCameraIn"))
+        if (InputManager.Instance.GetKey("zoomCameraIn") && currentScale.x > minZoom)
         {
             newScale += Vector3.one * -1 * zoomSpeed;
         }
