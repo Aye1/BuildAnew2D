@@ -5616,6 +5616,8 @@ MonoBehaviour:
     errorText: No energy is available to activate
   - state: 3
     errorText: 
+  - state: 4
+    errorText: Outside Relay Range
 --- !u!114 &1868266103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5811,6 +5813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameobjectTest: {fileID: 164175773}
+  _range: 2
 --- !u!4 &1911897261
 Transform:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine, Relay };
 public enum StructureLevel { Level0, Level1 };
-public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure };
+public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
 public abstract class StructureTile : ActiveTile
 {
     public StructureType structureType;
@@ -34,7 +34,7 @@ public abstract class StructureTile : ActiveTile
         return structureType == StructureType.None ? "" : structureType.ToString();
     }
 
-    private ActivationState CanToggleStructure()
+    public ActivationState CanToggleStructure()
     {
         ActivationState canToggleStructure = ActivationState.ActivationPossible;
 
@@ -46,7 +46,6 @@ public abstract class StructureTile : ActiveTile
         else if (structureData.ConsumesEnergy & !IsOn)
         {
             canToggleStructure = energyAvailable >= structureData.consumedEnergyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
-
         }
 
         return canToggleStructure;

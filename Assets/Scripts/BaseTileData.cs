@@ -37,10 +37,10 @@ public class BaseTileData : IActsOnTurnStart
         structureTile?.PredictOnTurnStarts(neighbours);
     }
 
-    public void ApplyPrediction() 
+    public void ApplyPrediction()
     {
         terrainTile?.ApplyPrediction();
-        structureTile?.ApplyPrediction(); 
+        structureTile?.ApplyPrediction();
     }
 
     public string GetTerrainText()
@@ -60,19 +60,34 @@ public class BaseTileData : IActsOnTurnStart
 
     public ActivationState ToggleStructureIfPossible()
     {
-        ActivationState returnActivationState = ActivationState.ImpossibleMissingStructure;
-        if (structureTile != null)
+        ActivationState returnActivationState = CanToggleStructure();
+        if (returnActivationState == ActivationState.ActivationPossible)
         {
             returnActivationState = structureTile.ToggleStructureIfPossible();
         }
         return returnActivationState;
     }
-
+    public ActivationState CanToggleStructure()
+    {
+        ActivationState returnActivationState = ActivationState.ImpossibleMissingStructure;
+        if (RelayManager.Instance.IsInsideRelayRange(this))
+        {
+            if (structureTile != null)
+            {
+                returnActivationState = structureTile.CanToggleStructure();
+            }
+        }
+        else
+        {
+            returnActivationState = ActivationState.OutsideRange;
+        }
+        return returnActivationState;
+    }
     public void HandleFloodPrevision()
     {
-        if(structureTile != null)
+        if (structureTile != null)
         {
-            if(!structureTile.CanStructureBeFlooded())
+            if (!structureTile.CanStructureBeFlooded())
             {
                 structureTile.WarnStructureDestruction();
             }
@@ -80,8 +95,8 @@ public class BaseTileData : IActsOnTurnStart
     }
 
     public void RemoveFloodPrevision()
-    { 
-        if(structureTile != null)
+    {
+        if (structureTile != null)
         {
             structureTile.DisableWarnStructureDestruction();
         }
@@ -89,9 +104,9 @@ public class BaseTileData : IActsOnTurnStart
 
     public StructureTile HandleFlood()
     {
-        if(structureTile != null)
+        if (structureTile != null)
         {
-            if(!structureTile.CanStructureBeFlooded())
+            if (!structureTile.CanStructureBeFlooded())
             {
                 StructureTile structureToRemove = structureTile;
                 structureTile = null;
