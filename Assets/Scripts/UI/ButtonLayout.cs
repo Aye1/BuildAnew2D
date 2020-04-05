@@ -10,7 +10,6 @@ public class ButtonLayout : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private Button _resetButton;
     [SerializeField] private Button _nextLevelButton;
-    [SerializeField] private Button _nextTurnButton;
 #pragma warning restore 0649
     #endregion
     // Start is called before the first frame update
@@ -18,7 +17,6 @@ public class ButtonLayout : MonoBehaviour
     {
         _resetButton.onClick.AddListener(LevelManager.Instance.ResetCurrentLevel);
         _nextLevelButton.onClick.AddListener(LevelManager.Instance.LoadNextLevel);
-        _nextTurnButton.onClick.AddListener(GameManager.Instance.NextTurn);
     }
 
     // Update is called once per frame
