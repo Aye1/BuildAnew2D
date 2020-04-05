@@ -18,15 +18,19 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _posText;
     [SerializeField] private TextMeshProUGUI _structureText;
     [SerializeField] private TextMeshProUGUI _errorText;
-    [SerializeField] private Button _toggleButton;
+    //[SerializeField] private Button _toggleButton;
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _sellButton;
     [SerializeField] private ResourceInfo _energyInfo;
     [SerializeField] private List<ErrorText> _errors;
-    private Dictionary<ActivationState, string> _errorTextDico;
-    private BaseTileData _previousTile;
+    [SerializeField] private EnergyIndicator _energyIndicator;
 #pragma warning restore 0649
     #endregion
+
+    private Dictionary<ActivationState, string> _errorTextDico;
+    private BaseTileData _previousTile;
+
+
     private bool _needRefresh = false;
     // Start is called before the first frame update
     void Start()
@@ -62,13 +66,15 @@ public class InfoMenu : MonoBehaviour
             _posText.text = selectedTile.gridPosition.ToString();
             _typeText.text = selectedTile.GetTerrainText();
             _structureText.text = selectedTile.GetStructureText();
-            _toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
+            //_toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
             _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
             _sellButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanSellStructure());
             _energyInfo.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.structureData.ConsumesEnergy);
+            _energyIndicator.gameObject.SetActive(selectedTile.structureTile != null);
             if (selectedTile.structureTile != null)
             {
                 _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
+                _energyIndicator.IsOn = selectedTile.structureTile.IsOn;
             }
         }
         _errorText.gameObject.SetActive(false);
@@ -89,6 +95,7 @@ public class InfoMenu : MonoBehaviour
         {
             _errorText.gameObject.SetActive(false);
         }
+        _energyIndicator.IsOn = selectedTile.structureTile.IsOn;
     }
     public void UpgradeStructure()
     {
