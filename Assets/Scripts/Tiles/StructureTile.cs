@@ -107,10 +107,10 @@ public abstract class StructureTile : ActiveTile
     public void ForceDeactivation()
     {
         bool needRecomputation = IsOn;
+        ActivationState state = CanToggleStructure();
         IsOn = false;
         if (needRecomputation)
         {
-            ActivationState state = CanToggleStructure();
             if (state == ActivationState.ImpossibleNeedEnergy)
             {
                 ResourcesManager.Instance.RecomputeActiveStructure();
