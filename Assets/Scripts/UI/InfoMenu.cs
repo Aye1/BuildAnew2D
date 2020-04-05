@@ -18,7 +18,6 @@ public class InfoMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _posText;
     [SerializeField] private TextMeshProUGUI _structureText;
     [SerializeField] private TextMeshProUGUI _errorText;
-    //[SerializeField] private Button _toggleButton;
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _sellButton;
     [SerializeField] private ResourceInfo _energyInfo;
@@ -66,13 +65,17 @@ public class InfoMenu : MonoBehaviour
             _posText.text = selectedTile.gridPosition.ToString();
             _typeText.text = selectedTile.GetTerrainText();
             _structureText.text = selectedTile.GetStructureText();
-            //_toggleButton.gameObject.SetActive(selectedTile.structureTile != null);
-            _upgradeButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanUpgradeStructure());
-            _sellButton.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.CanSellStructure());
-            _energyInfo.gameObject.SetActive(selectedTile.structureTile != null && selectedTile.structureTile.structureData.ConsumesEnergy);
-            _energyIndicator.gameObject.SetActive(selectedTile.structureTile != null);
-            if (selectedTile.structureTile != null)
+            StructureTile structure = selectedTile.structureTile;
+
+            // TODO: move everything structure-related in a dedicated UI prefab
+            _upgradeButton.gameObject.SetActive(structure != null);
+            _sellButton.gameObject.SetActive(structure != null);
+            _energyInfo.gameObject.SetActive(structure != null && structure.structureData.ConsumesEnergy);
+            _energyIndicator.gameObject.SetActive(structure != null);
+            if (structure != null)
             {
+                _upgradeButton.interactable = structure.CanUpgradeStructure();
+                _sellButton.interactable = structure.CanSellStructure();
                 _energyInfo.SetAmount(selectedTile.structureTile.structureData.consumedEnergyAmount);
                 _energyIndicator.IsOn = selectedTile.structureTile.IsOn;
             }
