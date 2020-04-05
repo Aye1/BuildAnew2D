@@ -4469,8 +4469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.8
-  m_Color: {r: 0.7882353, g: 0.8862745, b: 1, a: 1}
+  m_FalloffIntensity: 0.698
+  m_Color: {r: 0.78, g: 0.88, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0.297
   m_ApplyToSortingLayers: 00000000
@@ -4478,13 +4478,13 @@ MonoBehaviour:
   m_UseNormalMap: 1
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.014
-  m_ShadowVolumeIntensity: 0
+  m_ShadowIntensity: 0.059
+  m_ShadowVolumeIntensity: 0.04
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 1.26
-  m_PointLightOuterRadius: 7.37
-  m_PointLightDistance: 3.09
+  m_PointLightInnerRadius: 8.8
+  m_PointLightOuterRadius: 29.08
+  m_PointLightDistance: 3.56
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
@@ -4504,7 +4504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534053973}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1936740072}
@@ -5750,7 +5750,7 @@ RectTransform:
   - {fileID: 1534053975}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -54.527428}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -72.01014}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
