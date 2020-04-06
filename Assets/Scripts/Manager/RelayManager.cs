@@ -40,7 +40,7 @@ public class RelayManager : MonoBehaviour
             }
         }
     }
-    public void UnregisterStructure()
+    public void ComputeInRangeRelays()
     {
         List<BaseTileData> oldConstructibles = new List<BaseTileData>();
         oldConstructibles.AddRange(_constructiblesTiles);
@@ -84,7 +84,7 @@ public class RelayManager : MonoBehaviour
             {
                 _constructiblesTiles.Add(tileData);
             }
-            if(tileData.structureTile != null && tileData.structureTile.GetStructureType() == StructureType.Relay)
+            if(tileData.structureTile != null && tileData.structureTile.GetStructureType() == StructureType.Relay && tileData.structureTile.IsOn)
             {
                 if(!_relayInRange.Contains(tileData))
                 {

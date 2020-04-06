@@ -12,4 +12,9 @@ public class PumpingStationTile : StructureTile
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)
     {
     }
+    public override void InternalToggleStructureIfPossible()
+    {
+        WaterClusterManager.Instance.RecomputeFlooding();
+    }
+
 }

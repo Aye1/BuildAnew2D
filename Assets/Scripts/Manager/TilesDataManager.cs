@@ -195,7 +195,7 @@ public class TilesDataManager : MonoBehaviour
             structure.DestroyStructure();
             Destroy(structure.building.gameObject);
             data.structureTile = null;
-            RelayManager.Instance.UnregisterStructure();
+            RelayManager.Instance.ComputeInRangeRelays();
         }
     }
     #endregion

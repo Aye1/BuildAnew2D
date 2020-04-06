@@ -51,16 +51,15 @@ public abstract class StructureTile : ActiveTile
         return canToggleStructure;
     }
 
+    public virtual void InternalToggleStructureIfPossible() { }
+
     public ActivationState ToggleStructureIfPossible()
     {
         ActivationState activationState = CanToggleStructure();
         if (activationState == ActivationState.ActivationPossible)
         {
             IsOn = !IsOn;
-            if(this is PumpingStationTile)
-            {
-                WaterClusterManager.Instance.RecomputeFlooding();
-            }
+            InternalToggleStructureIfPossible();
         }
         return activationState;
     }
