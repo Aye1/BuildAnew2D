@@ -6,6 +6,7 @@ public abstract class TerrainTile : ActiveTile
     public TerrainType terrainType;
     public abstract TerrainType GetTerrainType();
     public TerrainData terrainData;
+    public TerrainInfo terrainInfo;
     public override void Init()
     {
         terrainType = GetTerrainType();

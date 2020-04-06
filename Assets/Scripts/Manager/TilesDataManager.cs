@@ -17,6 +17,7 @@ public class TerrainBinding
 {
     public TerrainType type;
     public TerrainData terrainData;
+    public TerrainInfo terrainVisualInfo;
     [SerializeField] public TileBase terrainTile;
 }
 
@@ -106,10 +107,11 @@ public class TilesDataManager : MonoBehaviour
             TileBase tile = _terrainTilemap.GetTile(pos);
             if (tile != null)
             {
-                BaseTileData newTileData = CreateBaseTileData(tile);
+                BaseTileData newTileData = new BaseTileData();
                 newTileData.gridPosition = pos;
                 newTileData.originTile = tile;
                 newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
+                CreateBaseTileData(tile, newTileData);
                 tiles.Add(newTileData);
             }
         }
@@ -344,12 +346,10 @@ public class TilesDataManager : MonoBehaviour
 
     #region Bindings
 
-    public BaseTileData CreateBaseTileData(TileBase tile)
+    public void CreateBaseTileData(TileBase tile, BaseTileData data)
     {
-        BaseTileData data = new BaseTileData();
         TerrainBinding binding = GetTerrainBindingFromTile(tile);
-        data.terrainTile = CreateTerrainFromType(binding.type);
-        return data;
+        CreateTerrainFromType(binding.type, data);
     }
 
     public StructureType GetStructureTypeFromTile(TileBase tile)
@@ -469,7 +469,7 @@ public class TilesDataManager : MonoBehaviour
         return newTile;
     }
 
-    public TerrainTile CreateTerrainFromType(TerrainType type)
+    public TerrainTile CreateTerrainFromType(TerrainType type, BaseTileData baseTileData)
     {
         TerrainTile newTile = null;
 
@@ -501,6 +501,11 @@ public class TilesDataManager : MonoBehaviour
                     throw new MissingTerrainTypeDefinitionException();
             }
         }
+        baseTileData.terrainTile = newTile;
+
+        TerrainInfo terrainInfo = Instantiate(terrainBinding.terrainVisualInfo, baseTileData.worldPosition, Quaternion.identity, _terrainTilemap.transform);
+        terrainInfo.dataTile = newTile;
+        newTile.terrainInfo = terrainInfo;
         return newTile;
     }
 

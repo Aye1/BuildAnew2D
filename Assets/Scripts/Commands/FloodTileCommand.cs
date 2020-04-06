@@ -17,7 +17,7 @@ public class FloodTileCommand : Command
     public override void Execute()
     {
         _floodedTile = new BaseTileData(_originTile);
-        _floodedTile.terrainTile = TilesDataManager.Instance.CreateTerrainFromType(TerrainType.Water);
+        TilesDataManager.Instance.CreateTerrainFromType(TerrainType.Water, _floodedTile);
         TilesDataManager.Instance.ChangeTerrainTileInTilemap(_floodedTile.gridPosition, TerrainType.Water, true);
         _cluster.AddTile(_floodedTile);
         _floodedStructure = _floodedTile.HandleFlood();

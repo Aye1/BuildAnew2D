@@ -7,8 +7,6 @@ public class RelayManager : MonoBehaviour
     public static RelayManager Instance { get; private set; }
     private List<BaseTileData> _relayBastTileData;
     private IEnumerable<BaseTileData> _constructiblesTiles;
-    public GameObject gameobjectTest;
-    private List<GameObject> gameObjectList;
     public int _range = 2;
     // Start is called before the first frame update
     private void Awake()
@@ -24,7 +22,6 @@ public class RelayManager : MonoBehaviour
         }
         _relayBastTileData = new List<BaseTileData>();
         _constructiblesTiles = new List<BaseTileData>();
-        gameObjectList = new List<GameObject>();
 
     }
     public void RegisterStructure(BaseTileData structure)
@@ -32,7 +29,11 @@ public class RelayManager : MonoBehaviour
         if (structure.structureTile != null && structure.structureTile.GetStructureType() == StructureType.Relay)
         {
             _relayBastTileData.Add(structure);
-            ComputeConstructibleTerrainTiles();
+            IEnumerable<BaseTileData> intersection = ComputeConstructibleTerrainTiles();
+            foreach (BaseTileData baseTile in intersection)
+            {
+                baseTile.terrainTile.terrainInfo.SetTerrainConstructible();                
+            }
         }
     }
     public void UnregisterStructure(BaseTileData structure)
@@ -41,6 +42,7 @@ public class RelayManager : MonoBehaviour
         IEnumerable<BaseTileData> intersection = ComputeConstructibleTerrainTiles();
         foreach (BaseTileData baseTile in intersection)
         {
+            baseTile.terrainTile.terrainInfo.SetTerrainInconstructible();
             if (baseTile.structureTile != null)
             {
                 baseTile.structureTile.ForceDeactivation();
@@ -51,9 +53,8 @@ public class RelayManager : MonoBehaviour
     //returns the difference between old computation and new one
     List<BaseTileData> ComputeConstructibleTerrainTiles()
     {
-        IEnumerable<BaseTileData> intersection = _constructiblesTiles;
+        IEnumerable<BaseTileData> _constructiblesTilesintersection = _constructiblesTiles;
         _constructiblesTiles.ToList().Clear();
-        gameObjectList.ForEach(x => Destroy(x));
 
         List<Vector3Int> uniqueList = new List<Vector3Int>();
         foreach (BaseTileData structureTile in _relayBastTileData)
@@ -69,12 +70,9 @@ public class RelayManager : MonoBehaviour
             }
         }
         _constructiblesTiles = TilesDataManager.Instance.GetTilesAtPos(uniqueList);
-        foreach (BaseTileData baseTile in _constructiblesTiles)
-        {
-            gameObjectList.Add(Instantiate(gameobjectTest, baseTile.worldPosition, Quaternion.identity));
-        }
-        intersection = intersection.Except(_constructiblesTiles);
-        return intersection.ToList();
+
+        _constructiblesTilesintersection = _constructiblesTiles.Except(_constructiblesTilesintersection);
+        return _constructiblesTilesintersection.ToList();
     }
 
     public bool IsInsideRelayRange(BaseTileData basetileData)
