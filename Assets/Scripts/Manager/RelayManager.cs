@@ -5,9 +5,10 @@ using System.Linq;
 public class RelayManager : MonoBehaviour
 {
     public static RelayManager Instance { get; private set; }
-    private List<BaseTileData> _relayBastTileData;
-    private IEnumerable<BaseTileData> _constructiblesTiles;
+    private List<BaseTileData> _relayInRange;
+    private List<BaseTileData> _constructiblesTiles;
     public int _range = 2;
+    private BaseTileData _mainRelayTile = null;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -20,58 +21,77 @@ public class RelayManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _relayBastTileData = new List<BaseTileData>();
         _constructiblesTiles = new List<BaseTileData>();
+        _relayInRange = new List<BaseTileData>();
 
     }
     public void RegisterStructure(BaseTileData structure)
     {
-        if (structure.structureTile != null && (structure.structureTile.GetStructureType() == StructureType.Relay ^ structure.structureTile.GetStructureType() == StructureType.MainRelay))
+        if (structure.structureTile != null )
         {
-            _relayBastTileData.Add(structure);
-             ComputeConstructibleTerrainTiles();
+            StructureType structureType = structure.structureTile.GetStructureType();
+            if( structureType == StructureType.Relay ^ structureType == StructureType.MainRelay)
+            {
+                if(structureType == StructureType.MainRelay)
+                {
+                    _mainRelayTile = structure;
+                }
+                 ComputeConstructibleTerrainTiles();
+            }
         }
     }
-    public void UnregisterStructure(BaseTileData structure)
+    public void UnregisterStructure()
     {
-        _relayBastTileData.Remove(structure);
-        IEnumerable<BaseTileData> intersection = ComputeConstructibleTerrainTiles();
-        foreach (BaseTileData baseTile in intersection)
+        List<BaseTileData> oldConstructibles = new List<BaseTileData>();
+        oldConstructibles.AddRange(_constructiblesTiles);
+        ComputeConstructibleTerrainTiles();
+        foreach (BaseTileData baseTile in oldConstructibles)
         {
-            baseTile.terrainTile.terrainInfo.SetTerrainInconstructible();
-            if (baseTile.structureTile != null)
+            if(!_constructiblesTiles.Contains(baseTile))
             {
-                baseTile.structureTile.ForceDeactivation();
+                baseTile.terrainTile.terrainInfo.SetTerrainInconstructible();
+                if (baseTile.structureTile != null)
+                {
+                    baseTile.structureTile.ForceDeactivation();
+                }
             }
         }
     }
 
     //returns the difference between old computation and new one
-    List<BaseTileData> ComputeConstructibleTerrainTiles()
+    void ComputeConstructibleTerrainTiles()
     {
-        IEnumerable<BaseTileData> intersection = _constructiblesTiles;
-        _constructiblesTiles.ToList().Clear();
+        _constructiblesTiles.Clear();
+        _relayInRange.Clear();
+        FindRelayInRangeRecursively(_mainRelayTile);
 
-        List<Vector3Int> uniqueList = new List<Vector3Int>();
-        foreach (BaseTileData structureTile in _relayBastTileData)
-        {
-            List<Vector3Int> list = new List<Vector3Int>();
-            list = GridUtils.GetNeighboursPositionsAtDistance(structureTile.gridPosition, _range);
-            foreach (Vector3Int vecInt in list)
-            {
-                if (!uniqueList.Contains(vecInt))
-                {
-                    uniqueList.Add(vecInt);
-                }
-            }
-        }
-        _constructiblesTiles = TilesDataManager.Instance.GetTilesAtPos(uniqueList);
         foreach (BaseTileData baseTile in _constructiblesTiles)
         {
             baseTile.terrainTile.terrainInfo.SetTerrainConstructible();
         }
-        intersection = intersection.Except(_constructiblesTiles);
-        return intersection.ToList();
+    }
+
+    public void FindRelayInRangeRecursively(BaseTileData rootTile)
+    {
+        _relayInRange.Add(rootTile);
+
+        List<Vector3Int> list = new List<Vector3Int>();
+        list = GridUtils.GetNeighboursPositionsAtDistance(rootTile.gridPosition, _range);
+        List<BaseTileData> neighbour = TilesDataManager.Instance.GetTilesAtPos(list).ToList();
+        foreach(BaseTileData tileData in neighbour)
+        {
+            if(!_constructiblesTiles.Contains(tileData))
+            {
+                _constructiblesTiles.Add(tileData);
+            }
+            if(tileData.structureTile != null && tileData.structureTile.GetStructureType() == StructureType.Relay)
+            {
+                if(!_relayInRange.Contains(tileData))
+                {
+                    FindRelayInRangeRecursively(tileData);
+                }
+            }
+        }
     }
 
     public bool IsInsideRelayRange(BaseTileData basetileData)

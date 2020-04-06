@@ -192,10 +192,10 @@ public class TilesDataManager : MonoBehaviour
             }
 
             // Warning: possible memory leak
-            RelayManager.Instance.UnregisterStructure(data);
             structure.DestroyStructure();
             Destroy(structure.building.gameObject);
             data.structureTile = null;
+            RelayManager.Instance.UnregisterStructure();
         }
     }
     #endregion
