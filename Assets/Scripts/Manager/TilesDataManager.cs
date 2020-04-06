@@ -327,6 +327,7 @@ public class TilesDataManager : MonoBehaviour
                 RemoveStructureAtPos(oldTile.gridPosition, false);
             }
             SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
+            Destroy(oldTile.terrainTile.terrainInfo.gameObject);
         }
 
         _modifiedNTTiles.Clear();

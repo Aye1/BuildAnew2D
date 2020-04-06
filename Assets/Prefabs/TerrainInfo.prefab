@@ -95,3 +95,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructibleColor: {r: 0.14509803, g: 0.18352075, b: 0.8666667, a: 0.6156863}
+  floodWarningColor: {r: 0.8962264, g: 0.17332679, b: 0.17332679, a: 0.49019608}

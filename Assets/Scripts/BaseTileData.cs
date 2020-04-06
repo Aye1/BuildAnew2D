@@ -92,6 +92,7 @@ public class BaseTileData : IActsOnTurnStart
                 structureTile.WarnStructureDestruction();
             }
         }
+        terrainTile.terrainInfo.SetTerrainFloodable();
     }
 
     public void RemoveFloodPrevision()
@@ -100,15 +101,16 @@ public class BaseTileData : IActsOnTurnStart
         {
             structureTile.DisableWarnStructureDestruction();
         }
+        terrainTile.terrainInfo.ResetTerrainInfo();
     }
 
     public StructureTile HandleFlood()
     {
+        terrainTile.terrainInfo.ResetTerrainInfo();
         if (structureTile != null)
         {
             if (!structureTile.CanStructureBeFlooded())
             {
-                StructureTile structureToRemove = structureTile;
                 structureTile = null;
                 return structureTile;
             }
