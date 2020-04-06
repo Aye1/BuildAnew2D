@@ -32,7 +32,7 @@ public class BuildingSelectorCell : MonoBehaviour, IPointerEnterHandler, IPointe
     // Update is called once per frame
     void Update()
     {
-        _button.interactable = ResourcesManager.Instance.CanPay(building.data.GetCreationCost());
+        _button.interactable = ResourcesManager.Instance.CanPay(building.data.GetCreationCost()) && !UIManager.Instance.IsBlocked;
     }
 
     public void RegisterButtonOnClick(ClickDelegate methodToCall) 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class UIManager : MonoBehaviour
 
     public StructureType HoveredStructure { get; set; }
     public static UIManager Instance { get; private set; }
+
+    private float _currentBlockingTime = 0.0f;
+    private float _unblockTime;
+    public bool IsBlocked;
 
 
     private void Awake()
@@ -61,6 +66,7 @@ public class UIManager : MonoBehaviour
     {
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
+        ManageUIBlock();
     }
 
     public void ResetUI()
@@ -71,6 +77,28 @@ public class UIManager : MonoBehaviour
         _endGameText.enabled = false;
         _endGamePanel.SetActive(false);
         HideBuildingSelector();
+    }
+
+    public void ManageUIBlock()
+    {
+        //_nextTurnButton.interactable = !IsBlocked;
+    }
+
+    public void RequestBlockUI(float timeSeconds)
+    {
+        _unblockTime = Mathf.Max(_unblockTime, Time.time + timeSeconds);
+        StopAllCoroutines();
+        StartCoroutine(BlockUICoroutine());
+    }
+
+    private IEnumerator BlockUICoroutine()
+    {
+        IsBlocked = true;
+        while(Time.time < _unblockTime)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        IsBlocked = false;
     }
 
     public void ToggleBuildMode()
