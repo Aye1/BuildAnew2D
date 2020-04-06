@@ -26,7 +26,7 @@ public class RelayManager : MonoBehaviour
     }
     public void RegisterStructure(BaseTileData structure)
     {
-        if (structure.structureTile != null && structure.structureTile.GetStructureType() == StructureType.Relay)
+        if (structure.structureTile != null && (structure.structureTile.GetStructureType() == StructureType.Relay ^ structure.structureTile.GetStructureType() == StructureType.MainRelay))
         {
             _relayBastTileData.Add(structure);
              ComputeConstructibleTerrainTiles();

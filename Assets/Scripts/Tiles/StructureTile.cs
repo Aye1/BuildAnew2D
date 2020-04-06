@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine, Relay };
+public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine, MainRelay, Relay };
 public enum StructureLevel { Level0, Level1 };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
 public abstract class StructureTile : ActiveTile
