@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49dfa243a5014f178b2d911eee101c1, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  _levelName: 
+  _levelName: Water Level
   _successConditions: []
   _defeatConditions:
   - {fileID: 11400000, guid: 93d67f620661a423a83bf351c4fe7dc8, type: 2}
@@ -21,6 +21,6 @@ MonoBehaviour:
     type: 1
   - amount: 5
     type: 2
-  _tutorialData: {fileID: 0}
-  _terrainTileMapPath: Assets/Resources/TileMapForLevel/Level2/Terrain_Tilemap.prefab
-  _structureTileMapPath: Assets/Resources/TileMapForLevel/Level2/Structures_Tilemap.prefab
+  tutorialData: {fileID: 0}
+  terrainTileMapPath: 
+  structureTileMapPath: 

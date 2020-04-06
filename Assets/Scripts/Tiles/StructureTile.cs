@@ -123,7 +123,9 @@ public abstract class StructureTile : ActiveTile
 
     private StructureLevel GetNextLevel()
     {
-        return StructureLevel.Level1; // TODO : check real next level
+        StructureLevel nextLevel = structureLevel + 1;
+        nextLevel = nextLevel >= maxLevel ? maxLevel : nextLevel;
+        return nextLevel; 
     }
 
     private List<Cost> GetUpgradeCostForNextLevel()

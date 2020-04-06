@@ -91,6 +91,7 @@ public class TilesDataManager : MonoBehaviour
         {
             RemoveStructureAtPos(tileData.gridPosition, false);
         }
+        RelayManager.Instance.Reset();
         Destroy(_terrainTilemap.gameObject);
         Destroy(_structuresTilemap.gameObject);
         Destroy(_NTterrainTilemap.gameObject);
