@@ -34,7 +34,10 @@ public class StructureControlView : MonoBehaviour
                     _structure.OnPropertyChanged -= OnStructurePropertyChanged;
                 }
                 _structure = value;
-                _structure.OnPropertyChanged += OnStructurePropertyChanged;
+                if (_structure != null)
+                {
+                    _structure.OnPropertyChanged += OnStructurePropertyChanged;
+                }
                 UpdateUI();
             }
         }
