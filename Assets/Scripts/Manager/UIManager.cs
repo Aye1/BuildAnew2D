@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InfoMenu _infoMenu;
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
     [SerializeField] private EndGameConditionUI _endGameConditionsUI;
+    [SerializeField] private Transform _buildingPanel;
 
 #pragma warning restore 0649
     #endregion
@@ -75,6 +73,11 @@ public class UIManager : MonoBehaviour
     public void ToggleBuildMode()
     {
         BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
+    }
+
+    public void ToggleBuildingSelector()
+    {
+        _buildingPanel.gameObject.SetActive(!_buildingPanel.gameObject.activeInHierarchy);
     }
 
     public void TriggerGameOver()
