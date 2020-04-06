@@ -815,7 +815,6 @@ GameObject:
   - component: {fileID: 322174685}
   - component: {fileID: 322174684}
   - component: {fileID: 322174683}
-  - component: {fileID: 322174686}
   m_Layer: 5
   m_Name: Sell Button
   m_TagString: Untagged
@@ -932,18 +931,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322174681}
   m_CullTransparentMesh: 0
---- !u!114 &322174686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322174681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22487196f43a94a328ed526835f392a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &355096203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,6 +1765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 580172896}
   - component: {fileID: 580172897}
+  - component: {fileID: 580172898}
   m_Layer: 5
   m_Name: Structure Info
   m_TagString: Untagged
@@ -1833,6 +1821,23 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &580172898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580172895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7804d536b3cf441cb9ee19f8756bb1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _typeText: {fileID: 2091683683}
+  _upgradeButton: {fileID: 995638834}
+  _sellButton: {fileID: 322174683}
+  _energyInfo: {fileID: 1360520966}
+  _energyIndicator: {fileID: 469172007}
 --- !u!1001 &601650251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3212,7 +3217,6 @@ GameObject:
   - component: {fileID: 995638836}
   - component: {fileID: 995638835}
   - component: {fileID: 995638834}
-  - component: {fileID: 995638837}
   m_Layer: 5
   m_Name: Upgrade Button
   m_TagString: Untagged
@@ -3329,18 +3333,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995638832}
   m_CullTransparentMesh: 0
---- !u!114 &995638837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 995638832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22487196f43a94a328ed526835f392a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1047194950
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,11 +6632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _typeText: {fileID: 1172773671}
   _posText: {fileID: 1194144596}
-  _structureText: {fileID: 2091683683}
   _errorText: {fileID: 845897104}
-  _upgradeButton: {fileID: 995638834}
-  _sellButton: {fileID: 322174683}
-  _energyInfo: {fileID: 1360520966}
   _errors:
   - state: 0
     errorText: 
@@ -6656,7 +6644,7 @@ MonoBehaviour:
     errorText: 
   - state: 4
     errorText: Outside Relay Range
-  _energyIndicator: {fileID: 469172007}
+  _structureControlView: {fileID: 580172898}
 --- !u!114 &1868266103
 MonoBehaviour:
   m_ObjectHideFlags: 0

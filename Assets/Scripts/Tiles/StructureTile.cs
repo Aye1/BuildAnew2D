@@ -6,13 +6,30 @@ public enum StructureLevel { Level0, Level1 };
 public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
 public abstract class StructureTile : ActiveTile
 {
+    private bool _isOn;
+    public bool IsOn
+    {
+        get
+        {
+            return _isOn;
+        }
+        set
+        {
+            if(_isOn != value)
+            {
+                _isOn = value;
+                OnSpecificPropertyChanged("IsOn");
+            }
+        }
+    }
+    
     public StructureType structureType;
     public StructureData structureData;
-    public bool IsOn;
     public StructureLevel structureLevel = StructureLevel.Level0;
     public Building building;
     public abstract StructureType GetStructureType();
     private StructureLevel maxLevel = StructureLevel.Level0;
+
     public override void Init()
     {
         structureType = GetStructureType();
@@ -151,6 +168,7 @@ public abstract class StructureTile : ActiveTile
         List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
         return sellingRefund!= null && sellingRefund.Count != 0;
     }
+
     public void SellStructure(Vector3Int position)
     {
         if (CanSellStructure())
