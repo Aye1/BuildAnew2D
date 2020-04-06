@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private TextMeshProUGUI _endGameText;
+    [SerializeField] private GameObject _endGamePanel;
     [SerializeField] private Button _undoButton;
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
@@ -41,6 +42,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        ResetUI();
         InitializeResourcesLayout();
         InitButtons();
         ResourcesManager.OnResourcesModification += OnResourcesModification;
@@ -68,6 +70,7 @@ public class UIManager : MonoBehaviour
         _tooltipBuildingInfo.SetVisible(false);
         _endGameConditionsUI.HideConditions();
         _endGameText.enabled = false;
+        _endGamePanel.SetActive(false);
     }
 
     public void ToggleBuildMode()
@@ -82,11 +85,13 @@ public class UIManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
+        _endGamePanel.SetActive(true);
         _endGameText.enabled = true;
         _endGameText.text = _languageTexts.lossText;
     }
     public void TriggerGameSuccess()
     {
+        _endGamePanel.SetActive(true);
         _endGameText.enabled = true;
         _endGameText.text = _languageTexts.winText;
     }

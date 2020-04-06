@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
         RegisterGameReadyCallbacks();
         MouseManager.OnPlayerClick += OnPlayerClick;
         LevelManager.OnLevelNeedReset += Reset;
+        TurnManager.OnTurnStart += ComputeEndGameCondition;
         LoadLevel();
         CheckIfGameIsReady();
     }

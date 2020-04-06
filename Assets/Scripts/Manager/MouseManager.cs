@@ -70,7 +70,6 @@ public class MouseManager : MonoBehaviour
                 else
                 {
                     tileClicked.terrainTile.DebugOnClick();
-
                 }
                 SelectedTile = tileClicked;
             }
