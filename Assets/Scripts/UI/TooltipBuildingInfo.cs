@@ -27,8 +27,8 @@ public class TooltipBuildingInfo : MonoBehaviour
         if(currentType != StructureType.None)
         {
             childObject.SetActive(true);
-            Vector3 pos = MouseManager.Instance.GetMouseScreenPos();
-            childObject.transform.position = pos;
+            //Vector3 pos = MouseManager.Instance.GetMouseScreenPos();
+            //childObject.transform.position = pos;
             if (currentType != previousDisplayedType)
             {
                 DisplayStructureInfo(currentType);
@@ -45,7 +45,8 @@ public class TooltipBuildingInfo : MonoBehaviour
         
         previousDisplayedType = currentType;
     }
-    IEnumerator Fade()
+
+    /*IEnumerator Fade()
     {
         for (float ft = 1f; ft >= 0; ft -= 0.25f)
         {
@@ -55,7 +56,8 @@ public class TooltipBuildingInfo : MonoBehaviour
             material.color = c;
             yield return new WaitForSeconds(.1f);
         }
-    }
+    }*/
+
     private void DisplayStructureInfo(StructureType structureType)
     {
         StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(structureType);
