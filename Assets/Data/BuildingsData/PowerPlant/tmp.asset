@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 549fca7ea33e74f158e83033e8c10fc1, type: 3}
-  m_Name: PowerPlantUpgrade
+  m_Script: {fileID: 11500000, guid: 6ad7ec86cb7444eb684a5255bedda2e3, type: 3}
+  m_Name: tmp
   m_EditorClassIdentifier: 
-  upgrades:
+  relayUpgrades:
   - level: 0
     upgradeCosts:
     - amount: 50
       type: 1
-    resourceGenerated:
-      amount: 0
-      type: 0
+    sellingGain:
+    - amount: 40
+      type: 1
+    _range: 0

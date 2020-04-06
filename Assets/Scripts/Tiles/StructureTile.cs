@@ -136,6 +136,8 @@ public abstract class StructureTile : ActiveTile
         return structureLevel != maxLevel && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
     }
 
+    public virtual void InternalUpgradeStructure() { }
+
     public void UpgradeStructure()
     {
         if(CanUpgradeStructure())
@@ -143,6 +145,7 @@ public abstract class StructureTile : ActiveTile
             ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
             structureLevel = GetNextLevel();
             building.UpgradeBuilding();
+            InternalUpgradeStructure();
         }
     }
     public bool CanSellStructure()

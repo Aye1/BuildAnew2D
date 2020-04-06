@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   producedEnergyAmount: 0
   consumedEnergyAmount: 2
-  isConstructible: 1
   structureName: Sawmill
   icon: {fileID: 21300000, guid: 6fa8fddd0d51540d385b98cc14f32cd2, type: 3}
-  creationCosts: []
   constructibleTerrainTypes: 03000000
-  upgradeData: {fileID: 11400000, guid: c75c5d77cee6c4afb923c3b149395b3c, type: 2}
+  upgradeData: {fileID: 11400000, guid: 1e3368c515875462baaa73de5211a2ec, type: 2}

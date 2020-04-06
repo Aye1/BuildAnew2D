@@ -17,4 +17,15 @@ public class RelayTile : StructureTile
     {
         RelayManager.Instance.ComputeInRangeRelays();
     }
+
+    public override void InternalUpgradeStructure()
+    {
+        RelayManager.Instance.ComputeInRangeRelays();
+    }
+
+    public virtual int GetActivationAreaRange()
+    {
+        RelayUpgradeBinding upgradeBinding = (RelayUpgradeBinding)(structureData.upgradeData.GetUpgradeBindingForLevel(structureLevel));
+        return upgradeBinding._range;
+    }
 }

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainRelayTile : StructureTile
+public class MainRelayTile : RelayTile
 {
-    public override void Init()
-    {
-        base.Init();
-        IsOn = true;
-    }
+    private int _defaultRange = 3;
+    
     public override StructureType GetStructureType()
     {
         return StructureType.MainRelay;
+    }
+    public override int GetActivationAreaRange()
+    {
+        return _defaultRange;
     }
 }

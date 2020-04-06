@@ -17,4 +17,4 @@ MonoBehaviour:
   structureName: Relay
   icon: {fileID: 21300000, guid: 12400e6e4230144d6bffbc26892ba85a, type: 3}
   constructibleTerrainTypes: 01000000030000000400000005000000
-  upgradeData: {fileID: 11400000, guid: b4aec8b50d5234b16aff6a04632bb0e1, type: 2}
+  upgradeData: {fileID: 11400000, guid: f9a21ffb746534ae9a941911b6688c72, type: 2}
