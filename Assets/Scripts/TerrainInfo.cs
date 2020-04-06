@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class TerrainInfo : MonoBehaviour
 {
-    private Color constructibleColor;
-    private Color inconstructibleColor;
+    public Color constructibleColor = new Color(0, 0, 255, 100);
+    private Color invisibleInfo = new Color(0, 0, 0, 0);
     public TerrainTile dataTile;
-    // Start is called before the first frame update
-    void Start()
-    {
-        constructibleColor = new Color(0, 0, 255, 255);
-        inconstructibleColor = new Color(0, 255, 0, 255);
-        GetComponent<SpriteRenderer>().color = inconstructibleColor;
-    }
 
     public void SetTerrainConstructible()
     {
@@ -22,6 +15,6 @@ public class TerrainInfo : MonoBehaviour
 
     public void SetTerrainInconstructible()
     {
-        GetComponent<SpriteRenderer>().color = inconstructibleColor;
+        GetComponent<SpriteRenderer>().color = invisibleInfo;
     }
 }

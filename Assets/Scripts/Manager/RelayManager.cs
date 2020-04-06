@@ -29,11 +29,7 @@ public class RelayManager : MonoBehaviour
         if (structure.structureTile != null && structure.structureTile.GetStructureType() == StructureType.Relay)
         {
             _relayBastTileData.Add(structure);
-            IEnumerable<BaseTileData> intersection = ComputeConstructibleTerrainTiles();
-            foreach (BaseTileData baseTile in intersection)
-            {
-                baseTile.terrainTile.terrainInfo.SetTerrainConstructible();                
-            }
+             ComputeConstructibleTerrainTiles();
         }
     }
     public void UnregisterStructure(BaseTileData structure)
@@ -53,7 +49,7 @@ public class RelayManager : MonoBehaviour
     //returns the difference between old computation and new one
     List<BaseTileData> ComputeConstructibleTerrainTiles()
     {
-        IEnumerable<BaseTileData> _constructiblesTilesintersection = _constructiblesTiles;
+        IEnumerable<BaseTileData> intersection = _constructiblesTiles;
         _constructiblesTiles.ToList().Clear();
 
         List<Vector3Int> uniqueList = new List<Vector3Int>();
@@ -70,9 +66,12 @@ public class RelayManager : MonoBehaviour
             }
         }
         _constructiblesTiles = TilesDataManager.Instance.GetTilesAtPos(uniqueList);
-
-        _constructiblesTilesintersection = _constructiblesTiles.Except(_constructiblesTilesintersection);
-        return _constructiblesTilesintersection.ToList();
+        foreach (BaseTileData baseTile in _constructiblesTiles)
+        {
+            baseTile.terrainTile.terrainInfo.SetTerrainConstructible();
+        }
+        intersection = intersection.Except(_constructiblesTiles);
+        return intersection.ToList();
     }
 
     public bool IsInsideRelayRange(BaseTileData basetileData)
