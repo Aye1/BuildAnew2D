@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6cc2976eace4b31b545cba5835a136, type: 3}
   m_Name: T1S2
   m_EditorClassIdentifier: 
-  _conditions:
+  conditions:
   - {fileID: 11400000, guid: 23e9032c5c9a64700a0922b8f99b67f8, type: 2}
-  _requestText: Great, now saw mill must work to produces woods. Click on the next
-    turn button to make the time fly, and create enough powerplant to activate the
-    village
+  requestText: S3 - Activate village

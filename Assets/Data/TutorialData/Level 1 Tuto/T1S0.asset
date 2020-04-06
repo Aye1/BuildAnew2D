@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6cc2976eace4b31b545cba5835a136, type: 3}
   m_Name: T1S0
   m_EditorClassIdentifier: 
-  _conditions:
+  conditions:
   - {fileID: 11400000, guid: 7aa3160dbd8e1469db5e2a3422ea90d2, type: 2}
-  _requestText: Your goal is to activate the village, so you will need energy. Select
-    the powerplant and creae one
+  requestText: S1 - Build PowerPlant

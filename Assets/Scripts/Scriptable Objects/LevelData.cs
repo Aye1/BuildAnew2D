@@ -18,10 +18,10 @@ public class LevelData : ScriptableObject
     [Header("Resources")]
     [SerializeField] private List<Cost> _initialResources;
     [Header("Tutorial")]
-    public TutorialData _tutorialData;
+    public TutorialData tutorialData;
     [Header("TileMap")]
-    public string _terrainTileMapPath;
-    public string _structureTileMapPath;
+    public string terrainTileMapPath;
+    public string structureTileMapPath;
     private Tilemap _terrainTilemap;
     private Tilemap _structuresTilemap;
 
@@ -45,7 +45,7 @@ public class LevelData : ScriptableObject
     {
         if(_terrainTilemap == null)
         {
-            string path = _terrainTileMapPath.Remove(0, _terrainTileMapPath.IndexOf("Resources") + 10); //+10 bc resources = 9 chars + 1 for '/'
+            string path = terrainTileMapPath.Remove(0, terrainTileMapPath.IndexOf("Resources") + 10); //+10 bc resources = 9 chars + 1 for '/'
             path = path.Remove(path.IndexOf(".")); //Removes the extension
             _terrainTilemap = Resources.Load<Tilemap>(path);
         }
@@ -55,7 +55,7 @@ public class LevelData : ScriptableObject
     {
         if (_structuresTilemap == null)
         {
-            string path = _structureTileMapPath.Remove(0, _structureTileMapPath.IndexOf("Resources") + 10); //+10 bc resources = 9 chars + 1 for '/'
+            string path = structureTileMapPath.Remove(0, structureTileMapPath.IndexOf("Resources") + 10); //+10 bc resources = 9 chars + 1 for '/'
             path = path.Remove(path.IndexOf(".")); //Removes the extension
             _structuresTilemap = Resources.Load<Tilemap>(path);
         }

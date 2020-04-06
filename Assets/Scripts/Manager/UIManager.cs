@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
     [SerializeField] private EndGameConditionUI _endGameConditionsUI;
     [SerializeField] private Transform _buildingPanel;
-
 #pragma warning restore 0649
     #endregion
 
@@ -71,6 +70,7 @@ public class UIManager : MonoBehaviour
         _endGameConditionsUI.HideConditions();
         _endGameText.enabled = false;
         _endGamePanel.SetActive(false);
+        HideBuildingSelector();
     }
 
     public void ToggleBuildMode()
@@ -78,7 +78,17 @@ public class UIManager : MonoBehaviour
         BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
     }
 
-    public void ToggleBuildingSelector()
+    public void ShowBuildingSelector()
+    {
+        _buildingPanel.gameObject.SetActive(true);
+    }
+
+    public void HideBuildingSelector()
+    {
+        _buildingPanel.gameObject.SetActive(false);
+    }
+
+    public void ToggleBuildingSelectorVisibility()
     {
         _buildingPanel.gameObject.SetActive(!_buildingPanel.gameObject.activeInHierarchy);
     }

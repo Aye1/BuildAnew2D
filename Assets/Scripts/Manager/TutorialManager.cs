@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
-using TMPro;
-
 
 public enum TutorialState { Ready, Started, Finished };
 public class TutorialManager : MonoBehaviour
@@ -12,7 +8,10 @@ public class TutorialManager : MonoBehaviour
     private TutorialData _currentTutorialData;
     private int _currentStepIndex = 0;
     private TutorialState _tutorialState = TutorialState.Ready;
-    public TextMeshProUGUI _tutorialText;
+
+#pragma warning disable 0649
+    [SerializeField] private TutorialView _tutorialView;
+#pragma warning restore 0649
 
     private void Awake()
     {
@@ -25,19 +24,19 @@ public class TutorialManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameManager.OnLevelLoaded += Reset;
     }
 
     void Start()
     {
-        GameManager.OnLevelLoaded += Reset;
-        LevelManager.OnLevelNeedReset += Reset;
+        //LevelManager.OnLevelNeedReset += Reset;
         MouseManager.OnPlayerClick += ReadNextStep;
-        _tutorialText.gameObject.SetActive(false);
     }
 
     private void Reset()
     {
-        _currentTutorialData = GameManager.Instance.GetLevelData()._tutorialData;
+        _tutorialView.gameObject.SetActive(false);
+        _currentTutorialData = GameManager.Instance.GetLevelData().tutorialData;
         _currentStepIndex = 0;
         _tutorialState = TutorialState.Ready;
         ReadNextStep();
@@ -51,16 +50,16 @@ public class TutorialManager : MonoBehaviour
             if (currentStep != null)
             {
                 _tutorialState = TutorialState.Started;
-                _tutorialText.text = currentStep._requestText;
-                _tutorialText.gameObject.SetActive(true);
-                if (currentStep._conditions.All(x => x.IsConditionVerified()))
+                _tutorialView.gameObject.SetActive(true);
+                _tutorialView.SetText(currentStep.requestText);
+                if (currentStep.conditions.All(x => x.IsConditionVerified()))
                 {
                     _currentStepIndex++;
                     if (_currentTutorialData.GetStepCount() == _currentStepIndex)
                     {
                         //tutorial is finished
                         _tutorialState = TutorialState.Finished;
-                        _tutorialText.gameObject.SetActive(false);
+                        _tutorialView.gameObject.SetActive(false);
                     }
                     else
                     {
