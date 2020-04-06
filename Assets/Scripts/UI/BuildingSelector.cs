@@ -10,7 +10,6 @@ public class BuildingSelector : MonoBehaviour
 #pragma warning restore 0649
 
     public StructureType SelectedStructure { get; private set; }
-
     private IEnumerable<StructureBinding> _structures;
     private BuildingSelectorCell _selectedCell;
 
