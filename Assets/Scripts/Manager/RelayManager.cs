@@ -7,7 +7,6 @@ public class RelayManager : MonoBehaviour
     public static RelayManager Instance { get; private set; }
     private List<BaseTileData> _relayInRange;
     private List<BaseTileData> _constructiblesTiles;
-    public int _range = 2;
     private BaseTileData _mainRelayTile = null;
     // Start is called before the first frame update
     private void Awake()
@@ -25,6 +24,14 @@ public class RelayManager : MonoBehaviour
         _relayInRange = new List<BaseTileData>();
 
     }
+
+    public void Reset()
+    {
+        _mainRelayTile = null;
+        _relayInRange.Clear();
+        _constructiblesTiles.Clear();
+    }
+
     public void RegisterStructure(BaseTileData structure)
     {
         if (structure.structureTile != null )
@@ -40,7 +47,7 @@ public class RelayManager : MonoBehaviour
             }
         }
     }
-    public void UnregisterStructure()
+    public void ComputeInRangeRelays()
     {
         List<BaseTileData> oldConstructibles = new List<BaseTileData>();
         oldConstructibles.AddRange(_constructiblesTiles);
@@ -63,7 +70,17 @@ public class RelayManager : MonoBehaviour
     {
         _constructiblesTiles.Clear();
         _relayInRange.Clear();
-        FindRelayInRangeRecursively(_mainRelayTile);
+        if(_mainRelayTile != null)
+        {
+            if(_mainRelayTile.structureTile != null) // mainRelayTile structure is null when cleaning the level
+            {
+                FindRelayInRangeRecursively(_mainRelayTile);
+            }
+        }
+        else
+        {
+            throw new MainRelayNotFoundException();
+        }
 
         foreach (BaseTileData baseTile in _constructiblesTiles)
         {
@@ -76,7 +93,8 @@ public class RelayManager : MonoBehaviour
         _relayInRange.Add(rootTile);
 
         List<Vector3Int> list = new List<Vector3Int>();
-        list = GridUtils.GetNeighboursPositionsAtDistance(rootTile.gridPosition, _range);
+        RelayTile relayTile = (RelayTile)(rootTile.structureTile);
+        list = GridUtils.GetNeighboursPositionsAtDistance(rootTile.gridPosition, relayTile.GetActivationAreaRange());
         List<BaseTileData> neighbour = TilesDataManager.Instance.GetTilesAtPos(list).ToList();
         foreach(BaseTileData tileData in neighbour)
         {
@@ -84,7 +102,7 @@ public class RelayManager : MonoBehaviour
             {
                 _constructiblesTiles.Add(tileData);
             }
-            if(tileData.structureTile != null && tileData.structureTile.GetStructureType() == StructureType.Relay)
+            if(tileData.structureTile != null && tileData.structureTile.GetStructureType() == StructureType.Relay && tileData.structureTile.IsOn)
             {
                 if(!_relayInRange.Contains(tileData))
                 {

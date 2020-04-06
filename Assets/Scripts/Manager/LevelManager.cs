@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadNextLevel()
     {
-        _currentLevelIndex = _currentLevelIndex == 1 ? 0 : 1 ;
+        _currentLevelIndex = (_currentLevelIndex + 1) % _levelsData.Count;
         OnLevelNeedReset?.Invoke();
     }
 

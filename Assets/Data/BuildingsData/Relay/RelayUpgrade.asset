@@ -9,17 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 549fca7ea33e74f158e83033e8c10fc1, type: 3}
-  m_Name: PumpingStationUpgrade
+  m_Script: {fileID: 11500000, guid: 6ad7ec86cb7444eb684a5255bedda2e3, type: 3}
+  m_Name: RelayUpgrade
   m_EditorClassIdentifier: 
-  upgrades:
+  relayUpgrades:
   - level: 0
     upgradeCosts:
-    - amount: 500
-      type: 1
     - amount: 10
+      type: 1
+    sellingGain:
+    - amount: 10
+      type: 1
+    _range: 2
+  - level: 1
+    upgradeCosts:
+    - amount: 100
+      type: 1
+    - amount: 3
       type: 2
-    resourceGenerated:
-      amount: 0
-      type: 0
-    sellingGain: []
+    sellingGain:
+    - amount: 80
+      type: 1
+    - amount: 2
+      type: 2
+    _range: 3

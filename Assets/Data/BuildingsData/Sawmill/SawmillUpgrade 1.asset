@@ -9,31 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 549fca7ea33e74f158e83033e8c10fc1, type: 3}
-  m_Name: SawmillUpgrade
+  m_Script: {fileID: 11500000, guid: d04d03040793648cf8992a7d15e892d0, type: 3}
+  m_Name: SawmillUpgrade 1
   m_EditorClassIdentifier: 
-  upgrades:
+  resourcesUpgrades:
   - level: 0
     upgradeCosts:
     - amount: 50
       type: 1
-    resourceGenerated:
-      amount: 100
-      type: 1
     sellingGain:
-    - amount: 25
+    - amount: 40
+      type: 1
+    _resourcesGeneration:
+      amount: 100
       type: 1
   - level: 1
     upgradeCosts:
-    - amount: 5
-      type: 2
-    - amount: 500
-      type: 1
-    resourceGenerated:
-      amount: 300
-      type: 1
-    sellingGain:
-    - amount: 300
+    - amount: 100
       type: 1
     - amount: 1
       type: 2
+    sellingGain:
+    - amount: 100
+      type: 1
+    _resourcesGeneration:
+      amount: 200
+      type: 1
