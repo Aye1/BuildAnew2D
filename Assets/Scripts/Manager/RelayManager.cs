@@ -56,7 +56,7 @@ public class RelayManager : MonoBehaviour
         {
             if(!_constructiblesTiles.Contains(baseTile))
             {
-                baseTile.terrainTile.terrainInfo.SetTerrainInconstructible();
+                 baseTile.terrainTile.terrainInfo.SetTerrainInconstructible();
                 if (baseTile.structureTile != null)
                 {
                     baseTile.structureTile.ForceDeactivation();

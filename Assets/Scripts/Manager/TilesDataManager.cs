@@ -199,7 +199,6 @@ public class TilesDataManager : MonoBehaviour
 
             // Warning: possible memory leak
             structure.DestroyStructure();
-            Destroy(structure.building.gameObject);
             data.structureTile = null;
             RelayManager.Instance.ComputeInRangeRelays();
         }
@@ -333,7 +332,10 @@ public class TilesDataManager : MonoBehaviour
                 RemoveStructureAtPos(oldTile.GetGridPosition(), false);
             }
             SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
-            Destroy(oldTile.terrainTile.terrainInfo.gameObject);
+        }
+        foreach (BaseTileData oldTile in _modifiedNTTiles)
+        {
+            oldTile.terrainTile.DestroyTerrainTile();
         }
 
         _modifiedNTTiles.Clear();
@@ -342,6 +344,7 @@ public class TilesDataManager : MonoBehaviour
         {
             oldTile.ApplyPrediction();
         }
+        RelayManager.Instance.ComputeInRangeRelays();
     }
 
     private void SwapTileFromCurrentToNewTilemap(BaseTileData oldTile, BaseTileData newTile, bool predict = false)

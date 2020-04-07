@@ -48,7 +48,6 @@ public class RelayTile : StructureTile
     public override void DestroyStructure()
     {
         base.DestroyStructure();
-        base.InternalSelection();
         BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
         List<BaseTileData> neighboursBaseTileDatas = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
         foreach (BaseTileData tileData in neighboursBaseTileDatas)

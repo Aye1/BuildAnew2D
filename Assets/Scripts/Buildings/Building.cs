@@ -25,7 +25,10 @@ public class Building : MonoBehaviour
         _renderer.sortingOrder = 10;
         _animator = GetComponent<Animator>();
     }
-
+    public void DestroyBuilding()
+    {
+        Destroy(gameObject);
+    }
     private void Update()
     {
         if(_forceDebugIsOn)

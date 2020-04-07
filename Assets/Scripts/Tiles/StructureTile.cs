@@ -118,6 +118,7 @@ public abstract class StructureTile : ActiveTile
     {
         ResourcesManager.Instance.UnregisterStructure(this);
         ForceDeactivation();
+        building.DestroyBuilding();
     }
 
     public void ForceDeactivation()
