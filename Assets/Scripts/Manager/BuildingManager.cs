@@ -35,6 +35,7 @@ public class BuildingManager : MonoBehaviour
             CommandManager.Instance.ExecuteCommand(command);
             OnBuildDone?.Invoke();
             IsInBuildMode = false;
+            UIManager.Instance.HideBuildingSelector();
         }
     }
 
