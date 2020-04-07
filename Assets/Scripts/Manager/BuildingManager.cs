@@ -44,4 +44,9 @@ public class BuildingManager : MonoBehaviour
         CurrentBuildingStructure = type;
         IsInBuildMode = true;
     }
+
+    public void CancelBuildingMode()
+    {
+        IsInBuildMode = false;
+    }
 }

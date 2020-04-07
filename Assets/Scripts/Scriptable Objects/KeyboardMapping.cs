@@ -14,4 +14,12 @@ public class KeyboardMapping : ScriptableObject
     public KeyCode zoomCameraOut = KeyCode.Minus;
     [Header("Tactical View")]
     public KeyCode constructibleView = KeyCode.C;
+    [Header("Menus")]
+    public KeyCode buildMenu = KeyCode.B;
+    [Header("Buildings")]
+    public KeyCode buildPowerPlant = KeyCode.P;
+    public KeyCode buildSawmill = KeyCode.S;
+    public KeyCode buildRelay = KeyCode.R;
+    public KeyCode buildPumpingStation = KeyCode.W;
+    public KeyCode buildMine = KeyCode.M;
 }

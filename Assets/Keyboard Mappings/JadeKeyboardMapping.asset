@@ -16,5 +16,12 @@ MonoBehaviour:
   moveCameraDown: 274
   moveCameraLeft: 276
   moveCameraRight: 275
-  zoomCameraIn: 108
-  zoomCameraOut: 109
+  zoomCameraIn: 107
+  zoomCameraOut: 108
+  constructibleView: 99
+  buildMenu: 98
+  buildPowerPlant: 112
+  buildSawmill: 115
+  buildRelay: 114
+  buildPumpingStation: 119
+  buildMine: 109

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
+public enum GameState { Default, Running, Won, Failed };
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -19,6 +20,29 @@ public class GameManager : MonoBehaviour
     public delegate void GameReady();
     public static event GameReady OnGameReady;
     #endregion
+
+    private GameState _state;
+    public GameState State
+    {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            if(_state != value)
+            {
+                _state = value;
+                if(_state == GameState.Failed)
+                {
+                    TriggerGameOver();
+                } else if (_state == GameState.Won)
+                {
+                    TriggerGameSuccess();
+                }
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -111,21 +135,23 @@ public class GameManager : MonoBehaviour
     {
         if (_levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
         {
-            TriggerGameOver();
+            //TriggerGameOver();
+            State = GameState.Failed;
         }
         else if (_levelData.GetSuccessConditions().Count > 0 && _levelData.GetSuccessConditions().All(x => x.IsConditionVerified()))
         {
-            TriggerGameSuccess();
+            //TriggerGameSuccess();
+            State = GameState.Won;
         }
     }
 
     private void TriggerGameOver()
     {
-        UIManager.Instance.TriggerGameOver();
+        UIManager.Instance.TriggerEndGame();
     }
 
     private void TriggerGameSuccess()
     {
-        UIManager.Instance.TriggerGameSuccess();
+        UIManager.Instance.TriggerEndGame();
     }
 }
