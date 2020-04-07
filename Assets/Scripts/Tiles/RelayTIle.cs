@@ -28,4 +28,9 @@ public class RelayTile : StructureTile
         RelayUpgradeBinding upgradeBinding = (RelayUpgradeBinding)(structureData.upgradeData.GetUpgradeBindingForLevel(structureLevel));
         return upgradeBinding._range;
     }
+    public override void InternalSelection()
+    {
+        base.InternalSelection();
+        
+    }
 }

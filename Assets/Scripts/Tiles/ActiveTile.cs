@@ -17,7 +17,17 @@ public abstract class ActiveTile
     public virtual string GetText() { return ""; }
 
     public virtual void DebugOnClick() { }
-
+    private bool _isSelected = false;
+    public bool IsSelected()
+    {
+        return _isSelected;
+    }
+    public void SetIsSelected(bool isSelected)
+    {
+        _isSelected = isSelected;
+        InternalSelection();
+    }
+    public virtual void InternalSelection() { }
 
     #region Events
 
@@ -38,4 +48,6 @@ public abstract class ActiveTile
     }
 
     #endregion
+
+
 }

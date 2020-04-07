@@ -11,7 +11,7 @@ public class BaseTileData : IActsOnTurnStart
 
     public TerrainTile terrainTile;
     public StructureTile structureTile;
-
+    private bool _isSelected;
     public BaseTileData() { }
 
     public BaseTileData(BaseTileData origin)
@@ -23,6 +23,16 @@ public class BaseTileData : IActsOnTurnStart
         structureTile = origin.structureTile;
     }
 
+    public bool GetIsSelected()
+    {
+        return _isSelected;
+    }
+    public void SetIsSelected(bool isSelected)
+    {
+        _isSelected = isSelected;
+        terrainTile.SetIsSelected(isSelected);
+        structureTile?.SetIsSelected(isSelected);      
+    }
     public void OnTurnStarts()
     {
         IEnumerable<BaseTileData> neighbours = TilesDataManager.Instance.GetTilesAroundTile(this);
