@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class BuildingSelector : MonoBehaviour
 {
@@ -21,11 +19,6 @@ public class BuildingSelector : MonoBehaviour
         BuildingManager.OnBuildDone += OnBuildDone;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     void InstantiateCells()
     {
         foreach (StructureBinding building in _structures)
@@ -43,13 +36,24 @@ public class BuildingSelector : MonoBehaviour
         BuildingManager.Instance.StructureToBuildSelected(_selectedCell.building.type);
     }
 
-    private void OnBuildDone()
+    private void UnselectAnyBuilding()
     {
         _selectedCell = null;
+    }
+
+    private void OnBuildDone()
+    {
+        UnselectAnyBuilding();
     }
 
     private void OnDestroy()
     {
         BuildingManager.OnBuildDone -= OnBuildDone;
+    }
+
+    private void OnDisable()
+    {
+        BuildingManager.Instance.CancelBuildingMode();
+        UnselectAnyBuilding();
     }
 }

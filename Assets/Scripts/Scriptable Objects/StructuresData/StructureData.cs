@@ -7,6 +7,7 @@ public class StructureData : ScriptableObject
     public int producedEnergyAmount;
     public int consumedEnergyAmount;
     public string structureName = "";
+    public string buildShortcutName;
     public Sprite icon;
     public List<TerrainType> constructibleTerrainTypes;
     [Tooltip("If empty, can't be constructible")]

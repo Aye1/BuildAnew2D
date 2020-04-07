@@ -33,6 +33,15 @@ public class BuildingSelectorCell : MonoBehaviour, IPointerEnterHandler, IPointe
     void Update()
     {
         _button.interactable = ResourcesManager.Instance.CanPay(building.data.GetCreationCost()) && !UIManager.Instance.IsBlocked;
+        CatchShortcut();
+    }
+
+    private void CatchShortcut()
+    {
+        if(_button.interactable && InputManager.Instance.GetKeyDown(building.data.buildShortcutName))
+        {
+            _button.onClick?.Invoke();
+        }
     }
 
     public void RegisterButtonOnClick(ClickDelegate methodToCall) 

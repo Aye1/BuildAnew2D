@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/KeyboardMapping", order = 1)]
 public class KeyboardMapping : ScriptableObject
@@ -14,4 +12,14 @@ public class KeyboardMapping : ScriptableObject
     public KeyCode zoomCameraOut = KeyCode.Minus;
     [Header("Tactical View")]
     public KeyCode constructibleView = KeyCode.C;
+    [Header("Menus")]
+    public KeyCode buildMenu = KeyCode.B;
+    [Header("Buildings")]
+    public KeyCode buildPowerPlant = KeyCode.P;
+    public KeyCode buildSawmill = KeyCode.S;
+    public KeyCode buildRelay = KeyCode.R;
+    public KeyCode buildPumpingStation = KeyCode.W;
+    public KeyCode buildMine = KeyCode.M;
+    [Header("Other")]
+    public KeyCode nextTurn = KeyCode.Space;
 }

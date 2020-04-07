@@ -15,6 +15,7 @@ MonoBehaviour:
   producedEnergyAmount: 2
   consumedEnergyAmount: 0
   structureName: Power Plant
+  buildShortcutName: buildPowerPlant
   icon: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}
   constructibleTerrainTypes: 0100000003000000
   upgradeData: {fileID: 11400000, guid: 586e3d4f09f69476e9a2f8c16fcdb3c9, type: 2}

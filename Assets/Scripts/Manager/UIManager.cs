@@ -8,8 +8,7 @@ public class UIManager : MonoBehaviour
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _energyText;
-    [SerializeField] private TextMeshProUGUI _endGameText;
-    [SerializeField] private GameObject _endGamePanel;
+    [SerializeField] private EndGameView _endGamePanel;
     [SerializeField] private Button _undoButton;
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
@@ -20,13 +19,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
     [SerializeField] private EndGameConditionUI _endGameConditionsUI;
     [SerializeField] private Transform _buildingPanel;
+    [SerializeField] private BuildingSelector _buildingSelector;
 #pragma warning restore 0649
     #endregion
 
     public StructureType HoveredStructure { get; set; }
     public static UIManager Instance { get; private set; }
 
-    private float _currentBlockingTime = 0.0f;
     private float _unblockTime;
     public bool IsBlocked;
 
@@ -41,7 +40,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _endGameText.enabled = false;
     } 
 
     private void Start()
@@ -54,6 +52,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        CatchInputs();
         UpdateUI();
     }
 
@@ -66,7 +65,6 @@ public class UIManager : MonoBehaviour
     {
         _energyText.text = ResourcesManager.Instance.EnergyAvailable.ToString() + "/" + ResourcesManager.Instance.EnergyTotal.ToString();
         _undoButton.interactable = CommandManager.Instance.CanUndoLastCommand();
-        ManageUIBlock();
     }
 
     public void ResetUI()
@@ -74,14 +72,16 @@ public class UIManager : MonoBehaviour
         _infoMenu.Hide();
         _tooltipBuildingInfo.SetVisible(false);
         _endGameConditionsUI.HideConditions();
-        _endGameText.enabled = false;
-        _endGamePanel.SetActive(false);
+        _endGamePanel.gameObject.SetActive(false);
         HideBuildingSelector();
     }
 
-    public void ManageUIBlock()
+    private void CatchInputs()
     {
-        //_nextTurnButton.interactable = !IsBlocked;
+        if(InputManager.Instance.GetKeyDown("buildMenu"))
+        {
+            ToggleBuildingSelectorVisibility();
+        }
     }
 
     public void RequestBlockUI(float timeSeconds)
@@ -101,19 +101,19 @@ public class UIManager : MonoBehaviour
         IsBlocked = false;
     }
 
-    public void ToggleBuildMode()
-    {
-        BuildingManager.Instance.IsInBuildMode = !BuildingManager.Instance.IsInBuildMode;
-    }
-
     public void ShowBuildingSelector()
     {
+        _buildingSelector.gameObject.SetActive(true);
         _buildingPanel.gameObject.SetActive(true);
         TacticalViewManager.Instance.TriggerShowConstructibleView();
     }
 
     public void HideBuildingSelector()
     {
+        // Only disabling the panel does not call OnDisable() on the selector
+        // Feel free to investigate if you want
+        // I guess the best solution would have to manage everything in another script on the panel itself
+        _buildingSelector.gameObject.SetActive(false);
         _buildingPanel.gameObject.SetActive(false);
         TacticalViewManager.Instance.TriggerHideConstructibleView();
     }
@@ -130,17 +130,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void TriggerGameOver()
+    public void TriggerEndGame()
     {
-        _endGamePanel.SetActive(true);
-        _endGameText.enabled = true;
-        _endGameText.text = _languageTexts.lossText;
-    }
-    public void TriggerGameSuccess()
-    {
-        _endGamePanel.SetActive(true);
-        _endGameText.enabled = true;
-        _endGameText.text = _languageTexts.winText;
+        _endGamePanel.gameObject.SetActive(true);
     }
 
     public LanguageConstantString GetLanguageConstant()
