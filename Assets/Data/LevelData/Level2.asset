@@ -22,5 +22,5 @@ MonoBehaviour:
   - amount: 5
     type: 2
   tutorialData: {fileID: 0}
-  terrainTileMapPath: 
-  structureTileMapPath: 
+  terrainTileMapPath: Assets/Resources/TileMapForLevel/Level2/Terrain_Tilemap.prefab
+  structureTileMapPath: Assets/Resources/TileMapForLevel/Level2/Structures_Tilemap.prefab
