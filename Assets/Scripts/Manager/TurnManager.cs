@@ -27,6 +27,11 @@ public class TurnManager : MonoBehaviour
         GameManager.OnGameReady += InitTurns;
     }
 
+    private void Update()
+    {
+        CatchShortcuts();
+    }
+
     private void InitTurns()
     {
         _turnCounter = 0;
@@ -59,5 +64,13 @@ public class TurnManager : MonoBehaviour
             }
         }
         OnTurnPredict?.Invoke();
+    }
+
+    private void CatchShortcuts()
+    {
+        if(InputManager.Instance.GetKeyDown("nextTurn") && !UIManager.Instance.IsBlocked)
+        {
+            NextTurn();
+        }
     }
 }
