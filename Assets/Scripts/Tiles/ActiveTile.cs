@@ -21,12 +21,20 @@ public abstract class ActiveTile
 
     #region Events
 
+    public delegate void PropertyChanged(string propertyName);
+    public event PropertyChanged OnPropertyChanged;
+
     public delegate void TileModified();
     public static event TileModified OnTileModified;
 
     protected virtual void OnSpecificTileModified()
     {
         OnTileModified?.Invoke();
+    }
+
+    protected virtual void OnSpecificPropertyChanged(string propertyName)
+    {
+        OnPropertyChanged?.Invoke(propertyName);
     }
 
     #endregion
