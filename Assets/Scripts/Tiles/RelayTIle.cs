@@ -28,31 +28,11 @@ public class RelayTile : StructureTile
         RelayUpgradeBinding upgradeBinding = (RelayUpgradeBinding)(structureData.upgradeData.GetUpgradeBindingForLevel(structureLevel));
         return upgradeBinding._range;
     }
-    public override void InternalSelection()
+    
+    public override void FillAreaOfEffectNeighbours() 
     {
-        base.InternalSelection();
         BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
-        List<BaseTileData> neighboursBaseTileDatas = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
-        foreach (BaseTileData tileData in neighboursBaseTileDatas)
-        {
-            if (_isSelected)
-            {
-                tileData.terrainTile.terrainInfo.ShowInsideAreaColor();
-            }
-            else
-            {
-                tileData.terrainTile.terrainInfo.HideInsideAreaColor();
-            }
-        }
-    }
-    public override void DestroyStructure()
-    {
-        base.DestroyStructure();
-        BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
-        List<BaseTileData> neighboursBaseTileDatas = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
-        foreach (BaseTileData tileData in neighboursBaseTileDatas)
-        {
-            tileData.terrainTile.terrainInfo.HideInsideAreaColor();
-        }
+        _areaOfEffect = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
+        
     }
 }

@@ -29,7 +29,7 @@ public abstract class StructureTile : ActiveTile
     public Building building;
     public abstract StructureType GetStructureType();
     private StructureLevel maxLevel = StructureLevel.Level0;
-
+    protected List<BaseTileData> _areaOfEffect;
     public override void Init()
     {
         structureType = GetStructureType();
@@ -44,6 +44,7 @@ public abstract class StructureTile : ActiveTile
         {
             maxLevel = structureData.upgradeData.GetMaxLevel();
         }
+        _areaOfEffect = new List<BaseTileData>();
     }
 
     public override string GetText()
@@ -67,7 +68,26 @@ public abstract class StructureTile : ActiveTile
 
         return canToggleStructure;
     }
+    public override void InternalSelection()
+    {
+        ShowAreaOfEffect();
+    }
 
+    public void ShowAreaOfEffect()
+    {
+        FillAreaOfEffectNeighbours();
+        foreach (BaseTileData tileData in _areaOfEffect)
+        {
+            if (_isSelected)
+            {
+                tileData.terrainTile.terrainInfo.ShowInsideAreaColor();
+            }
+            else
+            {
+                tileData.terrainTile.terrainInfo.HideInsideAreaColor();
+            }
+        }
+    }
     public virtual void InternalToggleStructureIfPossible() { }
 
     public ActivationState ToggleStructureIfPossible()
@@ -116,6 +136,11 @@ public abstract class StructureTile : ActiveTile
 
     public virtual void DestroyStructure()
     {
+        FillAreaOfEffectNeighbours();
+        foreach (BaseTileData tileData in _areaOfEffect)
+        {
+            tileData.terrainTile.terrainInfo.HideInsideAreaColor();
+        }
         ResourcesManager.Instance.UnregisterStructure(this);
         ForceDeactivation();
         building.DestroyBuilding();
@@ -183,4 +208,6 @@ public abstract class StructureTile : ActiveTile
             TilesDataManager.Instance.RemoveStructureAtPos(position, false);
         }
     }
+
+    public virtual void FillAreaOfEffectNeighbours() { }
 }

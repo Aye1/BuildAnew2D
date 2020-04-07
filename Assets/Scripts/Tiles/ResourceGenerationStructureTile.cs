@@ -37,4 +37,9 @@ public abstract class ResourceGenerationStructureTile : StructureTile
 
         }
     }
+    public override void FillAreaOfEffectNeighbours()
+    {
+        BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        _areaOfEffect = TilesDataManager.Instance.GetTilesAroundTile(baseTileData).ToList();
+    }
 }
