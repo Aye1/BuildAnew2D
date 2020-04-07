@@ -12,4 +12,6 @@ public class KeyboardMapping : ScriptableObject
     public KeyCode moveCameraRight = KeyCode.RightArrow;
     public KeyCode zoomCameraIn = KeyCode.Plus;
     public KeyCode zoomCameraOut = KeyCode.Minus;
+    [Header("Tactical View")]
+    public KeyCode constructibleView = KeyCode.C;
 }

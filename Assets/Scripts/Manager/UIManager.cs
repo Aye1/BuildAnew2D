@@ -109,16 +109,25 @@ public class UIManager : MonoBehaviour
     public void ShowBuildingSelector()
     {
         _buildingPanel.gameObject.SetActive(true);
+        TacticalViewManager.Instance.TriggerShowConstructibleView();
     }
 
     public void HideBuildingSelector()
     {
         _buildingPanel.gameObject.SetActive(false);
+        TacticalViewManager.Instance.TriggerHideConstructibleView();
     }
 
     public void ToggleBuildingSelectorVisibility()
     {
-        _buildingPanel.gameObject.SetActive(!_buildingPanel.gameObject.activeInHierarchy);
+        if(_buildingPanel.gameObject.activeInHierarchy)
+        {
+            HideBuildingSelector();
+        }
+        else
+        {
+            ShowBuildingSelector();
+        }
     }
 
     public void TriggerGameOver()
