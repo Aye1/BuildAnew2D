@@ -90,6 +90,11 @@ public class TilesDataManager : MonoBehaviour
         foreach(BaseTileData tileData in tiles)
         {
             RemoveStructureAtPos(tileData.GetGridPosition(), false);
+            if(tileData.terrainTile != null)
+            {
+                tileData.terrainTile.DestroyTerrainTile();
+            }
+
         }
         RelayManager.Instance.Reset();
         Destroy(_terrainTilemap.gameObject);

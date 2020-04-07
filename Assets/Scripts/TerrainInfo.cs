@@ -19,6 +19,13 @@ public class TerrainInfo : MonoBehaviour
         TacticalViewManager.OnHideConstructibleView += HideConstructibleView;
     }
 
+    public void DestroyTerrainInfo()
+    {
+        TacticalViewManager.OnShowConstructibleView -= ShowConstructibleView;
+        TacticalViewManager.OnHideConstructibleView -= HideConstructibleView;
+        Destroy(gameObject);
+    }
+
     public void SetTerrainConstructible()
     {
         _isConstructible = true;
