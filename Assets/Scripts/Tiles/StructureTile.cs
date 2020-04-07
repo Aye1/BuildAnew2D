@@ -114,7 +114,7 @@ public abstract class StructureTile : ActiveTile
         building.DisableWarningDestruction();
     }
 
-    public void DestroyStructure()
+    public virtual void DestroyStructure()
     {
         ResourcesManager.Instance.UnregisterStructure(this);
         ForceDeactivation();

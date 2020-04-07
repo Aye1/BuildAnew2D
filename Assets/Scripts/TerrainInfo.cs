@@ -5,10 +5,13 @@ using UnityEngine;
 public class TerrainInfo : MonoBehaviour
 {
     public Color constructibleColor = new Color(0, 0, 255, 100);
+    public Sprite initialSprite;
+    public Sprite displayAreaSprite;
     public Color floodWarningColor = new Color(255, 0, 0, 100);
     private Color invisibleInfo = new Color(0, 0, 0, 0);
     public TerrainTile dataTile;
     private bool _isConstructible = false;
+    private Color _currentColor;
 
     void Start()
     {
@@ -34,11 +37,13 @@ public class TerrainInfo : MonoBehaviour
     public void SetTerrainFloodable()
     {
         GetComponent<SpriteRenderer>().color = floodWarningColor;
+        _currentColor = floodWarningColor;
     }
 
     public void ResetTerrainInfo()
     {
         GetComponent<SpriteRenderer>().color = invisibleInfo;
+        _currentColor = invisibleInfo;
     }
 
     public void ShowConstructibleView()
@@ -46,10 +51,22 @@ public class TerrainInfo : MonoBehaviour
         if(_isConstructible)
         {
             GetComponent<SpriteRenderer>().color = constructibleColor;
+            _currentColor = constructibleColor;
         }
     }
+    public void ShowInsideAreaColor()
+    {
+        GetComponent<SpriteRenderer>().sprite = displayAreaSprite;
+        GetComponent<SpriteRenderer>().color = new Color(25,255,255,255);
 
-    public void HideConstructibleView()
+    }
+    public void HideInsideAreaColor()
+    {
+        GetComponent<SpriteRenderer>().sprite = initialSprite;
+        GetComponent<SpriteRenderer>().color = _currentColor;
+    }
+
+        public void HideConstructibleView()
     {
         ResetTerrainInfo();
     }

@@ -92,10 +92,7 @@ public class RelayManager : MonoBehaviour
     {
         _relayInRange.Add(rootTile);
 
-        List<Vector3Int> list = new List<Vector3Int>();
-        RelayTile relayTile = (RelayTile)(rootTile.structureTile);
-        list = GridUtils.GetNeighboursPositionsAtDistance(rootTile.gridPosition, relayTile.GetActivationAreaRange());
-        List<BaseTileData> neighbour = TilesDataManager.Instance.GetTilesAtPos(list).ToList();
+        List<BaseTileData> neighbour = GridUtils.GetNeighboursTilesOfRelay(rootTile); 
         foreach(BaseTileData tileData in neighbour)
         {
             if(!_constructiblesTiles.Contains(tileData))

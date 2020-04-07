@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class ActiveTile
 {
@@ -15,9 +16,9 @@ public abstract class ActiveTile
 
     public virtual string GetDebugText() { return ""; }
     public virtual string GetText() { return ""; }
-
+    public Vector3Int GridPosition { get; set; }
     public virtual void DebugOnClick() { }
-    private bool _isSelected = false;
+    protected bool _isSelected = false;
     public bool IsSelected()
     {
         return _isSelected;
@@ -25,6 +26,7 @@ public abstract class ActiveTile
     public void SetIsSelected(bool isSelected)
     {
         _isSelected = isSelected;
+        OnTileModified?.Invoke();
         InternalSelection();
     }
     public virtual void InternalSelection() { }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class GridUtils
@@ -31,5 +32,13 @@ public static class GridUtils
             }
         }
         return list;
+    }
+
+    public static List<BaseTileData> GetNeighboursTilesOfRelay(BaseTileData baseTileData/*should be a relay tile */)
+    {
+        RelayTile relayTile = (RelayTile)(baseTileData.structureTile);
+        List<Vector3Int>  list = GetNeighboursPositionsAtDistance(baseTileData.GetGridPosition(), relayTile.GetActivationAreaRange());
+        List<BaseTileData> neighbour = TilesDataManager.Instance.GetTilesAtPos(list).ToList();
+        return neighbour;
     }
 }

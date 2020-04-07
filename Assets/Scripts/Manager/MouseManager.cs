@@ -71,10 +71,19 @@ public class MouseManager : MonoBehaviour
                 {
                     tileClicked.terrainTile.DebugOnClick();
                 }
+                if(SelectedTile != null)
+                {
+                    SelectedTile.SetIsSelected(false);
+                }
                 SelectedTile = tileClicked;
+                SelectedTile.SetIsSelected(true);
             }
             else
             {
+                if (SelectedTile != null)
+                {
+                    SelectedTile.SetIsSelected(false);
+                }
                 SelectedTile = null;
             }
             OnPlayerClick?.Invoke();
@@ -103,7 +112,7 @@ public class MouseManager : MonoBehaviour
             HoveredTile = tileHovered;
             hoveredTileSprite.transform.position = HoveredTile.worldPosition;
             if (BuildingManager.Instance.IsInBuildMode) {
-                bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.gridPosition);
+                bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GetGridPosition());
                 phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
                 phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
             }

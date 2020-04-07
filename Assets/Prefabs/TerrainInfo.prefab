@@ -76,7 +76,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.1, y: 1.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,4 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructibleColor: {r: 0.14509803, g: 0.18352075, b: 0.8666667, a: 0.6156863}
+  initialSprite: {fileID: 21300000, guid: 88fff6a76e55c4e18a1906759bb2151d, type: 3}
+  displayAreaSprite: {fileID: 21300000, guid: 65359e1b7bf134c289021a457ea2b268, type: 3}
   floodWarningColor: {r: 0.8962264, g: 0.17332679, b: 0.17332679, a: 0.49019608}

@@ -22,6 +22,6 @@ public class SwapTilesCommand : Command
 
     public override string GetDescription()
     {
-        return "Changing tile at position " + _oldTile.gridPosition.ToString();
+        return "Changing tile at position " + _oldTile.GetGridPosition().ToString();
     }
 }

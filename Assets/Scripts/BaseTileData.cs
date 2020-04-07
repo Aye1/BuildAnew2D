@@ -5,7 +5,23 @@ using UnityEngine.Tilemaps;
 
 public class BaseTileData : IActsOnTurnStart
 {
-    public Vector3Int gridPosition;
+    private Vector3Int gridPosition;
+    public Vector3Int GetGridPosition()
+    {
+        return gridPosition;
+    }
+    public void SetGridPosition(Vector3Int position)
+    {
+        gridPosition = position;
+        if (terrainTile != null)
+        {
+            terrainTile.GridPosition = position;
+        }
+        if (structureTile != null)
+        {
+            structureTile.GridPosition = position;
+        }
+    }
     public Vector3 worldPosition;
     public TileBase originTile;
 

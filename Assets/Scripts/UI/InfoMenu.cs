@@ -63,7 +63,7 @@ public class InfoMenu : MonoBehaviour
         SetVisible(isActive);
         if (isActive)
         {
-            _posText.text = selectedTile.gridPosition.ToString();
+            _posText.text = selectedTile.GetGridPosition().ToString();
             _typeText.text = selectedTile.GetTerrainText();
             StructureTile structure = selectedTile.structureTile;
             _structureControlView.gameObject.SetActive(structure != null);
@@ -98,7 +98,7 @@ public class InfoMenu : MonoBehaviour
     public void SellStructure()
     {
         BaseTileData selectedTile = MouseManager.Instance.SelectedTile;
-        selectedTile.structureTile.SellStructure(selectedTile.gridPosition);
+        selectedTile.structureTile.SellStructure(selectedTile.GetGridPosition());
         Refresh();
     }
 

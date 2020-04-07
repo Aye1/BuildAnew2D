@@ -31,6 +31,29 @@ public class RelayTile : StructureTile
     public override void InternalSelection()
     {
         base.InternalSelection();
-        
+        BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        List<BaseTileData> neighboursBaseTileDatas = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
+        foreach (BaseTileData tileData in neighboursBaseTileDatas)
+        {
+            if (_isSelected)
+            {
+                tileData.terrainTile.terrainInfo.ShowInsideAreaColor();
+            }
+            else
+            {
+                tileData.terrainTile.terrainInfo.HideInsideAreaColor();
+            }
+        }
+    }
+    public override void DestroyStructure()
+    {
+        base.DestroyStructure();
+        base.InternalSelection();
+        BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        List<BaseTileData> neighboursBaseTileDatas = GridUtils.GetNeighboursTilesOfRelay(baseTileData);
+        foreach (BaseTileData tileData in neighboursBaseTileDatas)
+        {
+            tileData.terrainTile.terrainInfo.HideInsideAreaColor();
+        }
     }
 }

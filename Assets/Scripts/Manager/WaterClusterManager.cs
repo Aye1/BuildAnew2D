@@ -141,8 +141,8 @@ public class WaterClusterManager : MonoBehaviour
 
     public IEnumerable<BaseTileData> GetDirectWaterNeighbours(BaseTileData refTile, bool predict = false)
     {
-        IEnumerable<Vector3Int> neighboursPositions = GridUtils.GetDirectNeighboursPositions(refTile.gridPosition);
-        return TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, predict).Where(x => neighboursPositions.Contains(x.gridPosition));
+        IEnumerable<Vector3Int> neighboursPositions = GridUtils.GetDirectNeighboursPositions(refTile.GetGridPosition());
+        return TilesDataManager.Instance.GetTilesWithTerrainType(TerrainType.Water, predict).Where(x => neighboursPositions.Contains(x.GetGridPosition()));
     }
 
     public BaseTileData RegisterRandomFloodableTile(WaterCluster cluster)
