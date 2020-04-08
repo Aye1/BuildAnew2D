@@ -59,11 +59,11 @@ public abstract class StructureTile : ActiveTile
         int energyAvailable = ResourcesManager.Instance.EnergyAvailable;
         if (structureData.ProducesEnergy & IsOn)
         {
-            canToggleStructure = energyAvailable >= structureData.producedEnergyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
+            canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
         }
         else if (structureData.ConsumesEnergy & !IsOn)
         {
-            canToggleStructure = energyAvailable >= structureData.consumedEnergyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
+            canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
         }
 
         return canToggleStructure;

@@ -10,14 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ad7ec86cb7444eb684a5255bedda2e3, type: 3}
-  m_Name: tmp
+  m_Name: TMP
   m_EditorClassIdentifier: 
   relayUpgrades:
   - level: 0
     upgradeCosts:
     - amount: 50
       type: 1
+    energyAmount: 2
     sellingGain:
-    - amount: 40
+    - amount: 30
+      type: 1
+    _range: 0
+  - level: 1
+    upgradeCosts:
+    - amount: 300
+      type: 1
+    energyAmount: 3
+    sellingGain:
+    - amount: 100
       type: 1
     _range: 0

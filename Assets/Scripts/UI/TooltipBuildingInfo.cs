@@ -64,7 +64,7 @@ public class TooltipBuildingInfo : MonoBehaviour
         _buildingNameText.text = binding.data.structureName;
         List<Cost> creationCost = binding.data.GetCreationCost();
         CreateResourcesList(creationCost);
-        energyResourceInfo.SetAmount(binding.data.consumedEnergyAmount);
+        energyResourceInfo.SetAmount(binding.data._energyAmount);
         energyResourceInfo.gameObject.SetActive(binding.data.ConsumesEnergy);
     }
 

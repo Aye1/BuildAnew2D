@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
   m_Name: PowerPlantData
   m_EditorClassIdentifier: 
-  producedEnergyAmount: 2
-  consumedEnergyAmount: 0
+  _energyStrategy: 2
+  _energyAmount: 2
   structureName: Power Plant
   buildShortcutName: buildPowerPlant
   icon: {fileID: 21300000, guid: 6762e4ff3d6fd4af085959e737dbb75d, type: 3}

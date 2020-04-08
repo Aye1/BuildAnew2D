@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum EnergyStrategy { None, ConsumesEnergy, ProducesEnergy }
+
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/StructureData", order = 1)]
 public class StructureData : ScriptableObject
 {
-    public int producedEnergyAmount;
-    public int consumedEnergyAmount;
+    public EnergyStrategy _energyStrategy = EnergyStrategy.None;
+    public int _energyAmount;
     public string structureName = "";
     public string buildShortcutName;
     public Sprite icon;
@@ -14,12 +16,12 @@ public class StructureData : ScriptableObject
     public UpgradeStructureData upgradeData;
     public bool ProducesEnergy
     {
-        get { return producedEnergyAmount > 0; }
+        get { return _energyStrategy == EnergyStrategy.ProducesEnergy; }
     }
 
     public bool ConsumesEnergy
     {
-        get { return consumedEnergyAmount > 0; }
+        get { return _energyStrategy == EnergyStrategy.ConsumesEnergy; }
     }
 
     public List<Cost> GetCreationCost()
@@ -52,5 +54,19 @@ public class StructureData : ScriptableObject
             }
         }
         return sellingRefund;
+    }
+
+    public int GetCurrentEnergyAmountForLevel(StructureLevel level)
+    {
+        int energyAmount = _energyAmount;
+        if (upgradeData != null)
+        {
+            UpgradeStructureBinding binding = upgradeData.GetUpgradeBindingForLevel(level);
+            if (binding != null)
+            {
+                energyAmount = binding.energyAmount;
+            }
+        }
+        return energyAmount;
     }
 }

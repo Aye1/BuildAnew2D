@@ -9,6 +9,7 @@ public class UpgradeStructureBinding
 {
     public StructureLevel level;
     public List<Cost> upgradeCosts;
+    public int energyAmount;
     public List<Cost> sellingGain;
 }
 

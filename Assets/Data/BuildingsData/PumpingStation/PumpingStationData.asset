@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
   m_Name: PumpingStationData
   m_EditorClassIdentifier: 
-  producedEnergyAmount: 0
-  consumedEnergyAmount: 4
+  _energyStrategy: 1
+  _energyAmount: 3
   structureName: Pumping Station
   buildShortcutName: buildPumpingStation
   icon: {fileID: 21300000, guid: ec6f99d6f2fc742f7843c34793e9999e, type: 3}

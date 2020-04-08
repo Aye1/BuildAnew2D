@@ -221,9 +221,9 @@ public class ResourcesManager : MonoBehaviour
     {
         // Basic energy count at the moment
         EnergyTotal = _energyProducingStructures.Where(x => x.IsOn)
-                                                .Sum(x => x.structureData.producedEnergyAmount);
+                                                .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.structureLevel));
         EnergyAvailable = EnergyTotal - _energyConsumingStructures.Where(x => x.IsOn)
-                                                                  .Sum(x => x.structureData.consumedEnergyAmount);
+                                                                  .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.structureLevel));
     }
 
     public void RecomputeActiveStructure()
@@ -237,7 +237,7 @@ public class ResourcesManager : MonoBehaviour
             {
                 if (structure.IsOn)
                 {
-                    energyConsumed += structure.structureData.consumedEnergyAmount;
+                    energyConsumed += structure.structureData.GetCurrentEnergyAmountForLevel(structure.structureLevel);
                     if (energyConsumed > EnergyTotal) //Structure must be deactivated
                     {
                         structure.DeactivateStructureIfPossible();

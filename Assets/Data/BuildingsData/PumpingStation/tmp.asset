@@ -19,6 +19,7 @@ MonoBehaviour:
       type: 1
     - amount: 5
       type: 2
+    energyAmount: 3
     sellingGain:
     - amount: 200
       type: 1

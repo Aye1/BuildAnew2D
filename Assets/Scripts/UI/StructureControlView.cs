@@ -57,7 +57,7 @@ public class StructureControlView : MonoBehaviour
             _typeText.text = _structure.GetText();
             _upgradeButton.interactable = _structure.CanUpgradeStructure() && !UIManager.Instance.IsBlocked;
             _sellButton.interactable = _structure.CanSellStructure() && !UIManager.Instance.IsBlocked;
-            _energyInfo.SetAmount(_structure.structureData.consumedEnergyAmount);
+            _energyInfo.SetAmount(_structure.structureData._energyAmount);
             _energyIndicator.IsOn = _structure.IsOn;
         }
     }
