@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ad7ec86cb7444eb684a5255bedda2e3, type: 3}
-  m_Name: TMP
+  m_Name: tmp
   m_EditorClassIdentifier: 
   relayUpgrades:
   - level: 0

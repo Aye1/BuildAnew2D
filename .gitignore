@@ -95,12 +95,15 @@ Temporary Items
 **/Krita
 *.kra
 
+# FMOD files
+Assets/Plugins/FMOD/Resources/FMODStudioCache.asset
+Assets/Plugins/FMOD/Resources/FMODStudioCache.asset.meta
+Assets/StreamingAssets/**/*.bank
+Assets/StreamingAssets/**/*.bank.meta
+fmod_editor.log
+
 Assets/Sprites/Krita.meta
-
 Library/
-
 *.png~
-
 Assets/Sprites/Aseprite/
-
 Assets/Sprites/Aseprite.meta
