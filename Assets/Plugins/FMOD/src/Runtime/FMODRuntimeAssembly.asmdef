@@ -1,9 +1,7 @@
 {
-    "name": "GameAssembly",
+    "name": "FMODRuntime",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:15fc0a57446b3144c949da3e2b9737a9",
-        "GUID:772ea3a008a734cfbb5f71c9339dab2a"
+        "GUID:f06555f75b070af458a003d92f9efb00"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
