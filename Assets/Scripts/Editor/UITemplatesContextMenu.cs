@@ -9,7 +9,7 @@ public class UITemplatesContextMenu : MonoBehaviour
     static void CreateButtonTemplate(MenuCommand menuCommand)
     {
         GameObject go = (GameObject) Resources.Load("TemplatesGameObjects/ButtonTemplate");
-        GameObject newGo = Instantiate(go);
+        GameObject newGo = (GameObject)PrefabUtility.InstantiatePrefab(go);
         newGo.name = "Button (BA)";
         GameObjectUtility.SetParentAndAlign(newGo, menuCommand.context as GameObject);
         Undo.RegisterCreatedObjectUndo(newGo, "Create " + newGo.name);
