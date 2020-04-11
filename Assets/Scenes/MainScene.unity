@@ -3265,7 +3265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 5.0250244, y: 50}
+  m_AnchoredPosition: {x: 5.0249023, y: 50}
   m_SizeDelta: {x: -509.95, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1068856500
@@ -7766,6 +7766,12 @@ PrefabInstance:
       propertyPath: _structureTemplates.Array.data[0].shortcutName
       value: buildPowerPlant
       objectReference: {fileID: 0}
+    - target: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      propertyPath: _terrainTemplates.Array.data[1].terrainTile
+      value: 
+      objectReference: {fileID: 11400000, guid: d6c695b9ce0db426295cc62ce74ee52f,
+        type: 2}
     - target: {fileID: 8380158870970600013, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -488,14 +488,14 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 875227844}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: -1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -723,35 +723,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
         type: 3}
+      propertyPath: m_text
+      value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
+        type: 3}
       propertyPath: m_textInfo.characterCount
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
-        type: 3}
-      propertyPath: m_text
-      value: 'Start
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 256852382589782446, guid: a16575bfaa6464ccfac728f6996ae122,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 922097473532039968, guid: a16575bfaa6464ccfac728f6996ae122,
         type: 3}
@@ -893,6 +871,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Start Game Button (BA)
       objectReference: {fileID: 0}
+    - target: {fileID: 9107431322504386533, guid: a16575bfaa6464ccfac728f6996ae122,
+        type: 3}
+      propertyPath: m_Name
+      value: Text (TMP)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a16575bfaa6464ccfac728f6996ae122, type: 3}
 --- !u!224 &1674798653 stripped
@@ -1006,6 +989,11 @@ PrefabInstance:
       propertyPath: m_textInfo.spaceCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 326517261054650010, guid: a16575bfaa6464ccfac728f6996ae122,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 33a8457e868604c4da66db3fdce93686, type: 2}
     - target: {fileID: 922097473532039968, guid: a16575bfaa6464ccfac728f6996ae122,
         type: 3}
       propertyPath: m_LocalPosition.x
