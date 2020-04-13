@@ -57,7 +57,7 @@ public class MouseManager : MonoBehaviour
     private void ManageClick()
     {
         // The second part of the condition prevents from interacting with the tilemap if we click on UI
-        if (Input.GetMouseButtonDown(0) && EventSystem.current.currentSelectedGameObject == null)
+        if (Input.GetMouseButtonDown(0) && EventSystem.current.currentSelectedGameObject == null && !BlockingUI.IsBlocked)
         {
             BaseTileData tileClicked = GetTileAtMousePos();
 
@@ -104,28 +104,32 @@ public class MouseManager : MonoBehaviour
 
     private void ManageHover()
     {
-        BaseTileData tileHovered = GetTileAtMousePos();
-        StructureType currentBuildType = BuildingManager.Instance.CurrentBuildingStructure;
-        phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(currentBuildType);
-        if (tileHovered != null)
+        if (!BlockingUI.IsBlocked)
         {
-            HoveredTile = tileHovered;
-            hoveredTileSprite.transform.position = HoveredTile.worldPosition;
-            if (BuildingManager.Instance.IsInBuildMode) {
-                bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GetGridPosition());
-                phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
-                phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
+            BaseTileData tileHovered = GetTileAtMousePos();
+            StructureType currentBuildType = BuildingManager.Instance.CurrentBuildingStructure;
+            phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(currentBuildType);
+            if (tileHovered != null)
+            {
+                HoveredTile = tileHovered;
+                hoveredTileSprite.transform.position = HoveredTile.worldPosition;
+                if (BuildingManager.Instance.IsInBuildMode)
+                {
+                    bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GetGridPosition());
+                    phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
+                    phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
+                }
+                else
+                {
+                    phantomBuildingSprite.color = _invisibleColor;
+                }
             }
             else
             {
+                HoveredTile = null;
+                hoveredTileSprite.transform.position = _awayPos;
                 phantomBuildingSprite.color = _invisibleColor;
             }
-        }
-        else
-        {
-            HoveredTile = null;
-            hoveredTileSprite.transform.position = _awayPos;
-            phantomBuildingSprite.color = _invisibleColor;
         }
     }
 
