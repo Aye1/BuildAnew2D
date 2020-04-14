@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class TerrainInfo : MonoBehaviour
 {
     public Color constructibleColor = new Color(0, 0, 255, 100);
@@ -13,8 +14,14 @@ public class TerrainInfo : MonoBehaviour
     private bool _isConstructible = false;
     private Color _currentColor;
 
-    void Start()
+    [SerializeField] private SpriteRenderer _warningFloodSprite;
+
+    private SpriteRenderer _renderer;
+
+    void Awake()
     {
+        _renderer = GetComponent<SpriteRenderer>();
+        _warningFloodSprite.gameObject.SetActive(false);
         TacticalViewManager.OnShowConstructibleView += ShowConstructibleView;
         TacticalViewManager.OnHideConstructibleView += HideConstructibleView;
     }
@@ -43,13 +50,15 @@ public class TerrainInfo : MonoBehaviour
 
     public void SetTerrainFloodable()
     {
-        GetComponent<SpriteRenderer>().color = floodWarningColor;
-        _currentColor = floodWarningColor;
+        _warningFloodSprite.gameObject.SetActive(true);
+        //_renderer.color = floodWarningColor;
+        //_currentColor = floodWarningColor;
     }
 
     public void ResetTerrainInfo()
     {
-        GetComponent<SpriteRenderer>().color = invisibleInfo;
+        _warningFloodSprite.gameObject.SetActive(false);
+        _renderer.color = invisibleInfo;
         _currentColor = invisibleInfo;
     }
 
@@ -57,20 +66,20 @@ public class TerrainInfo : MonoBehaviour
     {
         if(_isConstructible)
         {
-            GetComponent<SpriteRenderer>().color = constructibleColor;
+            _renderer.color = constructibleColor;
             _currentColor = constructibleColor;
         }
     }
     public void ShowInsideAreaColor()
     {
-        GetComponent<SpriteRenderer>().sprite = displayAreaSprite;
-        GetComponent<SpriteRenderer>().color = new Color(25,255,255,255);
+        _renderer.sprite = displayAreaSprite;
+        _renderer.color = new Color(25,255,255,255);
 
     }
     public void HideInsideAreaColor()
     {
-        GetComponent<SpriteRenderer>().sprite = initialSprite;
-        GetComponent<SpriteRenderer>().color = _currentColor;
+        _renderer.sprite = initialSprite;
+        _renderer.color = _currentColor;
     }
 
         public void HideConstructibleView()
