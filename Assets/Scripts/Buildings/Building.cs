@@ -18,6 +18,8 @@ public class Building : MonoBehaviour
 
     public StructureTile dataTile;
 
+    public virtual void SpecificUpdate() { }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,7 @@ public class Building : MonoBehaviour
         {
             _animator.SetBool("IsOn", dataTile.IsOn);
         }
+        SpecificUpdate();
         UpdateSprite();
     }
 
