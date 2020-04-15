@@ -96,17 +96,12 @@ public class BaseTileData : IActsOnTurnStart
     public ActivationState CanToggleStructure()
     {
         ActivationState returnActivationState = ActivationState.ImpossibleMissingStructure;
-        if (RelayManager.Instance.IsInsideRelayRange(this))
-        {
+        
             if (structureTile != null)
             {
                 returnActivationState = structureTile.CanToggleStructure();
             }
-        }
-        else
-        {
-            returnActivationState = ActivationState.OutsideRange;
-        }
+       
         return returnActivationState;
     }
     public void HandleFloodPrevision()

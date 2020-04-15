@@ -9,7 +9,7 @@ public class PowerPlantTile : StructureTile
     public override void Init()
     {
         base.Init();
-        IsOn = true;
+        ActivateStructureIfPossible();
     }
 
     public override void DestroyStructure()

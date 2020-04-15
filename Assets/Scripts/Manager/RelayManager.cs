@@ -77,10 +77,6 @@ public class RelayManager : MonoBehaviour
                 FindRelayInRangeRecursively(_mainRelayTile);
             }
         }
-        else
-        {
-            throw new MainRelayNotFoundException();
-        }
 
         foreach (BaseTileData baseTile in _constructiblesTiles)
         {

@@ -45,6 +45,7 @@ public abstract class StructureTile : ActiveTile
             maxLevel = structureData.upgradeData.GetMaxLevel();
         }
         _areaOfEffect = new List<BaseTileData>();
+        ActivateStructureIfPossible();
     }
 
     public override string GetText()
@@ -55,17 +56,23 @@ public abstract class StructureTile : ActiveTile
     public ActivationState CanToggleStructure()
     {
         ActivationState canToggleStructure = ActivationState.ActivationPossible;
-
-        int energyAvailable = ResourcesManager.Instance.EnergyAvailable;
-        if (structureData.ProducesEnergy & IsOn)
+        BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        if (RelayManager.Instance.IsInsideRelayRange(data))
         {
-            canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
+            int energyAvailable = ResourcesManager.Instance.EnergyAvailable;
+            if (structureData.ProducesEnergy & IsOn)
+            {
+                canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleNeedEnergy;
+            }
+            else if (structureData.ConsumesEnergy & !IsOn)
+            {
+                canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
+            }
         }
-        else if (structureData.ConsumesEnergy & !IsOn)
+        else
         {
-            canToggleStructure = energyAvailable >= structureData._energyAmount ? ActivationState.ActivationPossible : ActivationState.ImpossibleMissEnergy;
+            canToggleStructure = ActivationState.OutsideRange;
         }
-
         return canToggleStructure;
     }
     public override void InternalSelection()
