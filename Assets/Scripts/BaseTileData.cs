@@ -127,12 +127,12 @@ public class BaseTileData : IActsOnTurnStart
         {
             structureTile.DisableWarnStructureDestruction();
         }
-        terrainTile.terrainInfo.ResetTerrainInfo();
+        terrainTile.terrainInfo.HideFloodableInfo();
     }
 
     public StructureTile HandleFlood()
     {
-        terrainTile.terrainInfo.ResetTerrainInfo();
+        terrainTile.terrainInfo.HideFloodableInfo();
         if (structureTile != null)
         {
             if (!structureTile.CanStructureBeFlooded())

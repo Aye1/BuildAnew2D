@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD/sounds/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637220502790000000
+  lastModified: 637225460750000000
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: event:/UI/Menu Hover
   guid: 8b9a09f65e3c7948a283ef3160af7fcf
   Banks:
-  - {fileID: 2892508920104095707}
+  - {fileID: 5916581281890346181}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -57,17 +57,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -3467746474235273394}
-  - {fileID: 4736465135489208282}
-  - {fileID: 2892508920104095707}
+  - {fileID: 1893636312792645947}
+  - {fileID: 5916581281890346181}
   EditorEvents:
   - {fileID: -605960937648547118}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 4736465135489208282}
+  - {fileID: 1893636312792645947}
   StringsBanks:
   - {fileID: -3467746474235273394}
-  stringsBankWriteTime: 637220502790000000
+  stringsBankWriteTime: 637225460750000000
   cacheVersion: 3
+--- !u!114 &1893636312792645947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/sounds/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637225460750000000
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &2303457560822125185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +121,7 @@ MonoBehaviour:
   lastModified: 637220502790000000
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &4537078598940535937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +155,24 @@ MonoBehaviour:
   Path: Assets/FMOD/sounds/Build/Desktop/Master.bank
   SubDir: 
   lastModified: 637220502790000000
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &5916581281890346181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/sounds/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637225460750000000
   LoadResult: 0
   FileSizes: []
   Exists: 1

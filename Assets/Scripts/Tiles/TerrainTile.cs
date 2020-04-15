@@ -18,8 +18,5 @@ public abstract class TerrainTile : ActiveTile
     {
         return terrainType.ToString();
     }
-    public void DestroyTerrainTile()
-    {
-        terrainInfo.DestroyTerrainInfo();
-    }
+    
 }

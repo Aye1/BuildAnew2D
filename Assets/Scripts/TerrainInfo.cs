@@ -26,11 +26,12 @@ public class TerrainInfo : MonoBehaviour
         TacticalViewManager.OnHideConstructibleView += HideConstructibleView;
     }
 
-    public void DestroyTerrainInfo()
+    void OnDestroy()
     {
         TacticalViewManager.OnShowConstructibleView -= ShowConstructibleView;
         TacticalViewManager.OnHideConstructibleView -= HideConstructibleView;
         Destroy(gameObject);
+        _renderer = null;
     }
 
     public void SetTerrainConstructible()
@@ -55,11 +56,9 @@ public class TerrainInfo : MonoBehaviour
         //_currentColor = floodWarningColor;
     }
 
-    public void ResetTerrainInfo()
+    public void HideFloodableInfo()
     {
-        _warningFloodSprite.gameObject.SetActive(false);
-        _renderer.color = invisibleInfo;
-        _currentColor = invisibleInfo;
+        _warningFloodSprite.gameObject.SetActive(false);   
     }
 
     public void ShowConstructibleView()
@@ -84,6 +83,7 @@ public class TerrainInfo : MonoBehaviour
 
         public void HideConstructibleView()
     {
-        ResetTerrainInfo();
+        _renderer.color = invisibleInfo;
+        _currentColor = invisibleInfo;
     }
 }

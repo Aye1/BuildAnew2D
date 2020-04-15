@@ -11,4 +11,11 @@ public class PowerPlantTile : StructureTile
         base.Init();
         IsOn = true;
     }
+
+    public override void DestroyStructure()
+    {
+        BaseTileData baseTileData = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        WaterClusterManager.Instance.UnregisterPumpingStation(baseTileData);
+        base.DestroyStructure();
+    }
 }

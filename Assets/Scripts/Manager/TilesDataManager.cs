@@ -89,18 +89,20 @@ public class TilesDataManager : MonoBehaviour
         AreTileLoaded = false;
         foreach(BaseTileData tileData in tiles)
         {
-            RemoveStructureAtPos(tileData.GetGridPosition(), false);
-            if(tileData.terrainTile != null)
-            {
-                tileData.terrainTile.DestroyTerrainTile();
-            }
-
+            DestroyStructureAtPos(tileData.GetGridPosition());
         }
+        foreach (BaseTileData tileData in tiles) //clear building before terrain
+        {
+              Destroy( tileData.terrainTile.terrainInfo.gameObject);
+        }
+
         RelayManager.Instance.Reset();
         Destroy(_terrainTilemap.gameObject);
         Destroy(_structuresTilemap.gameObject);
         Destroy(_NTterrainTilemap.gameObject);
     }
+
+
 
     #region Init
     private void InitTerrainTiles()
@@ -181,6 +183,16 @@ public class TilesDataManager : MonoBehaviour
         return canBuild;
     }
 
+    public void DestroyStructureAtPos(Vector3Int pos)
+    {
+        BaseTileData data = GetTileDataAtPos(pos);
+        StructureTile structure = data.structureTile;
+        if (structure != null && structure.building != null)
+        {           
+            structure.DestroyStructure();
+            data.structureTile = null;
+        }
+    }
     public void RemoveStructureAtPos(Vector3Int pos, bool repay = true)
     {
         BaseTileData data = GetTileDataAtPos(pos);
@@ -190,11 +202,6 @@ public class TilesDataManager : MonoBehaviour
             if (repay)
             {
                 ResourcesManager.Instance.Repay(CostForStructure(data.structureTile.structureType));
-            }
-
-            if(structure is PowerPlantTile)
-            {
-                WaterClusterManager.Instance.UnregisterPumpingStation(data);
             }
 
             // Warning: possible memory leak
@@ -335,7 +342,7 @@ public class TilesDataManager : MonoBehaviour
         }
         foreach (BaseTileData oldTile in _modifiedNTTiles)
         {
-            oldTile.terrainTile.DestroyTerrainTile();
+            Destroy(oldTile.terrainTile.terrainInfo.gameObject);
         }
 
         _modifiedNTTiles.Clear();
