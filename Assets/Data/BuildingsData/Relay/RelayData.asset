@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c468108ab05e43e6b12c75a91c1a98b, type: 3}
   m_Name: RelayData
   m_EditorClassIdentifier: 
-  _energyStrategy: 0
-  energyAmount: 0
+  _energyStrategy: 1
+  _energyAmount: 1
   structureName: Relay
   buildShortcutName: buildRelay
   icon: {fileID: 21300000, guid: 12400e6e4230144d6bffbc26892ba85a, type: 3}

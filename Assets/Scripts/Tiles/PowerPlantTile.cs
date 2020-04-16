@@ -6,11 +6,6 @@ public class PowerPlantTile : StructureTile
     {
         return StructureType.PowerPlant;
     }
-    public override void Init()
-    {
-        base.Init();
-        ActivateStructureIfPossible();
-    }
 
     public override void DestroyStructure()
     {

@@ -18,7 +18,7 @@ MonoBehaviour:
   _defeatConditions:
   - {fileID: 11400000, guid: 93d67f620661a423a83bf351c4fe7dc8, type: 2}
   _initialResources:
-  - amount: 100
+  - amount: 200
     type: 1
   - amount: 2
     type: 2

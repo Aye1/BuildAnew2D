@@ -17,6 +17,7 @@ MonoBehaviour:
     upgradeCosts:
     - amount: 10
       type: 1
+    energyAmount: 1
     sellingGain:
     - amount: 10
       type: 1
@@ -27,6 +28,7 @@ MonoBehaviour:
       type: 1
     - amount: 3
       type: 2
+    energyAmount: 0
     sellingGain:
     - amount: 80
       type: 1

@@ -203,7 +203,8 @@ public abstract class StructureTile : ActiveTile
     public bool CanSellStructure()
     {
         List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
-        return sellingRefund!= null && sellingRefund.Count != 0;
+        BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
+        return sellingRefund!= null && sellingRefund.Count != 0 && RelayManager.Instance.IsInsideRelayRange(data);
     }
 
     public void SellStructure(Vector3Int position)
