@@ -92,6 +92,7 @@ MonoBehaviour:
   textMesh: {fileID: 1988104326757499322}
   characterImage: {fileID: 6080612242504355089}
   defaultSprite: {fileID: 21300000, guid: 3b9a18932935c419497f25b5ca9fd653, type: 3}
+  _characterSound: event:/UI/Dialog Character
   displayTextFinished: 0
   allTextsDisplayed: 0
 --- !u!114 &4407760305737550958

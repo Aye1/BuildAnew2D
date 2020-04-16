@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class DialogBox : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class DialogBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textMesh;
     [SerializeField] private Image characterImage;
     [SerializeField] private Sprite defaultSprite;
+    [Header("FMOD")]
+    [EventRef]
+    [SerializeField] private string _characterSound;
 
-    //private AudioSource _dialogSound;
     private string _currentText;
     private string _remainingText;
     private DialogLine[] _allDialogLines;
@@ -22,21 +25,8 @@ public class DialogBox : MonoBehaviour
     public bool displayTextFinished;
     public bool allTextsDisplayed;
 
-    public event EventHandler OnDialogClosing;
 
-    // Runs before the Start()
-    void Awake()
-    {
-        //_dialogSound = GetComponent<AudioSource>();
-        //ObjectChecker.CheckNullity(_dialogSound, "Dialog sound not found");
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        // Set the render camera to avoid messing with Prefab camera
-        //GetComponent<Canvas>().worldCamera = Camera.main;
-    }
+    public event System.EventHandler OnDialogClosing;
 
     // Update is called once per frame
     void Update()
@@ -55,7 +45,6 @@ public class DialogBox : MonoBehaviour
     private void StartDisplayingText()
     {
         _textId = 0;
-        //GameManager.instance.FreezGameButDialogs();
         DisplayLine();
     }
 
@@ -111,7 +100,7 @@ public class DialogBox : MonoBehaviour
                 _remainingText = _remainingText.Substring(1);
             }
             textMesh.text = _currentText;
-            //_dialogSound.PlayOneShot(_dialogSound.clip, 0.5f);
+            RuntimeManager.PlayOneShot(_characterSound);
             yield return new WaitForSeconds(timeBetweenLetters);
         }
     }
