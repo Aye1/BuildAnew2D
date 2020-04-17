@@ -13,13 +13,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private LanguageConstantString _languageTexts;
     [SerializeField] private ResourcesList _resourceList;
     [SerializeField] private Button _nextTurnButton;
+    [SerializeField] private Transform _buildingPanel;
+    [SerializeField] private Transform viewsHolder;
 
-    [Header("UI References")]
+    [Header("Prefab bindings")]
     [SerializeField] private InfoMenu _infoMenu;
     [SerializeField] private TooltipBuildingInfo _tooltipBuildingInfo;
     [SerializeField] private EndGameConditionUI _endGameConditionsUI;
-    [SerializeField] private Transform _buildingPanel;
     [SerializeField] private BuildingSelector _buildingSelector;
+    [SerializeField] private PauseMenuView _pauseMenuView;
+    [SerializeField] private SettingsView _settingsView;
 #pragma warning restore 0649
     #endregion
 
@@ -27,6 +30,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     private float _unblockTime;
+    private PauseMenuView _instantiatedPauseMenu;
     public bool IsBlocked;
 
 
@@ -82,6 +86,18 @@ public class UIManager : MonoBehaviour
         {
             ToggleBuildingSelectorVisibility();
         }
+
+        if(InputManager.Instance.GetKeyDown("pauseMenu"))
+        {
+            if (_instantiatedPauseMenu == null)
+            {
+                OpenPauseMenu();
+            }
+            else
+            {
+                _instantiatedPauseMenu.CloseView();
+            }
+        }
     }
 
     public void RequestBlockUI(float timeSeconds)
@@ -133,6 +149,18 @@ public class UIManager : MonoBehaviour
     public void TriggerEndGame()
     {
         _endGamePanel.gameObject.SetActive(true);
+    }
+
+    public void OpenPauseMenu()
+    {
+        _instantiatedPauseMenu = Instantiate(_pauseMenuView, Vector3.zero, Quaternion.identity, viewsHolder);
+        _instantiatedPauseMenu.transform.localPosition = Vector3.zero;
+    }
+
+    public void OpenSettingsView()
+    {
+        SettingsView view = Instantiate(_settingsView, Vector3.zero, Quaternion.identity, viewsHolder);
+        view.transform.localPosition = Vector3.zero;
     }
 
     public LanguageConstantString GetLanguageConstant()
