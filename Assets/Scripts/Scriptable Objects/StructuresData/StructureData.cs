@@ -26,7 +26,10 @@ public class StructureData : ScriptableObject
 
     public List<Cost> GetCreationCost()
     {
-        return GetUpgradeCostForLevel(StructureLevel.Level0);
+        List<Cost> costs = new List<Cost>();
+        costs.AddRange(GetUpgradeCostForLevel(StructureLevel.Level0));
+        costs.AddRange(BuildingManager.Instance.GetStaticCosts());
+        return costs;
     }
 
     public List<Cost> GetUpgradeCostForLevel(StructureLevel level)
@@ -44,13 +47,14 @@ public class StructureData : ScriptableObject
     }
     public List<Cost> GetSellingRefundResourcesForLevel(StructureLevel level)
     {
-        List<Cost> sellingRefund = null;
+        List<Cost> sellingRefund = new List<Cost>();
         if (upgradeData != null)
         {
             UpgradeStructureBinding binding = upgradeData.GetUpgradeBindingForLevel(level);
             if (binding != null)
             {
-                sellingRefund = binding.sellingGain;
+                sellingRefund.AddRange(binding.sellingGain);
+                sellingRefund.AddRange(BuildingManager.Instance.GetStaticCosts());
             }
         }
         return sellingRefund;

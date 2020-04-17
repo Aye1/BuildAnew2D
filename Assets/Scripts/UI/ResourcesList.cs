@@ -8,6 +8,7 @@ public class ResourcesList : MonoBehaviour
     #region Editor objects
 #pragma warning disable 0649
     [SerializeField] private ResourceInfo templateResourceInfo;
+    [SerializeField] private Transform majorResourcesHolder;
     [SerializeField] private Transform resourcesHolder;
 #pragma warning restore 0649
 #endregion
@@ -18,7 +19,12 @@ public class ResourcesList : MonoBehaviour
         resourcesInfo = new List<ResourceInfo>();
         foreach (Cost resource in resources)
         {
-            ResourceInfo resourceCreated = Instantiate(templateResourceInfo, Vector3.zero, Quaternion.identity, resourcesHolder);
+            Transform positionList = resourcesHolder;
+            if(ResourcesManager.Instance.IsMajorResource(resource.type))
+            {
+                positionList = majorResourcesHolder;
+            }
+            ResourceInfo resourceCreated = Instantiate(templateResourceInfo, Vector3.zero, Quaternion.identity, positionList);
             resourceCreated.Initialize(resource);
             resourcesInfo.Add(resourceCreated);
         }

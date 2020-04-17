@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public enum ResourceType { None, Wood , Stone}
+public enum ResourceType { None, Wood , Stone, Eponium, Energy}
 
 public class ResourcesManager : MonoBehaviour
 {
@@ -71,6 +71,10 @@ public class ResourcesManager : MonoBehaviour
         OnResourcesModification?.Invoke();
     }
 
+    public bool IsMajorResource(ResourceType type)
+    {
+        return GetResourceDataForType(type).isMajorResource;
+    }
     public ResourceData GetResourceDataForType(ResourceType type)
     {
         return _resourceDatas.Find(x => x.resourceType == type);

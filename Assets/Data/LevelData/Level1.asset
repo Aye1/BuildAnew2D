@@ -19,8 +19,8 @@ MonoBehaviour:
   _initialResources:
   - amount: 100
     type: 1
-  - amount: 0
-    type: 2
+  - amount: 5
+    type: 3
   tutorialData: {fileID: 11400000, guid: c367c1f15ad384afdbfd41d8b7e68f7b, type: 2}
   terrainTileMapPath: Assets/Resources/TileMapForLevel/Level1/Terrain_Tilemap.prefab
   structureTileMapPath: Assets/Resources/TileMapForLevel/Level1/Structures_Tilemap.prefab

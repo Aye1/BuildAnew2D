@@ -7,5 +7,5 @@ public class ResourceData : ScriptableObject
     public ResourceType resourceType;
     public Sprite icon;
     public string resourceName;
-
+    public bool isMajorResource = false;
 }

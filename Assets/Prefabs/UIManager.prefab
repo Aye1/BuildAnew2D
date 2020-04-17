@@ -43,9 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d34d84ab986471db77076d097c6b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _woodText: {fileID: 0}
   _energyText: {fileID: 0}
-  _endGameText: {fileID: 0}
+  _endGamePanel: {fileID: 0}
   _undoButton: {fileID: 0}
   _languageTexts: {fileID: 11400000, guid: 3bd103e5e07ac4e6f8045c638ed1a470, type: 2}
   _resourceList: {fileID: 0}
+  _nextTurnButton: {fileID: 0}
+  _infoMenu: {fileID: 0}
+  _tooltipBuildingInfo: {fileID: 0}
+  _endGameConditionsUI: {fileID: 0}
+  _buildingPanel: {fileID: 0}
+  _buildingSelector: {fileID: 0}
+  IsBlocked: 0
