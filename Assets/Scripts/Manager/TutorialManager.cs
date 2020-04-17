@@ -31,6 +31,7 @@ public class TutorialManager : MonoBehaviour
     {
         //LevelManager.OnLevelNeedReset += Reset;
         MouseManager.OnPlayerClick += ReadNextStep;
+        DialogManager.Instance.StartDialog(new DialogLine[] { new DialogLine("Yo, je teste les dialogues"), new DialogLine("J'ai deux lignes de texte") });
     }
 
     private void Reset()
