@@ -14,6 +14,7 @@ public class KeyboardMapping : ScriptableObject
     public KeyCode constructibleView = KeyCode.C;
     [Header("Menus")]
     public KeyCode buildMenu = KeyCode.B;
+    public KeyCode pauseMenu = KeyCode.Escape;
     [Header("Buildings")]
     public KeyCode buildPowerPlant = KeyCode.P;
     public KeyCode buildSawmill = KeyCode.S;
