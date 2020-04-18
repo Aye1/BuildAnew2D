@@ -7,6 +7,7 @@ using FMODUnity;
 
 public class DialogBox : MonoBehaviour
 {
+#pragma warning disable 0649
     [Header("Objects bindings")]
     [SerializeField] private TextMeshProUGUI textMesh;
     [SerializeField] private Image characterImage;
@@ -14,6 +15,7 @@ public class DialogBox : MonoBehaviour
     [Header("FMOD")]
     [EventRef]
     [SerializeField] private string _characterSound;
+#pragma warning restore 0649
 
     private string _currentText;
     private string _remainingText;

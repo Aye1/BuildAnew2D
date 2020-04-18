@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public enum StructureType { None, PowerPlant, Sawmill, PumpingStation, Village, Mine, MainRelay, Relay };
 public enum StructureLevel { Level0, Level1 };
-public enum ActivationState {ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
+public enum ActivationState { ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
 public abstract class StructureTile : ActiveTile
 {
     private bool _isOn;
@@ -15,18 +15,18 @@ public abstract class StructureTile : ActiveTile
         }
         set
         {
-            if(_isOn != value)
+            if (_isOn != value)
             {
                 _isOn = value;
                 OnSpecificPropertyChanged("IsOn");
             }
         }
     }
-    
+
     public StructureType structureType;
     public StructureData structureData;
     public StructureLevel structureLevel = StructureLevel.Level0;
-    public Building building;
+    public BuildingView building;
     public abstract StructureType GetStructureType();
     private StructureLevel maxLevel = StructureLevel.Level0;
     protected List<BaseTileData> _areaOfEffect;
@@ -35,12 +35,12 @@ public abstract class StructureTile : ActiveTile
         structureType = GetStructureType();
         base.Init();
         structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
-        if(structureData == null)
+        if (structureData == null)
         {
             Debug.LogError("Data not found for structure " + structureType.ToString() + "\n"
             + "Check TilesDataManager mapping");
         }
-        if(structureData.upgradeData != null)
+        if (structureData.upgradeData != null)
         {
             maxLevel = structureData.upgradeData.GetMaxLevel();
         }
@@ -119,7 +119,7 @@ public abstract class StructureTile : ActiveTile
 
     public bool ActivateStructureIfPossible()
     {
-        if(!IsOn)
+        if (!IsOn)
         {
             ToggleStructureIfPossible();
         }
@@ -175,7 +175,7 @@ public abstract class StructureTile : ActiveTile
     {
         StructureLevel nextLevel = structureLevel + 1;
         nextLevel = nextLevel >= maxLevel ? maxLevel : nextLevel;
-        return nextLevel; 
+        return nextLevel;
     }
 
     private List<Cost> GetUpgradeCostForNextLevel()
@@ -192,7 +192,7 @@ public abstract class StructureTile : ActiveTile
 
     public void UpgradeStructure()
     {
-        if(CanUpgradeStructure())
+        if (CanUpgradeStructure())
         {
             ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
             structureLevel = GetNextLevel();
@@ -204,7 +204,7 @@ public abstract class StructureTile : ActiveTile
     {
         List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
         BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
-        return sellingRefund!= null && sellingRefund.Count != 0 && RelayManager.Instance.IsInsideRelayRange(data);
+        return sellingRefund != null && sellingRefund.Count != 0 && RelayManager.Instance.IsInsideRelayRange(data);
     }
 
     public void SellStructure(Vector3Int position)

@@ -7,7 +7,7 @@ using System.Linq;
 public class StructureBinding
 {
     public StructureType type;
-    public Building building;
+    public BuildingView building;
     public StructureData data;
     [SerializeField] public TileBase buildingTile;
 }
@@ -21,7 +21,6 @@ public class TerrainBinding
     [SerializeField] public TileBase terrainTile;
 }
 
-
 public class TilesDataManager : MonoBehaviour
 {
     private Tilemap _terrainTilemap;
@@ -29,7 +28,9 @@ public class TilesDataManager : MonoBehaviour
 
     #region Editor objects
 #pragma warning disable 0649
+    [Header("Editor bindings")]
     [SerializeField] private Grid _grid;
+    [Header("Tiles data")]
     [SerializeField] private List<StructureBinding> _structureTemplates;
     [SerializeField] private List<TerrainBinding> _terrainTemplates;
 #pragma warning restore 0649
@@ -73,7 +74,7 @@ public class TilesDataManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        if(AreTileLoaded)
+        if (AreTileLoaded)
         {
             ClearLevel();
         }
@@ -87,13 +88,13 @@ public class TilesDataManager : MonoBehaviour
     private void ClearLevel()
     {
         AreTileLoaded = false;
-        foreach(BaseTileData tileData in tiles)
+        foreach (BaseTileData tileData in tiles)
         {
-            DestroyStructureAtPos(tileData.GetGridPosition());
+            DestroyStructureAtPos(tileData.GridPosition);
         }
         foreach (BaseTileData tileData in tiles) //clear building before terrain
         {
-              Destroy( tileData.terrainTile.terrainInfo.gameObject);
+            Destroy(tileData.terrainTile.terrainInfo.gameObject);
         }
 
         RelayManager.Instance.Reset();
@@ -103,11 +104,10 @@ public class TilesDataManager : MonoBehaviour
     }
 
 
-
     #region Init
     private void InitTerrainTiles()
     {
-        
+
         _terrainTilemap = Instantiate(GameManager.Instance.GetLevelData().GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
         tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
@@ -116,7 +116,7 @@ public class TilesDataManager : MonoBehaviour
             if (tile != null)
             {
                 BaseTileData newTileData = new BaseTileData();
-                newTileData.SetGridPosition(pos);
+                newTileData.GridPosition = pos;
                 newTileData.originTile = tile;
                 newTileData.worldPosition = _terrainTilemap.CellToWorld(pos) + _tileOffset;
                 CreateBaseTileData(tile, newTileData);
@@ -133,7 +133,7 @@ public class TilesDataManager : MonoBehaviour
         {
             TileBase tile = _structuresTilemap.GetTile(pos);
             BaseTileData data = GetTileDataAtPos(pos);
-            if(data == null)
+            if (data == null)
             {
                 Debug.LogWarning("Structure built on empty tile at position " + pos.ToString());
             }
@@ -188,7 +188,7 @@ public class TilesDataManager : MonoBehaviour
         BaseTileData data = GetTileDataAtPos(pos);
         StructureTile structure = data.structureTile;
         if (structure != null && structure.building != null)
-        {           
+        {
             structure.DestroyStructure();
             data.structureTile = null;
         }
@@ -230,7 +230,7 @@ public class TilesDataManager : MonoBehaviour
 
     public BaseTileData GetTileDataAtPos(Vector3Int pos, bool predict = false)
     {
-        BaseTileData data = GetTiles(predict).FirstOrDefault(x => x.GetGridPosition() == pos);
+        BaseTileData data = GetTiles(predict).FirstOrDefault(x => x.GridPosition == pos);
         return data;
     }
 
@@ -285,12 +285,12 @@ public class TilesDataManager : MonoBehaviour
 
     public IEnumerable<BaseTileData> GetTilesAroundTile(BaseTileData tile, bool predict = false)
     {
-        return GetTilesAroundTileAtPos(tile.GetGridPosition(), predict);
+        return GetTilesAroundTileAtPos(tile.GridPosition, predict);
     }
 
     public IEnumerable<BaseTileData> GetTilesDirectlyAroundTile(BaseTileData tile, bool predict = false)
     {
-        return GetTilesDirectlyAroundTileAtPos(tile.GetGridPosition(), predict);
+        return GetTilesDirectlyAroundTileAtPos(tile.GridPosition, predict);
     }
 
     public BaseTileData GetTileAtWorldPos(Vector3 pos, bool predict = false)
@@ -333,10 +333,10 @@ public class TilesDataManager : MonoBehaviour
     {
         foreach (BaseTileData oldTile in _modifiedNTTiles)
         {
-            BaseTileData newTile = GetTileDataAtPos(oldTile.GetGridPosition(), true);
-            if(newTile.structureTile == null && oldTile.structureTile != null)
+            BaseTileData newTile = GetTileDataAtPos(oldTile.GridPosition, true);
+            if (newTile.structureTile == null && oldTile.structureTile != null)
             {
-                RemoveStructureAtPos(oldTile.GetGridPosition(), false);
+                RemoveStructureAtPos(oldTile.GridPosition, false);
             }
             SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
         }
@@ -358,7 +358,7 @@ public class TilesDataManager : MonoBehaviour
     {
         tiles.Remove(oldTile);
         tiles.Add(newTile);
-        ChangeTerrainTileInTilemap(oldTile.GetGridPosition(), newTile.terrainTile.terrainType, false);
+        ChangeTerrainTileInTilemap(oldTile.GridPosition, newTile.terrainTile.terrainType, false);
     }
 
     #region Bindings
@@ -480,10 +480,10 @@ public class TilesDataManager : MonoBehaviour
                     throw new MissingStructureTypeDefinitionException();
             }
             data.structureTile = newTile;
-            Building building = Instantiate(structureBinding.building, data.worldPosition, Quaternion.identity, transform);
+            BuildingView building = Instantiate(structureBinding.building, data.worldPosition, Quaternion.identity, transform);
             building.dataTile = newTile;
             newTile.building = building;
-            newTile.GridPosition = data.GetGridPosition();
+            newTile.GridPosition = data.GridPosition;
             ResourcesManager.Instance.RegisterStructure(newTile);
             RelayManager.Instance.RegisterStructure(data);
         }
@@ -527,7 +527,7 @@ public class TilesDataManager : MonoBehaviour
         TerrainInfo terrainInfo = Instantiate(terrainBinding.terrainVisualInfo, baseTileData.worldPosition, Quaternion.identity, _terrainTilemap.transform);
         terrainInfo.dataTile = newTile;
         newTile.terrainInfo = terrainInfo;
-        newTile.GridPosition = baseTileData.GetGridPosition();
+        newTile.GridPosition = baseTileData.GridPosition;
         return newTile;
     }
 
@@ -547,10 +547,9 @@ public class TilesDataManager : MonoBehaviour
         return element?.data;
     }
 
-
     public IEnumerable<StructureBinding> GetAllConstructiblesStructures()
     {
-        return _structureTemplates.Where(x => x.data.upgradeData != null );
+        return _structureTemplates.Where(x => x.data.upgradeData != null);
     }
 
     public List<Cost> CostForStructure(StructureType type)

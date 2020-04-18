@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SawmillTile : ResourceGenerationStructureTile
 {
-    public Sawmill sawmill;
+    public SawmillView sawmill;
 
     public override ResourceGenerationStrategy GetGenerationStrategy()
     {

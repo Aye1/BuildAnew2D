@@ -136,12 +136,10 @@ public class GameManager : MonoBehaviour
     {
         if (_levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
         {
-            //TriggerGameOver();
             State = GameState.Failed;
         }
         else if (_levelData.GetSuccessConditions().Count > 0 && _levelData.GetSuccessConditions().All(x => x.IsConditionVerified()))
         {
-            //TriggerGameSuccess();
             State = GameState.Won;
         }
     }

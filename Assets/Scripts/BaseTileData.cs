@@ -5,34 +5,59 @@ using UnityEngine.Tilemaps;
 
 public class BaseTileData : IActsOnTurnStart
 {
-    private Vector3Int gridPosition;
-    public Vector3Int GetGridPosition()
-    {
-        return gridPosition;
-    }
-    public void SetGridPosition(Vector3Int position)
-    {
-        gridPosition = position;
-        if (terrainTile != null)
-        {
-            terrainTile.GridPosition = position;
-        }
-        if (structureTile != null)
-        {
-            structureTile.GridPosition = position;
-        }
-    }
+
     public Vector3 worldPosition;
     public TileBase originTile;
 
     public TerrainTile terrainTile;
     public StructureTile structureTile;
+
+    #region Properties
     private bool _isSelected;
+    public bool IsSelected
+    {
+        get
+        {
+            return _isSelected;
+        }
+        set
+        {
+            if (_isSelected != value)
+            {
+                _isSelected = value;
+                terrainTile.SetIsSelected(_isSelected);
+                structureTile?.SetIsSelected(_isSelected);
+            }
+        }
+    }
+
+    private Vector3Int _gridPosition;
+    public Vector3Int GridPosition
+    {
+        get { return _gridPosition; }
+        set
+        {
+            if (_gridPosition != null)
+            {
+                _gridPosition = value;
+                if (terrainTile != null)
+                {
+                    terrainTile.GridPosition = _gridPosition;
+                }
+                if (structureTile != null)
+                {
+                    structureTile.GridPosition = _gridPosition;
+                }
+            }
+        }
+    }
+    #endregion
+
     public BaseTileData() { }
 
     public BaseTileData(BaseTileData origin)
     {
-        gridPosition = origin.gridPosition;
+        GridPosition = origin.GridPosition;
         worldPosition = origin.worldPosition;
         originTile = origin.originTile;
         terrainTile = origin.terrainTile;

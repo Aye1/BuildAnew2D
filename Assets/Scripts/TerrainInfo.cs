@@ -1,20 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class TerrainInfo : MonoBehaviour
 {
-    public Color constructibleColor = new Color(0, 0, 255, 100);
     public Sprite initialSprite;
     public Sprite displayAreaSprite;
-    public Color floodWarningColor = new Color(255, 0, 0, 100);
-    private Color invisibleInfo = new Color(0, 0, 0, 0);
     public TerrainTile dataTile;
+
     private bool _isConstructible = false;
     private Color _currentColor;
+    private readonly Color _invisibleInfo = new Color(0, 0, 0, 0);
+    private readonly Color _constructibleColor = new Color(0, 0, 255, 100);
+    private readonly Color _whiteColor = new Color(25,255,255,255);
 
+#pragma warning disable 0649
     [SerializeField] private SpriteRenderer _warningFloodSprite;
+#pragma warning restore 0649
 
     private SpriteRenderer _renderer;
 
@@ -52,8 +53,6 @@ public class TerrainInfo : MonoBehaviour
     public void SetTerrainFloodable()
     {
         _warningFloodSprite.gameObject.SetActive(true);
-        //_renderer.color = floodWarningColor;
-        //_currentColor = floodWarningColor;
     }
 
     public void HideFloodableInfo()
@@ -65,14 +64,14 @@ public class TerrainInfo : MonoBehaviour
     {
         if(_isConstructible)
         {
-            _renderer.color = constructibleColor;
-            _currentColor = constructibleColor;
+            _renderer.color = _constructibleColor;
+            _currentColor = _constructibleColor;
         }
     }
     public void ShowInsideAreaColor()
     {
         _renderer.sprite = displayAreaSprite;
-        _renderer.color = new Color(25,255,255,255);
+        _renderer.color = _whiteColor;
 
     }
     public void HideInsideAreaColor()
@@ -83,7 +82,7 @@ public class TerrainInfo : MonoBehaviour
 
         public void HideConstructibleView()
     {
-        _renderer.color = invisibleInfo;
-        _currentColor = invisibleInfo;
+        _renderer.color = _invisibleInfo;
+        _currentColor = _invisibleInfo;
     }
 }

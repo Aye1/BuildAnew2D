@@ -115,7 +115,7 @@ public class MouseManager : MonoBehaviour
                 hoveredTileSprite.transform.position = HoveredTile.worldPosition;
                 if (BuildingManager.Instance.IsInBuildMode)
                 {
-                    bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GetGridPosition());
+                    bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GridPosition);
                     phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
                     phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
                 }

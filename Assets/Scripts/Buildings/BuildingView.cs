@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Building : MonoBehaviour
+public class BuildingView : MonoBehaviour
 {
     #region Editor objects
 #pragma warning disable 0649
+    [Header("Editor bindings")]
     [SerializeField] private Sprite _spriteON;
     [SerializeField] private Sprite _spriteOFF;
     // This object does not store data, but it's the only way to acceed it from the editor
     // Thus, the ability to turn on/off the building is done here
+    [Header("Debug controls")]
     [SerializeField] private bool _forceDebugIsOn;
 #pragma warning restore 0649
     #endregion
