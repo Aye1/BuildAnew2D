@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     private int _currentLevelIndex = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -43,6 +44,7 @@ public class LevelManager : MonoBehaviour
         SetLevel(0);
     }
 
+    // TODO: remove getter?
     public List<LevelBinding> GetLevelBindings()
     {
         return _levelsData;

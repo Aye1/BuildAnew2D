@@ -23,8 +23,6 @@ public class TerrainBinding
 
 public class TilesDataManager : MonoBehaviour
 {
-    private Tilemap _terrainTilemap;
-    private Tilemap _structuresTilemap;
 
     #region Editor objects
 #pragma warning disable 0649
@@ -36,17 +34,17 @@ public class TilesDataManager : MonoBehaviour
 #pragma warning restore 0649
     #endregion
 
+    private Tilemap _terrainTilemap;
+    private Tilemap _structuresTilemap;
     private Tilemap _NTterrainTilemap;
+    private List<BaseTileData> _modifiedNTTiles;
+    private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
     public List<BaseTileData> tiles;
     public List<BaseTileData> NTtiles;
 
-    private List<BaseTileData> _modifiedNTTiles;
-
     public static TilesDataManager Instance { get; private set; }
     public static bool AreTileLoaded { get; private set; }
-
-    private readonly Vector3 _tileOffset = new Vector3(0.0f, 0.25f, 0.0f);
 
     #region Events
     public delegate void TilesLoaded();
@@ -107,7 +105,6 @@ public class TilesDataManager : MonoBehaviour
     #region Init
     private void InitTerrainTiles()
     {
-
         _terrainTilemap = Instantiate(GameManager.Instance.GetLevelData().GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
         tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
@@ -144,7 +141,6 @@ public class TilesDataManager : MonoBehaviour
             }
         }
         _structuresTilemap.gameObject.SetActive(false);
-
     }
 
     private void InitPredictedTiles()
@@ -260,18 +256,6 @@ public class TilesDataManager : MonoBehaviour
             }
         }
         return res.ToArray();
-
-    }
-
-    public IEnumerable<BaseTileData> GetTilesAroundTileAtPos(Vector3Int pos, bool predict = false)
-    {
-        if (GetTerrainTilemap(predict).cellBounds.Contains(pos))
-        {
-            BoundsInt localBounds = new BoundsInt(pos.x - 1, pos.y - 1, pos.z, 3, 3, 1);
-
-            return GetTilesInBounds(localBounds);
-        }
-        return null;
     }
 
     public IEnumerable<BaseTileData> GetTilesDirectlyAroundTileAtPos(Vector3Int pos, bool predict = false)
@@ -285,7 +269,7 @@ public class TilesDataManager : MonoBehaviour
 
     public IEnumerable<BaseTileData> GetTilesAroundTile(BaseTileData tile, bool predict = false)
     {
-        return GetTilesAroundTileAtPos(tile.GridPosition, predict);
+        return GetTilesAtPos(GridUtils.GetNeighboursPositionsAtDistance(tile.GridPosition, 1), predict);
     }
 
     public IEnumerable<BaseTileData> GetTilesDirectlyAroundTile(BaseTileData tile, bool predict = false)
@@ -303,9 +287,9 @@ public class TilesDataManager : MonoBehaviour
     {
         return GetTiles(predict).Where(x => x.terrainTile.terrainType == type);
     }
-    public IEnumerable<BaseTileData> GetTilesWithStrucureType(StructureType type)
+    public IEnumerable<BaseTileData> GetTilesWithStrucureType(StructureType type, bool predict = false)
     {
-        return tiles.Where(x => (x.structureTile != null && x.structureTile.structureType == type));
+        return GetTiles(predict).Where(x => (x.structureTile != null && x.structureTile.structureType == type));
     }
     #endregion
 

@@ -8,7 +8,7 @@ public class RelayManager : MonoBehaviour
     private List<BaseTileData> _relayInRange;
     private List<BaseTileData> _constructiblesTiles;
     private BaseTileData _mainRelayTile = null;
-    // Start is called before the first frame update
+
     private void Awake()
     {
         if (Instance == null)

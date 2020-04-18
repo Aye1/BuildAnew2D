@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
@@ -8,6 +7,7 @@ public class BuildingManager : MonoBehaviour
     public bool IsInBuildMode { get; set; }
     public StructureType CurrentBuildingStructure { get; private set; }
     public List<Cost> staticResourcesCosts;
+
     #region Events
     public delegate void BuildDone();
     public static BuildDone OnBuildDone;
@@ -26,6 +26,7 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    // TODO: remove the getter?
     public List<Cost> GetStaticCosts()
     {
         return staticResourcesCosts;

@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     #region Editor objects
 #pragma warning disable 0649
+    [Header("Editor bindings")]
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private EndGameView _endGamePanel;
     [SerializeField] private Button _undoButton;

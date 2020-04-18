@@ -6,22 +6,27 @@ using UnityEngine.EventSystems;
 public class MouseManager : MonoBehaviour
 {
 
+#pragma warning disable 0649
+    [Header("Editor bindings")]
+    [SerializeField] private SpriteRenderer selectedTileSprite;
+    [SerializeField] private SpriteRenderer hoveredTileSprite;
+    [SerializeField] private SpriteRenderer phantomBuildingSprite;
+#pragma warning restore 0649
+
     public static MouseManager Instance { get; private set; }
-    public SpriteRenderer selectedTileSprite;
-    public SpriteRenderer hoveredTileSprite;
-    public SpriteRenderer phantomBuildingSprite;
     public BaseTileData SelectedTile { get; private set; }
     public BaseTileData HoveredTile { get; private set; }
 
     private Vector3 _awayPos = new Vector3(1000, 1000, 1000);
     private Color _transpColor = new Color(1.0f, 1.0f, 1.0f, 0.8f);
     private Color _invisibleColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-
     private Color _transpRedColor = new Color(0.8f, 0.0f, 0.0f, 0.8f);
+
     #region Events
     public delegate void PlayerClick();
     public static event PlayerClick OnPlayerClick;
     #endregion
+
     private void Awake()
     {
         if (Instance == null)
@@ -33,11 +38,11 @@ public class MouseManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        phantomBuildingSprite.color = _transpColor;
     }
 
     public void Start()
     {
+        phantomBuildingSprite.color = _transpColor;
         LevelManager.OnLevelNeedReset += Reset;
     }
 

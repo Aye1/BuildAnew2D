@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // TODO: remove the getter ande use a property?
     public LevelData GetLevelData()
     {
         return _levelData;

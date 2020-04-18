@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BaseTileData : IActsOnTurnStart
+public class BaseTileData
 {
 
     public Vector3 worldPosition;
