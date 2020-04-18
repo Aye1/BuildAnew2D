@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
-using System;
 
 public enum GameState { Default, Running, Won, Failed };
-public class GameManager : MonoBehaviour
+public class GameManager : Manager
 {
     public static GameManager Instance { get; private set; }
     public static bool IsGameReady;
@@ -49,7 +47,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
             SettingsLoader.LoadInitialSettings();
         }
         else

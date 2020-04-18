@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CommandManager : MonoBehaviour
+public class CommandManager : Manager
 {
     public static CommandManager Instance { get; private set; }
 
@@ -19,7 +19,6 @@ public class CommandManager : MonoBehaviour
         {
             Instance = this;
             _commandsQueue = new Stack<Command>();
-            DontDestroyOnLoad(gameObject);
             RegisterCallbacks();
         } else
         {

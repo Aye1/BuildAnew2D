@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class TurnManager : Manager
 {
     public static TurnManager Instance { get; private set; }
 
@@ -18,7 +18,6 @@ public class TurnManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

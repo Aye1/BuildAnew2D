@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Manager
 {
     public static InputManager Instance { get; private set; }
     public KeyboardMapping keyboardMapping;
@@ -13,7 +11,6 @@ public class InputManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

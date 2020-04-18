@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &808547489655269846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808547489655269844}
+  - component: {fileID: 808547489655269847}
+  m_Layer: 0
+  m_Name: InitializationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808547489655269844
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808547489655269846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808547489655269847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808547489655269846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2a9043e81ca4ec3a8de9d1df120d39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _managers:
+  - sceneName: MainMenuScene
+    managers:
+    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
+  - sceneName: LevelSelectionScene
+    managers:
+    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
+  - sceneName: MainScene
+    managers:
+    - {fileID: 6295069372609091508, guid: 4e96384120f96464391010061a06a73e, type: 3}
+    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
+    - {fileID: 9131572266154984548, guid: 92c8b56250141483ab7aefb3b2abe680, type: 3}
+    - {fileID: 2927539703261512390, guid: 45d4acce41c904ca193c60b105ced3fb, type: 3}
+    - {fileID: 3839715443014717151, guid: 8f264dfab7d4043009fe6acb622a73de, type: 3}
+    - {fileID: 7099624461409036998, guid: 470fe6072dd3643f1b3fd040ccf9c83a, type: 3}
+    - {fileID: 4110699194655874178, guid: 9aa86fd583f5a4dae924d9f3c0d250a3, type: 3}
+    - {fileID: 4584985657595273447, guid: d0c4478429da04f509bc063f5dcc8820, type: 3}
+    - {fileID: 8413587123516905669, guid: 81b3ffa06c5a54837b87d5b11c680a7b, type: 3}
+    - {fileID: 7339430337142447157, guid: 629fe295634084f58ae27c233e136316, type: 3}
+    - {fileID: 1511850891562294798, guid: 75e320409064d469fb0e3f133fa91c61, type: 3}
+    - {fileID: 1860966661044790639, guid: baaf6e0268edb4cc8b1b805a81c5320a, type: 3}

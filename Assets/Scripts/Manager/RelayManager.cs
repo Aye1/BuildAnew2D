@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-public class RelayManager : MonoBehaviour
+public class RelayManager : Manager
 {
     public static RelayManager Instance { get; private set; }
     private List<BaseTileData> _relayInRange;
@@ -14,7 +14,6 @@ public class RelayManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {

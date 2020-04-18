@@ -21,7 +21,7 @@ public class TerrainBinding
     [SerializeField] public TileBase terrainTile;
 }
 
-public class TilesDataManager : MonoBehaviour
+public class TilesDataManager : Manager
 {
 
     #region Editor objects
@@ -59,13 +59,13 @@ public class TilesDataManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
             Destroy(gameObject);
         }
 
+        _grid = FindObjectOfType<Grid>();
         TurnManager.OnTurnStart += GoToNextTurnState;
         GameManager.OnLevelLoaded += LoadLevel;
     }

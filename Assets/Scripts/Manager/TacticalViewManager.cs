@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticalViewManager : MonoBehaviour
+public class TacticalViewManager : Manager
 {
     public static TacticalViewManager Instance { get; private set; }
 

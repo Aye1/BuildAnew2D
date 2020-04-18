@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class WaterClusterManager : MonoBehaviour
+public class WaterClusterManager : Manager
 {
     public static WaterClusterManager Instance { get; private set; }
     public static bool AreClustersCreated;
@@ -31,7 +31,6 @@ public class WaterClusterManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

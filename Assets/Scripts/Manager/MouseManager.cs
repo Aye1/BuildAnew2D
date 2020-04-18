@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MouseManager : MonoBehaviour
+public class MouseManager : Manager
 {
 
 #pragma warning disable 0649
@@ -32,7 +32,6 @@ public class MouseManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {

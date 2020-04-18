@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingManager : MonoBehaviour
+public class BuildingManager : Manager
 {
     public static BuildingManager Instance { get; private set; }
     public bool IsInBuildMode { get; set; }
@@ -18,7 +18,6 @@ public class BuildingManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

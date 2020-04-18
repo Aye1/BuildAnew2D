@@ -43,8 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafeac5ca2ec742208acbfd4fc4886a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _terrainTilemap: {fileID: 0}
-  _structuresTilemap: {fileID: 0}
+  _grid: {fileID: 0}
   _structureTemplates:
   - type: 1
     building: {fileID: 5358940280823613980, guid: de1e508ec03da4cff95fa5a14d1394f7,
@@ -54,7 +53,7 @@ MonoBehaviour:
   - type: 2
     building: {fileID: 4634011045604084704, guid: 817fbf7e0ac2d4f2b91864ed5f86a24d,
       type: 3}
-    data: {fileID: 11400000, guid: 9ca1c00bff54e4dd5b8203bbb007a4b8, type: 2}
+    data: {fileID: 11400000, guid: 3a167dcc273324b6190ae3c7e0784408, type: 2}
     buildingTile: {fileID: 11400000, guid: 53431223264bc45be99647a917579f29, type: 2}
   - type: 3
     building: {fileID: 3341821559170662898, guid: 3a3673ddac3fe446da08c7453945b9c9,
@@ -68,21 +67,41 @@ MonoBehaviour:
   - type: 5
     building: {fileID: 258457973239627807, guid: f2350b4634af44947992f4f0ebf252d2,
       type: 3}
-    data: {fileID: 11400000, guid: 25ab5e9d3b5354ba391a9620b2fc58d2, type: 2}
+    data: {fileID: 11400000, guid: d0e8e4c0164cc4dc0b4200d039ab3f89, type: 2}
     buildingTile: {fileID: 11400000, guid: cbf001a8cee9340e6ba279495889b88c, type: 2}
+  - type: 7
+    building: {fileID: -2754062395042325326, guid: 94838513f12754bef95c4793bb9fc268,
+      type: 3}
+    data: {fileID: 11400000, guid: 6883abe4d719f4b14826fa37c4c133f4, type: 2}
+    buildingTile: {fileID: 11400000, guid: a1843aad9dbee455dadcfdd303d79fc8, type: 2}
+  - type: 6
+    building: {fileID: 5493587378487367264, guid: ce8126da193c040aa9a36faac12775ad,
+      type: 3}
+    data: {fileID: 11400000, guid: c10f9b099702547509ae144a84da0b5b, type: 2}
+    buildingTile: {fileID: 11400000, guid: dfef2277d711f4254b30c09d96e59711, type: 2}
   _terrainTemplates:
   - type: 1
     terrainData: {fileID: 11400000, guid: 94bfe97b5d0124d48aafc08b835fb374, type: 2}
+    terrainVisualInfo: {fileID: 97494543743289943, guid: 7c9ff56ed84d048bf8a719adad8068f8,
+      type: 3}
     terrainTile: {fileID: 11400000, guid: 325177a3fbec64a5e8944a3b7da973d0, type: 2}
   - type: 2
     terrainData: {fileID: 11400000, guid: 5bd4688651adb47d9a107846eddca56a, type: 2}
-    terrainTile: {fileID: 11400000, guid: d382a1e800ec64da68721689c0b695a8, type: 2}
+    terrainVisualInfo: {fileID: 97494543743289943, guid: 7c9ff56ed84d048bf8a719adad8068f8,
+      type: 3}
+    terrainTile: {fileID: 11400000, guid: d6c695b9ce0db426295cc62ce74ee52f, type: 2}
   - type: 3
     terrainData: {fileID: 11400000, guid: bc59fd0a4b4c74238aa5342febdd7582, type: 2}
+    terrainVisualInfo: {fileID: 97494543743289943, guid: 7c9ff56ed84d048bf8a719adad8068f8,
+      type: 3}
     terrainTile: {fileID: 11400000, guid: c3f1be85deb6a41488dc990322d39c67, type: 2}
   - type: 4
     terrainData: {fileID: 11400000, guid: 1404614817d2b4ae6ab6f4d9329715b3, type: 2}
+    terrainVisualInfo: {fileID: 97494543743289943, guid: 7c9ff56ed84d048bf8a719adad8068f8,
+      type: 3}
     terrainTile: {fileID: 11400000, guid: 7ed3d8fb9448045a59cff0131d225131, type: 2}
   - type: 5
     terrainData: {fileID: 11400000, guid: cc718fe666c1545e1933354491d65d07, type: 2}
+    terrainVisualInfo: {fileID: 97494543743289943, guid: 7c9ff56ed84d048bf8a719adad8068f8,
+      type: 3}
     terrainTile: {fileID: 11400000, guid: 981d9f0627c934e2ea09314f71e019f6, type: 2}

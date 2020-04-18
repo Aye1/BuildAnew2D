@@ -6,7 +6,7 @@ using System;
 
 public enum ResourceType { None, Wood , Stone, Eponium, Energy}
 
-public class ResourcesManager : MonoBehaviour
+public class ResourcesManager : Manager
 {
     public static ResourcesManager Instance { get; private set; }
 
@@ -33,7 +33,6 @@ public class ResourcesManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

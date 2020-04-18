@@ -9,7 +9,7 @@ public class LevelBinding
     public LevelData levelData;
 }
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Manager
 {
     public static LevelManager Instance { get; private set; }
 
@@ -31,7 +31,6 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {

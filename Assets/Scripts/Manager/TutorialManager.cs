@@ -2,7 +2,7 @@
 using System.Linq;
 
 public enum TutorialState { Ready, Started, Finished };
-public class TutorialManager : MonoBehaviour
+public class TutorialManager : Manager
 {
     public static TutorialManager Instance { get; private set; }
     private TutorialData _currentTutorialData;
@@ -18,7 +18,6 @@ public class TutorialManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
