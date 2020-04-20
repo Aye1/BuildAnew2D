@@ -25,13 +25,14 @@ public class TutorialManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            GameManager.OnLevelLoaded += Reset;
+            MouseManager.OnPlayerClick += ReadNextStep;
+            InitState = InitializationState.Ready;
         }
         else
         {
             Destroy(gameObject);
         }
-        GameManager.OnLevelLoaded += Reset;
-        MouseManager.OnPlayerClick += ReadNextStep;
     }
 
     void Start()

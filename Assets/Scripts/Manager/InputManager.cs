@@ -14,6 +14,7 @@ public class InputManager : Manager
         if(Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Ready;
         }
         else
         {

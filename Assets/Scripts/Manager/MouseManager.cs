@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 // Dependecies to other managers:
-// LevelManager
-// BuildingManager
-// TilesDataManager
+//   Hard dependencies:
+//     BuildingManager
+//     TilesDataManager
+//   Soft dependencies:
+//     LevelManager
 
 public class MouseManager : Manager
 {
@@ -37,6 +37,9 @@ public class MouseManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            LevelManager.OnLevelNeedReset += Reset;
+            phantomBuildingSprite.color = _transpColor;
+            InitState = InitializationState.Ready;
         }
         else
         {
@@ -44,10 +47,9 @@ public class MouseManager : Manager
         }
     }
 
-    public void Start()
+    private void OnDestroy()
     {
-        phantomBuildingSprite.color = _transpColor;
-        LevelManager.OnLevelNeedReset += Reset;
+        LevelManager.OnLevelNeedReset -= Reset;
     }
 
     private void Reset()
@@ -159,10 +161,5 @@ public class MouseManager : Manager
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
         return pos;
-    }
-
-    private void OnDestroy()
-    {
-        LevelManager.OnLevelNeedReset -= Reset;
     }
 }

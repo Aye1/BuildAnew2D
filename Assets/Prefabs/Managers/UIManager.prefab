@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8515917741270136449}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6842454, y: 1.4774271, z: -0.64692247}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,9 +49,12 @@ MonoBehaviour:
   _languageTexts: {fileID: 11400000, guid: 3bd103e5e07ac4e6f8045c638ed1a470, type: 2}
   _resourceList: {fileID: 0}
   _nextTurnButton: {fileID: 0}
+  _buildingPanel: {fileID: 0}
+  viewsHolder: {fileID: 0}
   _infoMenu: {fileID: 0}
   _tooltipBuildingInfo: {fileID: 0}
   _endGameConditionsUI: {fileID: 0}
-  _buildingPanel: {fileID: 0}
   _buildingSelector: {fileID: 0}
+  _pauseMenuView: {fileID: 0}
+  _settingsView: {fileID: 0}
   IsBlocked: 0

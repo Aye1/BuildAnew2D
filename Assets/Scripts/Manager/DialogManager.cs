@@ -4,6 +4,9 @@ using UnityEngine;
 // Dependecies to other managers:
 // None
 
+// Not a real Manager (yet)
+// Must be instantiated in the canvas at the moment, which is not possible with our current architecture
+
 public class DialogManager : MonoBehaviour
 {
 #pragma warning disable 0649

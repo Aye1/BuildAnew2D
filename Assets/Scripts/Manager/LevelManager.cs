@@ -33,16 +33,12 @@ public class LevelManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Ready;
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    public void Start()
-    {
-        SetLevel(0);
     }
 
     // TODO: remove getter?
@@ -51,20 +47,29 @@ public class LevelManager : Manager
         return _levelsData;
     }
 
-    public void ResetCurrentLevel()
-    {
-        OnLevelNeedReset?.Invoke();
-    }
-
     public void SetLevel(int index)
     {
-        _currentLevelIndex = index ;
-        //OnLevelNeedReset?.Invoke();
+        _currentLevelIndex = index;
     }
+
+    public void LoadLevel(int index)
+    {
+        // Changing the init state is a bit overkill, yes, but it triggers events which could be useful
+        InitState = InitializationState.Initializing;
+        _currentLevelIndex = index;
+        OnLevelNeedReset?.Invoke();
+        InitState = InitializationState.Ready;
+    }
+
+    public void ResetCurrentLevel()
+    {
+        LoadLevel(_currentLevelIndex);
+    }
+
     public void LoadNextLevel()
     {
-        _currentLevelIndex = (_currentLevelIndex + 1) % _levelsData.Count;
-        OnLevelNeedReset?.Invoke();
+        int nextIndex = (_currentLevelIndex + 1) % _levelsData.Count;
+        LoadLevel(nextIndex);
     }
 
     public LevelData GetCurrentLevel()

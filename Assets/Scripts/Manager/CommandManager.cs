@@ -20,6 +20,7 @@ public class CommandManager : Manager
             Instance = this;
             _commandsQueue = new Stack<Command>();
             RegisterCallbacks();
+            InitState = InitializationState.Ready;
         } else
         {
             Destroy(gameObject);

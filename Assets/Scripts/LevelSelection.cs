@@ -36,7 +36,7 @@ public class LevelSelection : MonoBehaviour
     {
         int index = 0;
         _levelDico.TryGetValue(button, out index);
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
         LevelManager.Instance.SetLevel(index);
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 }

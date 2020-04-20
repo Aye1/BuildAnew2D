@@ -26,12 +26,13 @@ public class TurnManager : Manager
         if(Instance == null)
         {
             Instance = this;
+            GameManager.OnGameReady += InitTurns;
+            InitState = InitializationState.Ready;
         }
         else
         {
             Destroy(gameObject);
         }
-        GameManager.OnGameReady += InitTurns;
     }
 
     private void Update()

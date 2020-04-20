@@ -34,21 +34,23 @@ public class ResourcesManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Initializing;
+            _energyProducingStructures = new List<StructureTile>();
+            _energyConsumingStructures = new List<StructureTile>();
+            ResourcesInitialisation();
         }
         else
         {
             Destroy(gameObject);
         }
-        _energyProducingStructures = new List<StructureTile>();
-        _energyConsumingStructures = new List<StructureTile>();
-
-        ResourcesInitialisation();
     }
+
     public List<Cost> GetCurrentResource()
     {
         return _currentResources;
         
     }
+
     private void ResourcesInitialisation()
     {
         _currentResources = new List<Cost>();
@@ -56,6 +58,7 @@ public class ResourcesManager : Manager
         {
             _currentResources.Add(new Cost( 0, resourceData.resourceType));
         }
+        InitState = InitializationState.Ready;
     }
 
     private void Update()
@@ -151,8 +154,10 @@ public class ResourcesManager : Manager
     {
         AddResource(cost);
     }
+
     public void InitializeResources(List<Cost> newResources)
     {
+        InitState = InitializationState.Initializing;
         foreach(Cost currentResource in _currentResources)
         {
             int newAmout = 0;
@@ -165,6 +170,7 @@ public class ResourcesManager : Manager
 
         }
         OnResourcesModification?.Invoke();
+        InitState = InitializationState.Ready;
     }
 
     public void RegisterStructure(StructureTile structure)

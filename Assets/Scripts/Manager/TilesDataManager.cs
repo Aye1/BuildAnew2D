@@ -65,6 +65,7 @@ public class TilesDataManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Initializing;
         }
         else
         {
@@ -76,6 +77,7 @@ public class TilesDataManager : Manager
 
     public void LoadLevel()
     {
+        InitState = InitializationState.Initializing;
         if (AreTileLoaded)
         {
             ClearLevel();
@@ -85,6 +87,7 @@ public class TilesDataManager : Manager
         InitPredictedTiles();
         AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
+        InitState = InitializationState.Ready;
     }
 
     private void RegisterCallbacks()

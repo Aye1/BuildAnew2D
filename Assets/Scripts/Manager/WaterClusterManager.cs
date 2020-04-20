@@ -38,6 +38,7 @@ public class WaterClusterManager : Manager
         if(Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Initializing;
         }
         else
         {
@@ -48,11 +49,20 @@ public class WaterClusterManager : Manager
         TurnManager.OnTurnPredict += PredictFlooding;
     }
 
+    private void Start()
+    {
+        if(TilesDataManager.AreTileLoaded)
+        {
+            Init();
+        }
+    }
+
     private void Init()
     {
+        InitState = InitializationState.Initializing;
         ClearPossibleFloodTiles();
         _possibleFloodTiles = new Dictionary<WaterCluster, Stack<BaseTileData>>();
-        RecreateClusters();
+        InitState = InitializationState.Ready;
     }
 
     private void OnDestroy()
@@ -64,6 +74,7 @@ public class WaterClusterManager : Manager
     private void PredictFlooding()
     {
         _latestFloodCommand = null;
+        RecreateClusters();
         // First pass on the flooding, we just compute the possible flooded tiles
         PrepareFloodedTilesCommand prepareFloodedTilesCommand = new PrepareFloodedTilesCommand();
         CommandManager.Instance.ExecuteCommand(prepareFloodedTilesCommand);

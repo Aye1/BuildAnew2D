@@ -25,6 +25,7 @@ public class BuildingManager : Manager
         if(Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Ready;
         }
         else
         {

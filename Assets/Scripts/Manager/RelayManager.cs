@@ -16,14 +16,14 @@ public class RelayManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            _constructiblesTiles = new List<BaseTileData>();
+            _relayInRange = new List<BaseTileData>();
+            InitState = InitializationState.Ready;
         }
         else
         {
             Destroy(gameObject);
         }
-        _constructiblesTiles = new List<BaseTileData>();
-        _relayInRange = new List<BaseTileData>();
-
     }
 
     public void Reset()

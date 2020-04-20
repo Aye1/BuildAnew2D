@@ -8,7 +8,6 @@ using System.Linq;
 //   Soft dependencies:
 //     TurnManager
 //     TilesDataManager
-//     WaterClusterManager
 
 public enum GameState { Default, Running, Won, Failed };
 public class GameManager : Manager
@@ -52,6 +51,7 @@ public class GameManager : Manager
         if (Instance == null)
         {
             Instance = this;
+            InitState = InitializationState.Initializing;
             SettingsLoader.LoadInitialSettings();
         }
         else
@@ -62,40 +62,37 @@ public class GameManager : Manager
 
     public void Start()
     {
-        RegisterGameReadyCallbacks();
-        //MouseManager.OnPlayerClick += OnPlayerClick;
-        LevelManager.OnLevelNeedReset += Reset;
-        TurnManager.OnTurnStart += ComputeEndGameCondition;
+        RegisterCallbacks();
         LoadLevel();
         CheckIfGameIsReady();
     }
 
     private void OnDestroy()
     {
-        UnregisterGameReadyCallbacks();
-        LevelManager.OnLevelNeedReset -= Reset;
-        TurnManager.OnTurnStart -= ComputeEndGameCondition;
+        UnregisterCallbacks();
     }
 
-    private void RegisterGameReadyCallbacks()
+    private void RegisterCallbacks()
     {
+        LevelManager.OnLevelNeedReset += Reset;
+        TurnManager.OnTurnStart += ComputeEndGameCondition;
         TilesDataManager.OnTilesLoaded += CheckIfGameIsReady;
-        WaterClusterManager.OnClustersCreated += CheckIfGameIsReady;
     }
 
-    private void UnregisterGameReadyCallbacks()
+    private void UnregisterCallbacks()
     {
         TilesDataManager.OnTilesLoaded -= CheckIfGameIsReady;
-        WaterClusterManager.OnClustersCreated -= CheckIfGameIsReady;
+        TurnManager.OnTurnStart -= ComputeEndGameCondition;
+        LevelManager.OnLevelNeedReset -= Reset;
     }
 
     private void CheckIfGameIsReady()
     {
         bool gameReady = IsLevelLoaded;
         gameReady &= TilesDataManager.AreTileLoaded;
-        gameReady &= WaterClusterManager.AreClustersCreated;
         if(gameReady && _shouldRaiseGameReady)
         {
+            InitState = InitializationState.Ready;
             IsGameReady = true;
             OnGameReady?.Invoke();
             _shouldRaiseGameReady = false;
@@ -122,7 +119,6 @@ public class GameManager : Manager
     private void Reset()
     {
         LoadLevel();
-        UIManager.Instance.ResetUI();
     }
 
     /*private void OnPlayerClick()

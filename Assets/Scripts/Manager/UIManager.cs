@@ -11,6 +11,8 @@ using System.Collections;
 //     InputManager
 //     TacticalViewManager
 
+// Not a real Manager (yet), because it must be instantiated in the Canvas
+
 public class UIManager : MonoBehaviour
 {
     #region Editor objects
@@ -72,6 +74,7 @@ public class UIManager : MonoBehaviour
         GameManager.OnGameStateChanged += OnGameStateChanged;
         ResourcesManager.OnResourcesModification += OnResourcesModification;
         BuildingManager.OnBuildDone += HideBuildingSelector;
+        LevelManager.OnLevelNeedReset += ResetUI;
     }
 
     private void UnregisterCallbacks()
@@ -79,6 +82,7 @@ public class UIManager : MonoBehaviour
         GameManager.OnGameStateChanged -= OnGameStateChanged;
         ResourcesManager.OnResourcesModification -= OnResourcesModification;
         BuildingManager.OnBuildDone -= HideBuildingSelector;
+        LevelManager.OnLevelNeedReset -= ResetUI;
     }
 
     private void Update()

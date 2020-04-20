@@ -7,6 +7,7 @@ using System.Linq;
 
 public enum LoadingStrategy { LoadWithScene, LoadOnDemand }
 public enum UnloadingStrategy { UnloadWithScene, NeverUnload }
+public enum InitializationState { Unknown, Initializing, Ready }
 
 [Serializable]
 public class SceneManagersBinding
@@ -23,11 +24,15 @@ public class ManagerLoadingStrategy
     public UnloadingStrategy unloadingStrategy;
 }
 
-public class InitializationManager : MonoBehaviour
+public class InitializationManager : Manager
 {
     public static InitializationManager Instance { get; private set; }
 
+    public delegate void InitComplete();
+    public static InitComplete OnInitCompleted;
+
     private List<Manager> _instantiatedManagers;
+    private int _currentManagersExpectedCount;
 
 #pragma warning disable 0649
     [SerializeField] private List<SceneManagersBinding> _managers;
@@ -40,6 +45,7 @@ public class InitializationManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             _instantiatedManagers = new List<Manager>();
+            Manager.OnInitStateChanged += OnManagerStateChanged;
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
@@ -61,6 +67,23 @@ public class InitializationManager : MonoBehaviour
         DestroyManagers(oldBinding);
     }
 
+    private void OnManagerStateChanged(Manager manager, InitializationState state)
+    {
+        if (manager != this)
+        {
+            if (_instantiatedManagers.Any(x => x.InitState == InitializationState.Initializing) || _instantiatedManagers.Count < _currentManagersExpectedCount)
+            {
+                InitState = InitializationState.Initializing;
+            }
+            else if (_instantiatedManagers.All(x => x.InitState == InitializationState.Ready))
+            {
+                InitState = InitializationState.Ready;
+                Debug.Log("All managers ready");
+                OnInitCompleted?.Invoke();
+            }
+        }
+    }
+
     private void InitializeManagers(SceneManagersBinding binding)
     {
         if (binding == default(SceneManagersBinding))
@@ -71,6 +94,7 @@ public class InitializationManager : MonoBehaviour
         {
             IEnumerable<Manager> managersToInit = binding.managers.Where(x => x.loadingStrategy == LoadingStrategy.LoadWithScene)
                                                                   .Select(x => x.manager);
+            _currentManagersExpectedCount = managersToInit.Count();
             foreach (Manager manager in managersToInit)
             {
                 InitalizeManager(manager);
@@ -156,6 +180,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
+                _currentManagersExpectedCount++;
                 InitalizeManager(manager);
             }
         }
@@ -166,5 +191,6 @@ public class InitializationManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        Manager.OnInitStateChanged -= OnManagerStateChanged;
     }
 }
