@@ -1,5 +1,13 @@
 ﻿using UnityEngine;
 
+// Dependecies to other managers:
+//   Hard dependencies: 
+//     TilesDataManager
+//     InputManager
+//     UIManager
+//   Soft dependencies:
+// GameManager
+
 public class TurnManager : Manager
 {
     public static TurnManager Instance { get; private set; }
@@ -71,5 +79,10 @@ public class TurnManager : Manager
         {
             NextTurn();
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameReady -= InitTurns;
     }
 }

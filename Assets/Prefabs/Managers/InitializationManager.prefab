@@ -46,21 +46,67 @@ MonoBehaviour:
   _managers:
   - sceneName: MainMenuScene
     managers:
-    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
+    - manager: {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 1
   - sceneName: LevelSelectionScene
     managers:
-    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
+    - manager: {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 1
   - sceneName: MainScene
     managers:
-    - {fileID: 6295069372609091508, guid: 4e96384120f96464391010061a06a73e, type: 3}
-    - {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601, type: 3}
-    - {fileID: 9131572266154984548, guid: 92c8b56250141483ab7aefb3b2abe680, type: 3}
-    - {fileID: 2927539703261512390, guid: 45d4acce41c904ca193c60b105ced3fb, type: 3}
-    - {fileID: 3839715443014717151, guid: 8f264dfab7d4043009fe6acb622a73de, type: 3}
-    - {fileID: 7099624461409036998, guid: 470fe6072dd3643f1b3fd040ccf9c83a, type: 3}
-    - {fileID: 4110699194655874178, guid: 9aa86fd583f5a4dae924d9f3c0d250a3, type: 3}
-    - {fileID: 4584985657595273447, guid: d0c4478429da04f509bc063f5dcc8820, type: 3}
-    - {fileID: 8413587123516905669, guid: 81b3ffa06c5a54837b87d5b11c680a7b, type: 3}
-    - {fileID: 7339430337142447157, guid: 629fe295634084f58ae27c233e136316, type: 3}
-    - {fileID: 1511850891562294798, guid: 75e320409064d469fb0e3f133fa91c61, type: 3}
-    - {fileID: 1860966661044790639, guid: baaf6e0268edb4cc8b1b805a81c5320a, type: 3}
+    - manager: {fileID: 116091619734955312, guid: bfbba99d7cbde4e2ba5329b104e3e601,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 1
+    - manager: {fileID: 4584985657595273447, guid: d0c4478429da04f509bc063f5dcc8820,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 1
+    - manager: {fileID: 7099624461409036998, guid: 470fe6072dd3643f1b3fd040ccf9c83a,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 1
+    - manager: {fileID: 3839715443014717151, guid: 8f264dfab7d4043009fe6acb622a73de,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 1511850891562294798, guid: 75e320409064d469fb0e3f133fa91c61,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 6295069372609091508, guid: 4e96384120f96464391010061a06a73e,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 6621544914888784847, guid: 4967c60c8cd9845b78ccb33f9107cf4c,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 9131572266154984548, guid: 92c8b56250141483ab7aefb3b2abe680,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 4110699194655874178, guid: 9aa86fd583f5a4dae924d9f3c0d250a3,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 1860966661044790639, guid: baaf6e0268edb4cc8b1b805a81c5320a,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 2927539703261512390, guid: 45d4acce41c904ca193c60b105ced3fb,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0
+    - manager: {fileID: 7339430337142447157, guid: 629fe295634084f58ae27c233e136316,
+        type: 3}
+      loadingStrategy: 1
+      unloadingStrategy: 0
+    - manager: {fileID: 8413587123516905669, guid: 81b3ffa06c5a54837b87d5b11c680a7b,
+        type: 3}
+      loadingStrategy: 0
+      unloadingStrategy: 0

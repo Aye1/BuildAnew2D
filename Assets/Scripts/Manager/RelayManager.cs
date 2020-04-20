@@ -1,7 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+﻿using System.Collections.Generic;
+
+// Dependecies to other managers:
+//   Hard dependencies:
+//     TilesDataManager (through GridUtils)
+
 public class RelayManager : Manager
 {
     public static RelayManager Instance { get; private set; }

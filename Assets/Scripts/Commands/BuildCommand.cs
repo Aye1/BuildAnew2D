@@ -23,16 +23,16 @@ public class BuildCommand : Command
 
     public override void Execute()
     {
-        bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(type, position);
+        bool canBuild = BuildingManager.Instance.CanBuildStructureAtPos(type, position);
         if (canBuild)
         {
-            TilesDataManager.Instance.BuildStructureAtPos(type, position);
+            BuildingManager.Instance.BuildStructureAtPos(type, position);
         }
     }
 
     public override void Undo()
     {
-        TilesDataManager.Instance.RemoveStructureAtPos(position);
+        BuildingManager.Instance.RemoveStructureAtPos(position);
     }
 
     public override string GetDescription()

@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+// Dependecies to other managers:
+// None
+
 public class DialogManager : MonoBehaviour
 {
 #pragma warning disable 0649

@@ -15,5 +15,10 @@ public class DayNightCycle : MonoBehaviour
         UIManager.Instance.RequestBlockUI(_dayNightAnimation.clip.length);
         gameObject.GetComponent<Animation>().Play();
     }
-   
+
+    private void OnDestroy()
+    {
+        TurnManager.OnTurnStart -= OnTurnStarted;
+    }
+
 }

@@ -2,11 +2,10 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
-using System;
 
 public class DebugTextManager : MonoBehaviour
 {
-    private Tilemap tilemap;
+    private Tilemap _tilemap;
     public TextMeshProUGUI templateText;
 
     private Dictionary<Vector3Int, TextMeshProUGUI> _debugTextsDico;
@@ -51,10 +50,10 @@ public class DebugTextManager : MonoBehaviour
 
     private void InitTilesDebugText()
     {
-        tilemap = GameManager.Instance.GetLevelData().GetTerrainTilemap();
+        _tilemap = LevelManager.Instance.GetCurrentLevel().GetTerrainTilemap();
         _debugTextsDico = new Dictionary<Vector3Int, TextMeshProUGUI>();
 
-        foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int pos in _tilemap.cellBounds.allPositionsWithin)
         {
             TextMeshProUGUI newText = Instantiate(templateText, Vector3.zero, Quaternion.identity, transform);
             _debugTextsDico.Add(pos, newText);
@@ -71,7 +70,7 @@ public class DebugTextManager : MonoBehaviour
 
     private void UpdateTilesDebugText()
     {
-        foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int pos in _tilemap.cellBounds.allPositionsWithin)
         {
             _debugTextsDico.TryGetValue(pos, out TextMeshProUGUI text);
             BaseTileData data = _tileDataManager.GetTileDataAtPos(pos, true);

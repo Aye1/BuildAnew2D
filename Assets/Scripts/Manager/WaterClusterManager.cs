@@ -2,6 +2,13 @@
 using UnityEngine;
 using System.Linq;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     TilesDataManager
+//     CommandManager
+//   Soft dependencies:
+//     TurnManager
+
 public class WaterClusterManager : Manager
 {
     public static WaterClusterManager Instance { get; private set; }
@@ -46,6 +53,12 @@ public class WaterClusterManager : Manager
         ClearPossibleFloodTiles();
         _possibleFloodTiles = new Dictionary<WaterCluster, Stack<BaseTileData>>();
         RecreateClusters();
+    }
+
+    private void OnDestroy()
+    {
+        TilesDataManager.OnTilesLoaded -= Init;
+        TurnManager.OnTurnPredict -= PredictFlooding;
     }
 
     private void PredictFlooding()

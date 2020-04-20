@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     InputManager (could be moved in another manager)
+
 public class TacticalViewManager : Manager
 {
     public static TacticalViewManager Instance { get; private set; }
@@ -13,19 +17,19 @@ public class TacticalViewManager : Manager
     public delegate void HideConstructibleView();
     public static event HideConstructibleView OnHideConstructibleView;
     #endregion
+
     private bool _isConstructibleViewVisible = false;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
             Destroy(gameObject);
         }
-        TilesDataManager.OnTilesLoaded += TriggerHideConstructibleView;
     }
 
     // Update is called once per frame

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+// Dependecies to other managers:
+// LevelManager
+// BuildingManager
+// TilesDataManager
+
 public class MouseManager : Manager
 {
 
@@ -69,7 +74,7 @@ public class MouseManager : Manager
             {
                 if (BuildingManager.Instance.IsInBuildMode)
                 {
-                    BuildingManager.Instance.BuildCurrentStructure();
+                    BuildingManager.Instance.BuildCurrentStructure(HoveredTile);
                 }
                 else
                 {
@@ -119,7 +124,7 @@ public class MouseManager : Manager
                 hoveredTileSprite.transform.position = HoveredTile.worldPosition;
                 if (BuildingManager.Instance.IsInBuildMode)
                 {
-                    bool canBuild = TilesDataManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GridPosition);
+                    bool canBuild = BuildingManager.Instance.CanBuildStructureAtPos(currentBuildType, tileHovered.GridPosition);
                     phantomBuildingSprite.transform.position = HoveredTile.worldPosition;
                     phantomBuildingSprite.color = canBuild ? _transpColor : _transpRedColor;
                 }
@@ -154,5 +159,10 @@ public class MouseManager : Manager
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
         return pos;
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.OnLevelNeedReset -= Reset;
     }
 }

@@ -213,7 +213,7 @@ public abstract class StructureTile : ActiveTile
         {
             List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
             ResourcesManager.Instance.Repay(sellingRefund);
-            TilesDataManager.Instance.RemoveStructureAtPos(position, false);
+            BuildingManager.Instance.RemoveStructureAtPos(position, false);
         }
     }
 

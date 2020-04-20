@@ -34,7 +34,7 @@ public class EndGameConditionUI : MonoBehaviour
     private void DisplayConditions()
     {
         SetVisible(true);
-        LevelData levelData = GameManager.Instance.GetLevelData();
+        LevelData levelData = LevelManager.Instance.GetCurrentLevel();
         LanguageConstantString language = UIManager.Instance.GetLanguageConstant();
 
         conditions = new List<TextMeshProUGUI>();

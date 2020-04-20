@@ -16,13 +16,8 @@ public class InfoMenu : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField] private TextMeshProUGUI _typeText;
     [SerializeField] private TextMeshProUGUI _posText;
-    //[SerializeField] private TextMeshProUGUI _structureText;
     [SerializeField] private TextMeshProUGUI _errorText;
-    //[SerializeField] private Button _upgradeButton;
-    //[SerializeField] private Button _sellButton;
-    //[SerializeField] private ResourceInfo _energyInfo;
     [SerializeField] private List<ErrorText> _errors;
-    //[SerializeField] private EnergyIndicator _energyIndicator;
     [SerializeField] private StructureControlView _structureControlView;
 #pragma warning restore 0649
     #endregion
@@ -54,6 +49,11 @@ public class InfoMenu : MonoBehaviour
             UpdateUI();
             _needRefresh = false;
         }
+    }
+
+    private void OnDestroy()
+    {
+        MouseManager.OnPlayerClick -= Refresh;
     }
 
     private void UpdateUI()

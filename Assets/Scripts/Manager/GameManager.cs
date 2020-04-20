@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Linq;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     LevelManager
+//     ResourcesManager
+//   Soft dependencies:
+//     TurnManager
+//     TilesDataManager
+//     WaterClusterManager
+
 public enum GameState { Default, Running, Won, Failed };
 public class GameManager : Manager
 {
@@ -8,7 +17,6 @@ public class GameManager : Manager
     public static bool IsGameReady;
     public static bool IsLevelLoaded;
 
-    private LevelData _levelData;
     private bool _shouldRaiseGameReady;
 
     #region Events
@@ -17,6 +25,9 @@ public class GameManager : Manager
 
     public delegate void GameReady();
     public static event GameReady OnGameReady;
+
+    public delegate void GameStateChanged(GameState newState);
+    public static event GameStateChanged OnGameStateChanged;
     #endregion
 
     private GameState _state;
@@ -31,13 +42,7 @@ public class GameManager : Manager
             if(_state != value)
             {
                 _state = value;
-                if(_state == GameState.Failed)
-                {
-                    TriggerGameOver();
-                } else if (_state == GameState.Won)
-                {
-                    TriggerGameSuccess();
-                }
+                OnGameStateChanged?.Invoke(_state);
             }
         }
     }
@@ -58,11 +63,18 @@ public class GameManager : Manager
     public void Start()
     {
         RegisterGameReadyCallbacks();
-        MouseManager.OnPlayerClick += OnPlayerClick;
+        //MouseManager.OnPlayerClick += OnPlayerClick;
         LevelManager.OnLevelNeedReset += Reset;
         TurnManager.OnTurnStart += ComputeEndGameCondition;
         LoadLevel();
         CheckIfGameIsReady();
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterGameReadyCallbacks();
+        LevelManager.OnLevelNeedReset -= Reset;
+        TurnManager.OnTurnStart -= ComputeEndGameCondition;
     }
 
     private void RegisterGameReadyCallbacks()
@@ -90,24 +102,18 @@ public class GameManager : Manager
         }
     }
 
-    // TODO: remove the getter ande use a property?
-    public LevelData GetLevelData()
-    {
-        return _levelData;
-    }
-
     public void LoadLevel()
     {
         _shouldRaiseGameReady = true;
         IsLevelLoaded = false;
-        _levelData = LevelManager.Instance.GetCurrentLevel();
-        if (_levelData != null)
+        LevelData levelData = LevelManager.Instance.GetCurrentLevel();
+        if (levelData != null)
         {
-            ResourcesManager.Instance.InitializeResources(_levelData.GetInitialResources());
+            ResourcesManager.Instance.InitializeResources(levelData.GetInitialResources());
         }
         else
         {
-            Debug.LogWarning("Missing level data into GameManager");
+            Debug.LogWarning("Missing level data into LevelManager");
         }
         IsLevelLoaded = true;
         OnLevelLoaded?.Invoke();
@@ -119,36 +125,21 @@ public class GameManager : Manager
         UIManager.Instance.ResetUI();
     }
 
-    private void OnPlayerClick()
+    /*private void OnPlayerClick()
     {
         ComputeEndGameCondition();
-    }
-
-    public void NextTurn()
-    {
-        TurnManager.Instance.NextTurn();
-        ComputeEndGameCondition();        
-    }
+    }*/
 
     private void ComputeEndGameCondition()
     {
-        if (_levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
+        LevelData levelData = LevelManager.Instance.GetCurrentLevel();
+        if (levelData.GetDefeatConditions().Any(x => x.IsConditionVerified()))
         {
             State = GameState.Failed;
         }
-        else if (_levelData.GetSuccessConditions().Count > 0 && _levelData.GetSuccessConditions().All(x => x.IsConditionVerified()))
+        else if (levelData.GetSuccessConditions().Count > 0 && levelData.GetSuccessConditions().All(x => x.IsConditionVerified()))
         {
             State = GameState.Won;
         }
-    }
-
-    private void TriggerGameOver()
-    {
-        UIManager.Instance.TriggerEndGame();
-    }
-
-    private void TriggerGameSuccess()
-    {
-        UIManager.Instance.TriggerEndGame();
     }
 }

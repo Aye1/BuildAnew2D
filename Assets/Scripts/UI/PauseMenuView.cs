@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuView : MonoBehaviour
 {
@@ -43,6 +44,6 @@ public class PauseMenuView : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        // TODO
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

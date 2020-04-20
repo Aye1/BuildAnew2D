@@ -3,6 +3,14 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     ResourcesManager
+//     TurnManager
+//     CommandManager
+//     InputManager
+//     TacticalViewManager
+
 public class UIManager : MonoBehaviour
 {
     #region Editor objects
@@ -40,7 +48,7 @@ public class UIManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            RegisterCallbacks();
         } else
         {
             Destroy(gameObject);
@@ -52,7 +60,25 @@ public class UIManager : MonoBehaviour
         ResetUI();
         InitializeResourcesLayout();
         InitButtons();
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterCallbacks();
+    }
+
+    private void RegisterCallbacks()
+    {
+        GameManager.OnGameStateChanged += OnGameStateChanged;
         ResourcesManager.OnResourcesModification += OnResourcesModification;
+        BuildingManager.OnBuildDone += HideBuildingSelector;
+    }
+
+    private void UnregisterCallbacks()
+    {
+        GameManager.OnGameStateChanged -= OnGameStateChanged;
+        ResourcesManager.OnResourcesModification -= OnResourcesModification;
+        BuildingManager.OnBuildDone -= HideBuildingSelector;
     }
 
     private void Update()
@@ -178,4 +204,12 @@ public class UIManager : MonoBehaviour
     {
         _resourceList.RefreshResourcesList(ResourcesManager.Instance.GetCurrentResource());
 	}
+
+    private void OnGameStateChanged(GameState newState)
+    {
+        if(newState == GameState.Failed || newState == GameState.Won)
+        {
+            TriggerEndGame();
+        }
+    }
 }

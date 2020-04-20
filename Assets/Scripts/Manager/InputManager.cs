@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+// Dependecies to other managers:
+// None
+
 public class InputManager : Manager
 {
     public static InputManager Instance { get; private set; }

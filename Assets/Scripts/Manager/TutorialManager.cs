@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Linq;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     GameManager
+//     DialogManager
+//   Soft dependencies:
+//     MouseManager
+
 public enum TutorialState { Ready, Started, Finished };
 public class TutorialManager : Manager
 {
@@ -24,19 +31,25 @@ public class TutorialManager : Manager
             Destroy(gameObject);
         }
         GameManager.OnLevelLoaded += Reset;
+        MouseManager.OnPlayerClick += ReadNextStep;
     }
 
     void Start()
     {
         //LevelManager.OnLevelNeedReset += Reset;
-        MouseManager.OnPlayerClick += ReadNextStep;
         DialogManager.Instance.StartDialog(new DialogLine[] { new DialogLine("Yo, je teste les dialogues"), new DialogLine("J'ai deux lignes de texte") });
+    }
+
+    private void OnDestroy()
+    {
+        MouseManager.OnPlayerClick -= ReadNextStep;
+        GameManager.OnLevelLoaded -= Reset;
     }
 
     private void Reset()
     {
         _tutorialView.gameObject.SetActive(false);
-        _currentTutorialData = GameManager.Instance.GetLevelData().tutorialData;
+        _currentTutorialData = LevelManager.Instance.GetCurrentLevel().tutorialData;
         _currentStepIndex = 0;
         _tutorialState = TutorialState.Ready;
         ReadNextStep();

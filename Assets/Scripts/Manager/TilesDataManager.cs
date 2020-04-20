@@ -3,6 +3,14 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 
+// Dependecies to other managers:
+//   Hard dependencies:
+//     GameManager
+//     RelayManager
+//     ResourcesManager
+//   Soft dependencies
+//     TurnManager
+
 [System.Serializable]
 public class StructureBinding
 {
@@ -23,17 +31,15 @@ public class TerrainBinding
 
 public class TilesDataManager : Manager
 {
-
     #region Editor objects
 #pragma warning disable 0649
-    [Header("Editor bindings")]
-    [SerializeField] private Grid _grid;
     [Header("Tiles data")]
     [SerializeField] private List<StructureBinding> _structureTemplates;
     [SerializeField] private List<TerrainBinding> _terrainTemplates;
 #pragma warning restore 0649
     #endregion
 
+    private Grid _grid;
     private Tilemap _terrainTilemap;
     private Tilemap _structuresTilemap;
     private Tilemap _NTterrainTilemap;
@@ -64,10 +70,8 @@ public class TilesDataManager : Manager
         {
             Destroy(gameObject);
         }
-
         _grid = FindObjectOfType<Grid>();
-        TurnManager.OnTurnStart += GoToNextTurnState;
-        GameManager.OnLevelLoaded += LoadLevel;
+        RegisterCallbacks();
     }
 
     public void LoadLevel()
@@ -83,8 +87,27 @@ public class TilesDataManager : Manager
         OnTilesLoaded?.Invoke();
     }
 
+    private void RegisterCallbacks()
+    {
+        TurnManager.OnTurnStart += GoToNextTurnState;
+        GameManager.OnLevelLoaded += LoadLevel;
+    }
+
+    private void UnregisterCallbacks()
+    {
+        TurnManager.OnTurnStart -= GoToNextTurnState;
+        GameManager.OnLevelLoaded -= LoadLevel;
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterCallbacks();
+        AreTileLoaded = false;
+    }
+
     private void ClearLevel()
     {
+        Debug.Log("Clear level");
         AreTileLoaded = false;
         foreach (BaseTileData tileData in tiles)
         {
@@ -105,7 +128,8 @@ public class TilesDataManager : Manager
     #region Init
     private void InitTerrainTiles()
     {
-        _terrainTilemap = Instantiate(GameManager.Instance.GetLevelData().GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
+        Debug.Log("Init terrain tiles");
+        _terrainTilemap = Instantiate(LevelManager.Instance.GetCurrentLevel().GetTerrainTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
         tiles = new List<BaseTileData>();
         foreach (Vector3Int pos in _terrainTilemap.cellBounds.allPositionsWithin)
         {
@@ -120,11 +144,16 @@ public class TilesDataManager : Manager
                 tiles.Add(newTileData);
             }
         }
+        if (tiles.Any(x => x.terrainTile is WaterTile))
+        {
+            InitializationManager.Instance.AskForManagerCreation(typeof(WaterClusterManager));
+        }
     }
 
     private void InitStructuresTiles()
     {
-        _structuresTilemap = Instantiate(GameManager.Instance.GetLevelData().GetStructureTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
+        Debug.Log("Init structure tiles");
+        _structuresTilemap = Instantiate(LevelManager.Instance.GetCurrentLevel().GetStructureTilemap(), Vector3.zero, Quaternion.identity, _grid.transform);
 
         foreach (Vector3Int pos in _structuresTilemap.cellBounds.allPositionsWithin)
         {
@@ -156,28 +185,6 @@ public class TilesDataManager : Manager
     #endregion
 
     #region Build and destroy structures
-    public void BuildStructureAtPos(StructureType type, Vector3Int pos)
-    {
-        if (CanBuildStructureAtPos(type, pos))
-        {
-            BaseTileData data = GetTileDataAtPos(pos);
-            CreateStructureFromType(type, data);
-            ResourcesManager.Instance.Pay(CostForStructure(type));
-            data.structureTile.ActivateStructureIfPossible();
-        }
-    }
-
-    public bool CanBuildStructureAtPos(StructureType type, Vector3Int pos)
-    {
-        BaseTileData data = GetTileDataAtPos(pos);
-        bool canBuild = true;
-        StructureBinding binding = GetStructureBindingFromType(type);
-        canBuild = canBuild && binding.data.constructibleTerrainTypes.Contains(data.terrainTile.terrainType);
-        canBuild = canBuild && data.structureTile == null;
-        canBuild = canBuild && ResourcesManager.Instance.CanPay(CostForStructure(type));
-        canBuild = canBuild && RelayManager.Instance.IsInsideRelayRange(data);
-        return canBuild;
-    }
 
     public void DestroyStructureAtPos(Vector3Int pos)
     {
@@ -187,23 +194,6 @@ public class TilesDataManager : Manager
         {
             structure.DestroyStructure();
             data.structureTile = null;
-        }
-    }
-    public void RemoveStructureAtPos(Vector3Int pos, bool repay = true)
-    {
-        BaseTileData data = GetTileDataAtPos(pos);
-        StructureTile structure = data.structureTile;
-        if (structure != null && structure.building != null)
-        {
-            if (repay)
-            {
-                ResourcesManager.Instance.Repay(CostForStructure(data.structureTile.structureType));
-            }
-
-            // Warning: possible memory leak
-            structure.DestroyStructure();
-            data.structureTile = null;
-            RelayManager.Instance.ComputeInRangeRelays();
         }
     }
     #endregion
@@ -320,7 +310,7 @@ public class TilesDataManager : Manager
             BaseTileData newTile = GetTileDataAtPos(oldTile.GridPosition, true);
             if (newTile.structureTile == null && oldTile.structureTile != null)
             {
-                RemoveStructureAtPos(oldTile.GridPosition, false);
+                DestroyStructureAtPos(oldTile.GridPosition);
             }
             SwapTileFromCurrentToNewTilemap(oldTile, newTile, false);
         }

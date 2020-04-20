@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
+
+// Dependecies to other managers:
+// None
 
 public enum ResourceType { None, Wood , Stone, Eponium, Energy}
 

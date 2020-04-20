@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Dependecies to other managers:
+// None
 
 [System.Serializable]
 public class LevelBinding
@@ -57,7 +59,7 @@ public class LevelManager : Manager
     public void SetLevel(int index)
     {
         _currentLevelIndex = index ;
-        OnLevelNeedReset?.Invoke();
+        //OnLevelNeedReset?.Invoke();
     }
     public void LoadNextLevel()
     {

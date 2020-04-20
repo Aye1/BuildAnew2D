@@ -63,7 +63,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: S3 - Activate village
+  m_text: S1 - Build PowerPlant
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0285cac102bd1404ca2e367cbdf7595f, type: 2}
   m_sharedMaterial: {fileID: -2422431847751124471, guid: 0285cac102bd1404ca2e367cbdf7595f,
