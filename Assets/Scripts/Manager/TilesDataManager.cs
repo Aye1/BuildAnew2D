@@ -8,6 +8,7 @@ using System.Linq;
 //     GameManager
 //     RelayManager
 //     ResourcesManager
+//     LevelManager
 //   Soft dependencies
 //     TurnManager
 
@@ -75,16 +76,25 @@ public class TilesDataManager : Manager
         RegisterCallbacks();
     }
 
-    public void LoadLevel()
+    private void Start()
     {
-        InitState = InitializationState.Initializing;
-        if (AreTileLoaded)
-        {
-            ClearLevel();
-        }
+        LoadLevel();
+    }
+
+    public void ReloadLevel()
+    {
+        InitState = InitializationState.Updating;
+        ClearLevel();
+        LoadLevel();
+    }
+
+    private void LoadLevel()
+    {
+        AreTileLoaded = false;
         InitTerrainTiles();
         InitStructuresTiles();
         InitPredictedTiles();
+        AskForSpecificManagers();
         AreTileLoaded = true;
         OnTilesLoaded?.Invoke();
         InitState = InitializationState.Ready;
@@ -93,13 +103,13 @@ public class TilesDataManager : Manager
     private void RegisterCallbacks()
     {
         TurnManager.OnTurnStart += GoToNextTurnState;
-        GameManager.OnLevelLoaded += LoadLevel;
+        LevelManager.OnLevelNeedReset += ReloadLevel;
     }
 
     private void UnregisterCallbacks()
     {
         TurnManager.OnTurnStart -= GoToNextTurnState;
-        GameManager.OnLevelLoaded -= LoadLevel;
+        LevelManager.OnLevelNeedReset -= ReloadLevel;
     }
 
     private void OnDestroy()
@@ -147,10 +157,6 @@ public class TilesDataManager : Manager
                 tiles.Add(newTileData);
             }
         }
-        if (tiles.Any(x => x.terrainTile is WaterTile))
-        {
-            InitializationManager.Instance.AskForManagerCreation(typeof(WaterClusterManager));
-        }
     }
 
     private void InitStructuresTiles()
@@ -184,6 +190,14 @@ public class TilesDataManager : Manager
         NTtiles = new List<BaseTileData>(tiles);
 
         _modifiedNTTiles = new List<BaseTileData>();
+    }
+
+    private void AskForSpecificManagers()
+    {
+        if (tiles.Any(x => x.terrainTile is WaterTile))
+        {
+            InitializationManager.Instance.AskForManagerCreation(typeof(WaterClusterManager));
+        }
     }
     #endregion
 

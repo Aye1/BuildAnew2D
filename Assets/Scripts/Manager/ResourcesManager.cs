@@ -5,7 +5,7 @@ using System.Linq;
 // Dependecies to other managers:
 // None
 
-public enum ResourceType { None, Wood , Stone, Eponium, Energy}
+public enum ResourceType { None, Wood, Stone, Eponium, Energy }
 
 public class ResourcesManager : Manager
 {
@@ -37,7 +37,9 @@ public class ResourcesManager : Manager
             InitState = InitializationState.Initializing;
             _energyProducingStructures = new List<StructureTile>();
             _energyConsumingStructures = new List<StructureTile>();
-            ResourcesInitialisation();
+            LevelManager.OnLevelNeedReset += InitializeResourcesForCurrentLevel;
+            InitResourcesTypes();
+            InitState = InitializationState.Ready;
         }
         else
         {
@@ -45,20 +47,30 @@ public class ResourcesManager : Manager
         }
     }
 
+    private void Start()
+    {
+        // LevelManager is already loaded when this manager is created
+        InitializeResourcesForCurrentLevel();
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.OnLevelNeedReset -= InitializeResourcesForCurrentLevel;
+    }
+
+    private void InitResourcesTypes()
+    {
+        _currentResources = new List<Cost>();
+        foreach (ResourceData resourceData in _resourceDatas)
+        {
+            _currentResources.Add(new Cost(0, resourceData.resourceType));
+        }
+    }
+
     public List<Cost> GetCurrentResource()
     {
         return _currentResources;
-        
-    }
 
-    private void ResourcesInitialisation()
-    {
-        _currentResources = new List<Cost>();
-        foreach(ResourceData resourceData in _resourceDatas)
-        {
-            _currentResources.Add(new Cost( 0, resourceData.resourceType));
-        }
-        InitState = InitializationState.Ready;
     }
 
     private void Update()
@@ -68,9 +80,9 @@ public class ResourcesManager : Manager
 
     public void CHEATGiveResources()
     {
-        foreach(Cost cost in _currentResources)
+        foreach (Cost cost in _currentResources)
         {
-            cost.amount = 1000;
+            cost.amount += 1000;
         }
         OnResourcesModification?.Invoke();
     }
@@ -79,10 +91,12 @@ public class ResourcesManager : Manager
     {
         return GetResourceDataForType(type).isMajorResource;
     }
+
     public ResourceData GetResourceDataForType(ResourceType type)
     {
         return _resourceDatas.Find(x => x.resourceType == type);
     }
+
     public Cost GetResourceForType(ResourceType type)
     {
         return _currentResources.Find(x => x.type == type);
@@ -90,8 +104,8 @@ public class ResourcesManager : Manager
 
     public void AddResource(Cost resource)
     {
-       Cost modifiedResource = GetResourceForType(resource.type);
-        if(modifiedResource != null)
+        Cost modifiedResource = GetResourceForType(resource.type);
+        if (modifiedResource != null)
         {
             modifiedResource.amount += resource.amount;
         }
@@ -109,7 +123,7 @@ public class ResourcesManager : Manager
         {
 
             modifiedResource.amount -= resource.amount;
-            if(modifiedResource.amount < 0)
+            if (modifiedResource.amount < 0)
             {
                 Debug.LogWarning("Resource amount is below zero, something went wrong");
                 modifiedResource.amount = 0;
@@ -122,7 +136,7 @@ public class ResourcesManager : Manager
     public bool CanPay(List<Cost> costs)
     {
         bool canPay = false;
-        if(costs != null)
+        if (costs != null)
         {
             canPay = costs.All(CanPay);
         }
@@ -142,7 +156,7 @@ public class ResourcesManager : Manager
 
     public void Pay(Cost cost)
     {
-        RemoveResource(cost);      
+        RemoveResource(cost);
     }
 
     public void Repay(List<Cost> costs)
@@ -155,14 +169,19 @@ public class ResourcesManager : Manager
         AddResource(cost);
     }
 
-    public void InitializeResources(List<Cost> newResources)
+    private void InitializeResourcesForCurrentLevel()
+    {
+        InitializeResources(LevelManager.Instance.GetCurrentLevel().GetInitialResources());
+    }
+
+    private void InitializeResources(List<Cost> newResources)
     {
         InitState = InitializationState.Initializing;
-        foreach(Cost currentResource in _currentResources)
+        foreach (Cost currentResource in _currentResources)
         {
             int newAmout = 0;
             Cost resourceToAdd = newResources.Find(x => x.type == currentResource.type);
-            if(resourceToAdd != null)
+            if (resourceToAdd != null)
             {
                 newAmout = resourceToAdd.amount;
             }
@@ -173,6 +192,7 @@ public class ResourcesManager : Manager
         InitState = InitializationState.Ready;
     }
 
+    #region Energy Management
     public void RegisterStructure(StructureTile structure)
     {
         if (structure.structureData.ProducesEnergy)
@@ -195,7 +215,7 @@ public class ResourcesManager : Manager
 
         if (structure.structureData.ConsumesEnergy)
         {
-            UnregisterProducingEnergyStructure(structure);
+            UnregisterConsumingEnergyStructure(structure);
         }
     }
 
@@ -262,4 +282,5 @@ public class ResourcesManager : Manager
             }
         }
     }
+    #endregion
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
@@ -7,7 +6,7 @@ using System.Linq;
 
 public enum LoadingStrategy { LoadWithScene, LoadOnDemand }
 public enum UnloadingStrategy { UnloadWithScene, NeverUnload }
-public enum InitializationState { Unknown, Initializing, Ready }
+public enum InitializationState { Unknown, Initializing, Updating, Ready }
 
 [Serializable]
 public class SceneManagersBinding
@@ -28,9 +27,6 @@ public class InitializationManager : Manager
 {
     public static InitializationManager Instance { get; private set; }
 
-    public delegate void InitComplete();
-    public static InitComplete OnInitCompleted;
-
     private List<Manager> _instantiatedManagers;
     private int _currentManagersExpectedCount;
 
@@ -44,8 +40,8 @@ public class InitializationManager : Manager
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            InitState = InitializationState.Initializing;
             _instantiatedManagers = new List<Manager>();
-            Manager.OnInitStateChanged += OnManagerStateChanged;
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
@@ -69,18 +65,9 @@ public class InitializationManager : Manager
 
     private void OnManagerStateChanged(Manager manager, InitializationState state)
     {
-        if (manager != this)
+        if (_instantiatedManagers.All(x => x.InitState == InitializationState.Ready) && _instantiatedManagers.Count == _currentManagersExpectedCount)
         {
-            if (_instantiatedManagers.Any(x => x.InitState == InitializationState.Initializing) || _instantiatedManagers.Count < _currentManagersExpectedCount)
-            {
-                InitState = InitializationState.Initializing;
-            }
-            else if (_instantiatedManagers.All(x => x.InitState == InitializationState.Ready))
-            {
-                InitState = InitializationState.Ready;
-                Debug.Log("All managers ready");
-                OnInitCompleted?.Invoke();
-            }
+            InitState = InitializationState.Ready;
         }
     }
 
@@ -88,10 +75,12 @@ public class InitializationManager : Manager
     {
         if (binding == default(SceneManagersBinding))
         {
+            InitState = InitializationState.Unknown;
             throw new SceneNotFoundException();
         }
         else
         {
+            InitState = InitializationState.Initializing;
             IEnumerable<Manager> managersToInit = binding.managers.Where(x => x.loadingStrategy == LoadingStrategy.LoadWithScene)
                                                                   .Select(x => x.manager);
             _currentManagersExpectedCount = managersToInit.Count();
@@ -111,6 +100,7 @@ public class InitializationManager : Manager
         } else
         {
             Manager newManager = Instantiate(manager, Vector3.zero, Quaternion.identity, transform);
+            newManager.OnInitStateChanged += OnManagerStateChanged;
             newManager.transform.localPosition = Vector3.zero;
             _instantiatedManagers.Add(newManager);
         }
@@ -120,6 +110,7 @@ public class InitializationManager : Manager
     {
         if (binding == default(SceneManagersBinding))
         {
+            InitState = InitializationState.Unknown;
             throw new SceneNotFoundException();
         }
         else
@@ -140,6 +131,7 @@ public class InitializationManager : Manager
     {
         if (manager != null)
         {
+            manager.OnInitStateChanged -= OnManagerStateChanged;
             _instantiatedManagers.Remove(manager);
             var instanceObject = manager.GetType().GetProperty("Instance", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
             instanceObject.SetValue(null, null);
@@ -155,13 +147,6 @@ public class InitializationManager : Manager
             return false;
         }
         return _instantiatedManagers.Any(x => x.GetType() == manager.GetType());
-        /*var instanceObject = manager.GetType().GetProperty("Instance", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-        if(instanceObject == null)
-        {
-            Debug.LogError("Instance not found on type " + manager.GetType());
-            throw new ReflectionPropertyNotFoundException();
-        }
-        return instanceObject.GetValue(null) != null;*/
     }
 
     public void AskForManagerCreation(Type type)
@@ -169,10 +154,12 @@ public class InitializationManager : Manager
         SceneManagersBinding binding = _managers.FirstOrDefault(x => x.sceneName == SceneManager.GetActiveScene().name);
         if (binding == default(SceneManagersBinding))
         {
+            InitState = InitializationState.Unknown;
             throw new SceneNotFoundException();
         }
         else
         {
+            InitState = InitializationState.Updating;
             Manager manager = binding.managers.FirstOrDefault(x => x.manager.GetType() == type).manager;
             if(manager == default(Manager))
             {
@@ -191,6 +178,5 @@ public class InitializationManager : Manager
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
-        Manager.OnInitStateChanged -= OnManagerStateChanged;
     }
 }

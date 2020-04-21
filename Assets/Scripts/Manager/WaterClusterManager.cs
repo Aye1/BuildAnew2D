@@ -45,16 +45,12 @@ public class WaterClusterManager : Manager
             Destroy(gameObject);
         }
         _pumpingStationsTiles = new List<BaseTileData>();
-        TilesDataManager.OnTilesLoaded += Init;
         TurnManager.OnTurnPredict += PredictFlooding;
     }
 
     private void Start()
     {
-        if(TilesDataManager.AreTileLoaded)
-        {
-            Init();
-        }
+        Init();
     }
 
     private void Init()
@@ -67,7 +63,6 @@ public class WaterClusterManager : Manager
 
     private void OnDestroy()
     {
-        TilesDataManager.OnTilesLoaded -= Init;
         TurnManager.OnTurnPredict -= PredictFlooding;
     }
 

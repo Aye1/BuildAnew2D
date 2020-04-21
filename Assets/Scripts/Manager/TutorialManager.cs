@@ -3,7 +3,7 @@ using System.Linq;
 
 // Dependecies to other managers:
 //   Hard dependencies:
-//     GameManager
+//     LevelManager
 //     DialogManager
 //   Soft dependencies:
 //     MouseManager
@@ -15,19 +15,16 @@ public class TutorialManager : Manager
     private TutorialData _currentTutorialData;
     private int _currentStepIndex = 0;
     private TutorialState _tutorialState = TutorialState.Ready;
-
-#pragma warning disable 0649
-    [SerializeField] private TutorialView _tutorialView;
-#pragma warning restore 0649
+    private TutorialView _tutorialView;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            GameManager.OnLevelLoaded += Reset;
+            InitState = InitializationState.Initializing;
+            LevelManager.OnLevelNeedReset += Reset;
             MouseManager.OnPlayerClick += ReadNextStep;
-            InitState = InitializationState.Ready;
         }
         else
         {
@@ -37,23 +34,35 @@ public class TutorialManager : Manager
 
     void Start()
     {
-        //LevelManager.OnLevelNeedReset += Reset;
+        Reset();
         DialogManager.Instance.StartDialog(new DialogLine[] { new DialogLine("Yo, je teste les dialogues"), new DialogLine("J'ai deux lignes de texte") });
+        InitState = InitializationState.Ready;
     }
 
     private void OnDestroy()
     {
         MouseManager.OnPlayerClick -= ReadNextStep;
-        GameManager.OnLevelLoaded -= Reset;
+        LevelManager.OnLevelNeedReset -= Reset;
     }
 
     private void Reset()
     {
-        _tutorialView.gameObject.SetActive(false);
-        _currentTutorialData = LevelManager.Instance.GetCurrentLevel().tutorialData;
-        _currentStepIndex = 0;
-        _tutorialState = TutorialState.Ready;
-        ReadNextStep();
+        // TODO: find a better way to link with the tutorial view
+        // Probably link the prefab and instantiate it directly
+        // This won't work if the TutorialView is inactive
+        _tutorialView = FindObjectOfType<TutorialView>();
+        if (_tutorialView == null)
+        {
+            Debug.LogError("Tutorial View not found in the scene");
+        }
+        else
+        {
+            _tutorialView.gameObject.SetActive(false);
+            _currentTutorialData = LevelManager.Instance.GetCurrentLevel().tutorialData;
+            _currentStepIndex = 0;
+            _tutorialState = TutorialState.Ready;
+            ReadNextStep();
+        }
     }
 
     private void ReadNextStep()

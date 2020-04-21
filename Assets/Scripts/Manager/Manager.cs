@@ -2,8 +2,8 @@
 
 public abstract class Manager : MonoBehaviour
 {
-    public delegate void InitStateChanged(Manager sender, InitializationState newState);
-    public static InitStateChanged OnInitStateChanged;
+    public delegate void InitStateChange(Manager sender, InitializationState newState);
+    public InitStateChange OnInitStateChanged;
     
     private InitializationState _initState;
     public InitializationState InitState
@@ -15,7 +15,7 @@ public abstract class Manager : MonoBehaviour
             {
                 _initState = value;
                 Debug.Log(name + " passed to state " + _initState);
-                OnInitStateChanged?.Invoke(this, _initState);
+                OnInitStateChanged?.Invoke(this, value);
             }
         }
     }

@@ -5,8 +5,6 @@
 //     TilesDataManager
 //     InputManager
 //     UIManager
-//   Soft dependencies:
-// GameManager
 
 public class TurnManager : Manager
 {
@@ -26,7 +24,6 @@ public class TurnManager : Manager
         if(Instance == null)
         {
             Instance = this;
-            GameManager.OnGameReady += InitTurns;
             InitState = InitializationState.Ready;
         }
         else
@@ -40,14 +37,17 @@ public class TurnManager : Manager
         CatchShortcuts();
     }
 
-    private void InitTurns()
+    public void InitTurns()
     {
+        InitState = InitializationState.Updating;
         _turnCounter = 0;
         PredictNextTurn();
+        InitState = InitializationState.Ready;
     }
 
     public void NextTurn()
     {
+        InitState = InitializationState.Updating;
         _turnCounter++;
         foreach (Vector3Int pos in TilesDataManager.Instance.GetTilemapBounds().allPositionsWithin)
         {
@@ -59,6 +59,7 @@ public class TurnManager : Manager
         }
         OnTurnStart?.Invoke();
         PredictNextTurn();
+        InitState = InitializationState.Ready;
     }
 
     private void PredictNextTurn()
@@ -80,10 +81,5 @@ public class TurnManager : Manager
         {
             NextTurn();
         }
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.OnGameReady -= InitTurns;
     }
 }

@@ -55,9 +55,10 @@ public class LevelManager : Manager
     public void LoadLevel(int index)
     {
         // Changing the init state is a bit overkill, yes, but it triggers events which could be useful
-        InitState = InitializationState.Initializing;
+        InitState = InitializationState.Updating;
         _currentLevelIndex = index;
         OnLevelNeedReset?.Invoke();
+        Debug.Log("OnLevelNeedReset invoked");
         InitState = InitializationState.Ready;
     }
 
