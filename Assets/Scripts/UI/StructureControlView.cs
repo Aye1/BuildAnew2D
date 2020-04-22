@@ -11,6 +11,11 @@ public class StructureControlView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _typeText;
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _sellButton;
+    [Header("Module Upgrade Section")]
+    [SerializeField] private ModuleUpgrade _genericModuleUpgrade;
+    [SerializeField] private HorizontalLayoutGroup _moduleGroup;
+
+    [Header("Energy Section")]
     [SerializeField] private ResourceInfo _energyInfo;
     [SerializeField] private EnergyIndicator _energyIndicator;
 #pragma warning restore 0649
@@ -44,6 +49,8 @@ public class StructureControlView : MonoBehaviour
     }
     #endregion
 
+    private List<ModuleUpgrade> modulesUpgrade;
+
     private void Awake()
     {
         _upgradeButton.interactable = false;
@@ -55,13 +62,39 @@ public class StructureControlView : MonoBehaviour
         if (_structure != null)
         {
             _typeText.text = _structure.GetText();
-            _upgradeButton.interactable = _structure.CanUpgradeStructure() && !UIManager.Instance.IsBlocked;
-            _sellButton.interactable = _structure.CanSellStructure() && !UIManager.Instance.IsBlocked;
+            DisplayButton(_upgradeButton, _structure.CanUpgradeStructure());
+            DisplayButton(_sellButton, _structure.CanSellStructure());
+            DisplayModuleUpgrade();
             _energyInfo.SetAmount(_structure.structureData._energyAmount);
             _energyIndicator.IsOn = _structure.IsOn;
         }
     }
 
+    private void DisplayButton(Button button, bool isEnabled)
+    {
+        button.enabled = isEnabled;
+        if(isEnabled)
+        {
+            button.interactable = !UIManager.Instance.IsBlocked;
+        }
+    }
+    private void DisplayModuleUpgrade()
+    {
+        if(modulesUpgrade != null && modulesUpgrade.Count > 0)
+        {
+            foreach(ModuleUpgrade upgrade in modulesUpgrade)
+            {
+                Destroy(upgrade.gameObject);
+            }
+        }
+        modulesUpgrade = new List<ModuleUpgrade>();
+        foreach(AbstractModuleScriptable abstractModuleData in _structure.structureData.availableModules)
+        {
+            ModuleUpgrade newModule = Instantiate(_genericModuleUpgrade, Vector3.zero, Quaternion.identity, _moduleGroup.transform);
+            newModule.InitModule(abstractModuleData, _structure);
+            modulesUpgrade.Add(newModule);
+        }
+    }
     private void OnStructurePropertyChanged(string propertyName)
     {
         UpdateUI();

@@ -12,6 +12,7 @@ public class StructureData : ScriptableObject
     public string buildShortcutName;
     public Sprite icon;
     public List<TerrainType> constructibleTerrainTypes;
+    public List<AbstractModuleScriptable> availableModules;
     [Tooltip("If empty, can't be constructible")]
     public UpgradeStructureData upgradeData;
     public bool ProducesEnergy
@@ -72,5 +73,9 @@ public class StructureData : ScriptableObject
             }
         }
         return energyAmount;
+    }
+    public bool CanStructureBeFlooded()
+    {
+        return constructibleTerrainTypes.Contains(TerrainType.Water);
     }
 }

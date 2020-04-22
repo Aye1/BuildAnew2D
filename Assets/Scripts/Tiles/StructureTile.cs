@@ -25,7 +25,7 @@ public abstract class StructureTile : ActiveTile
 
     public StructureType structureType;
     public StructureData structureData;
-    public StructureDynamicInfo structureDynamicInfo;
+    private StructureDynamicInfo structureDynamicInfo;
     public BuildingView building;
     public abstract StructureType GetStructureType();
     private StructureLevel maxLevel = StructureLevel.Level0;
@@ -36,6 +36,7 @@ public abstract class StructureTile : ActiveTile
         base.Init();
         structureDynamicInfo = new StructureDynamicInfo();
         structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
+        structureDynamicInfo.InitDynamicInfo(structureData);
         if (structureData == null)
         {
             Debug.LogError("Data not found for structure " + structureType.ToString() + "\n"
@@ -133,7 +134,7 @@ public abstract class StructureTile : ActiveTile
 
     public bool CanStructureBeFlooded()
     {
-        return structureData.constructibleTerrainTypes.Contains(TerrainType.Water);
+        return structureDynamicInfo.CanStructureBeFlooded();
     }
 
     public void WarnStructureDestruction()
@@ -220,6 +221,14 @@ public abstract class StructureTile : ActiveTile
             ResourcesManager.Instance.Repay(sellingRefund);
             BuildingManager.Instance.RemoveStructureAtPos(position, false);
         }
+    }
+    public void AddModule(AbstractModuleScriptable module)
+    {
+        structureDynamicInfo.AddModule(module);
+    }
+     public bool IsModuleActive(AbstractModuleScriptable moduleScriptable)
+    {
+        return structureDynamicInfo.activeModules.Contains(moduleScriptable);
     }
 
     public virtual void FillAreaOfEffectNeighbours() { }
