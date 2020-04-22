@@ -15,5 +15,5 @@ MonoBehaviour:
   moduleCosts:
   - amount: 200
     type: 1
-  spriteOff: {fileID: 21300000, guid: 5ed47f46d5b164431bd5163bfb75c4f9, type: 3}
-  spriteOn: {fileID: 21300000, guid: 18fe0647d0f564c06b8b63107841296e, type: 3}
+  spriteOff: {fileID: 21300000, guid: 62cfc4d4dd890494b9b3633717a5287f, type: 3}
+  spriteOn: {fileID: 21300000, guid: 72de0972108f94e0c9b150acede2d649, type: 3}
