@@ -52,8 +52,12 @@ public class ModuleUpgrade : MonoBehaviour
 
     private void ActivateModule()
     {
-        IsOn = true;
-         _tile.AddModule(_abstractModule);
-        _button.onClick.RemoveAllListeners();
+        if(ResourcesManager.Instance.CanPay(_abstractModule.moduleCosts))
+        {
+            ResourcesManager.Instance.Pay(_abstractModule.moduleCosts);
+            IsOn = true;
+            _tile.AddModule(_abstractModule);
+            _button.onClick.RemoveAllListeners();
+        }
     }
 }
