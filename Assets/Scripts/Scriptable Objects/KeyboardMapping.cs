@@ -23,4 +23,6 @@ public class KeyboardMapping : ScriptableObject
     public KeyCode buildMine = KeyCode.M;
     [Header("Other")]
     public KeyCode nextTurn = KeyCode.Space;
+    [Header("CheatCode")]
+    public KeyCode cheatResources = KeyCode.Equals;
 }

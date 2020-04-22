@@ -25,7 +25,7 @@ public abstract class StructureTile : ActiveTile
 
     public StructureType structureType;
     public StructureData structureData;
-    public StructureLevel structureLevel = StructureLevel.Level0;
+    public StructureDynamicInfo structureDynamicInfo;
     public BuildingView building;
     public abstract StructureType GetStructureType();
     private StructureLevel maxLevel = StructureLevel.Level0;
@@ -34,6 +34,7 @@ public abstract class StructureTile : ActiveTile
     {
         structureType = GetStructureType();
         base.Init();
+        structureDynamicInfo = new StructureDynamicInfo();
         structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
         if (structureData == null)
         {
@@ -53,6 +54,10 @@ public abstract class StructureTile : ActiveTile
         return structureType == StructureType.None ? "" : structureType.ToString();
     }
 
+    public StructureLevel GetStructureLevel()
+    {
+        return structureDynamicInfo.structureLevel;
+    }
     public ActivationState CanToggleStructure()
     {
         ActivationState canToggleStructure = ActivationState.ActivationPossible;
@@ -173,7 +178,7 @@ public abstract class StructureTile : ActiveTile
 
     private StructureLevel GetNextLevel()
     {
-        StructureLevel nextLevel = structureLevel + 1;
+        StructureLevel nextLevel = GetStructureLevel() + 1;
         nextLevel = nextLevel >= maxLevel ? maxLevel : nextLevel;
         return nextLevel;
     }
@@ -185,7 +190,7 @@ public abstract class StructureTile : ActiveTile
 
     public bool CanUpgradeStructure()
     {
-        return structureLevel != maxLevel && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
+        return GetStructureLevel() != maxLevel && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
     }
 
     public virtual void InternalUpgradeStructure() { }
@@ -195,14 +200,14 @@ public abstract class StructureTile : ActiveTile
         if (CanUpgradeStructure())
         {
             ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
-            structureLevel = GetNextLevel();
+            structureDynamicInfo.structureLevel = GetNextLevel();
             building.UpgradeBuilding();
             InternalUpgradeStructure();
         }
     }
     public bool CanSellStructure()
     {
-        List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
+        List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(GetStructureLevel());
         BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
         return sellingRefund != null && sellingRefund.Count != 0 && RelayManager.Instance.IsInsideRelayRange(data);
     }
@@ -211,7 +216,7 @@ public abstract class StructureTile : ActiveTile
     {
         if (CanSellStructure())
         {
-            List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(structureLevel);
+            List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(GetStructureLevel());
             ResourcesManager.Instance.Repay(sellingRefund);
             BuildingManager.Instance.RemoveStructureAtPos(position, false);
         }

@@ -76,6 +76,10 @@ public class ResourcesManager : Manager
     private void Update()
     {
         UpdateEnergyValues();
+        if(InputManager.Instance.GetKeyDown("cheatResources"))
+        {
+            CHEATGiveResources();
+        }
     }
 
     public void CHEATGiveResources()
@@ -252,9 +256,9 @@ public class ResourcesManager : Manager
     {
         // Basic energy count at the moment
         EnergyTotal = _energyProducingStructures.Where(x => x.IsOn)
-                                                .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.structureLevel));
+                                                .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.GetStructureLevel()));
         EnergyAvailable = EnergyTotal - _energyConsumingStructures.Where(x => x.IsOn)
-                                                                  .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.structureLevel));
+                                                                  .Sum(x => x.structureData.GetCurrentEnergyAmountForLevel(x.GetStructureLevel()));
     }
 
     public void RecomputeActiveStructure()
@@ -268,7 +272,7 @@ public class ResourcesManager : Manager
             {
                 if (structure.IsOn)
                 {
-                    energyConsumed += structure.structureData.GetCurrentEnergyAmountForLevel(structure.structureLevel);
+                    energyConsumed += structure.structureData.GetCurrentEnergyAmountForLevel(structure.GetStructureLevel());
                     if (energyConsumed > EnergyTotal) //Structure must be deactivated
                     {
                         structure.DeactivateStructureIfPossible();
