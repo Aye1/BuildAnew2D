@@ -64,6 +64,7 @@ public class TerrainInfo : MonoBehaviour
     {
         if(_isConstructible)
         {
+            _renderer.sprite = initialSprite;
             _renderer.color = _constructibleColor;
             _currentColor = _constructibleColor;
         }
