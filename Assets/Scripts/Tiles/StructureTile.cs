@@ -6,6 +6,7 @@ public enum StructureLevel { Level0, Level1 };
 public enum ActivationState { ActivationPossible, ImpossibleNeedEnergy, ImpossibleMissEnergy, ImpossibleMissingStructure, OutsideRange };
 public abstract class StructureTile : ActiveTile
 {
+    #region variable Member
     private bool _isOn;
     public bool IsOn
     {
@@ -23,20 +24,29 @@ public abstract class StructureTile : ActiveTile
         }
     }
 
-    public StructureType structureType;
-    public StructureData structureData;
-    private StructureDynamicInfo structureDynamicInfo;
-    public BuildingView building;
-    public abstract StructureType GetStructureType();
+    private StructureLevel structureLevel = StructureLevel.Level0;
+    public StructureLevel StructureLevel { get => structureLevel; set => structureLevel = value; }
     private StructureLevel maxLevel = StructureLevel.Level0;
+
+    private bool isFloodable = true;
+    public bool IsFloodable { get => isFloodable; set => isFloodable = value; }
+
+    public List<AbstractModuleScriptable> activeModules = new List<AbstractModuleScriptable>();
+
+
+    public StructureType structureType;
+    public StructureData structureData;//TODO move static info in another class
+    public BuildingView building;
     protected List<BaseTileData> _areaOfEffect;
+    #endregion
+
+    public abstract StructureType GetStructureType();
     public override void Init()
     {
         structureType = GetStructureType();
         base.Init();
-        structureDynamicInfo = new StructureDynamicInfo();
         structureData = TilesDataManager.Instance.GetDataForStructure(structureType);
-        structureDynamicInfo.InitDynamicInfo(structureData);
+        IsFloodable = structureData.CanStructureBeFlooded();
         if (structureData == null)
         {
             Debug.LogError("Data not found for structure " + structureType.ToString() + "\n"
@@ -57,7 +67,7 @@ public abstract class StructureTile : ActiveTile
 
     public StructureLevel GetStructureLevel()
     {
-        return structureDynamicInfo.structureLevel;
+        return StructureLevel;
     }
     public ActivationState CanToggleStructure()
     {
@@ -134,7 +144,7 @@ public abstract class StructureTile : ActiveTile
 
     public bool CanStructureBeFlooded()
     {
-        return structureDynamicInfo.CanStructureBeFlooded();
+        return IsFloodable;
     }
 
     public void WarnStructureDestruction()
@@ -189,9 +199,14 @@ public abstract class StructureTile : ActiveTile
         return structureData.GetUpgradeCostForLevel(GetNextLevel());
     }
 
+
+    public bool HasNextLevelUpgrade()
+    {
+        return GetStructureLevel() != maxLevel;
+    }
     public bool CanUpgradeStructure()
     {
-        return GetStructureLevel() != maxLevel && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
+        return  HasNextLevelUpgrade() && ResourcesManager.Instance.CanPay(GetUpgradeCostForNextLevel());
     }
 
     public virtual void InternalUpgradeStructure() { }
@@ -201,16 +216,22 @@ public abstract class StructureTile : ActiveTile
         if (CanUpgradeStructure())
         {
             ResourcesManager.Instance.Pay(GetUpgradeCostForNextLevel());
-            structureDynamicInfo.structureLevel = GetNextLevel();
+            StructureLevel = GetNextLevel();
+            OnSpecificPropertyChanged("StructureDynamicInfo");
             building.UpgradeBuilding();
             InternalUpgradeStructure();
         }
     }
-    public bool CanSellStructure()
+
+    public bool HasSellingData()
     {
         List<Cost> sellingRefund = structureData.GetSellingRefundResourcesForLevel(GetStructureLevel());
+        return sellingRefund != null && sellingRefund.Count != 0;
+    }
+    public bool CanSellStructure()
+    {
         BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(GridPosition);
-        return sellingRefund != null && sellingRefund.Count != 0 && RelayManager.Instance.IsInsideRelayRange(data);
+        return HasSellingData() && RelayManager.Instance.IsInsideRelayRange(data);
     }
 
     public void SellStructure(Vector3Int position)
@@ -222,14 +243,18 @@ public abstract class StructureTile : ActiveTile
             BuildingManager.Instance.RemoveStructureAtPos(position, false);
         }
     }
+
+    //Module
     public void AddModule(AbstractModuleScriptable module)
     {
-        structureDynamicInfo.AddModule(module);
+        activeModules.Add(module);
+        module.ApplyModuleEffect(this);
     }
      public bool IsModuleActive(AbstractModuleScriptable moduleScriptable)
     {
-        return structureDynamicInfo.activeModules.Contains(moduleScriptable);
+        return activeModules.Contains(moduleScriptable);
     }
 
+    //Abstract methods
     public virtual void FillAreaOfEffectNeighbours() { }
 }

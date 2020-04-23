@@ -62,17 +62,18 @@ public class StructureControlView : MonoBehaviour
         if (_structure != null)
         {
             _typeText.text = _structure.GetText();
-            DisplayButton(_upgradeButton, _structure.CanUpgradeStructure());
-            DisplayButton(_sellButton, _structure.CanSellStructure());
+            DisplayButton(_upgradeButton, _structure.CanUpgradeStructure(), _structure.HasNextLevelUpgrade());
+            DisplayButton(_sellButton, _structure.CanSellStructure(), _structure.HasSellingData());
             DisplayModuleUpgrade();
             _energyInfo.SetAmount(_structure.structureData._energyAmount);
             _energyIndicator.IsOn = _structure.IsOn;
         }
     }
 
-    private void DisplayButton(Button button, bool isEnabled)
+    private void DisplayButton(Button button, bool isEnabled, bool isVisible)
     {
         button.enabled = isEnabled;
+        button.gameObject.SetActive(isVisible);
         if(isEnabled)
         {
             button.interactable = !UIManager.Instance.IsBlocked;
@@ -100,8 +101,4 @@ public class StructureControlView : MonoBehaviour
         UpdateUI();
     }
 
-    public void ToggleStructure()
-    {
-        _structure.IsOn = !_structure.IsOn;
-    }
 }

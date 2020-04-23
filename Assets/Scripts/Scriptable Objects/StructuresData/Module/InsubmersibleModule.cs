@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class InsubmersibleModule : AbstractModuleScriptable
 {
-    public override void ApplyModuleEffect(StructureDynamicInfo dynamicInfo)
+    public override void ApplyModuleEffect(StructureTile tile)
     {
-        dynamicInfo.isFloodable = true;
+        tile.IsFloodable = true;
     }
 }
