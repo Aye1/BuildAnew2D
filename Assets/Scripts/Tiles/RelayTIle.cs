@@ -20,7 +20,7 @@ public class RelayTile : StructureTile
 
     public virtual int GetActivationAreaRange()
     {
-        RelayUpgradeBinding upgradeBinding = (RelayUpgradeBinding)(structureData.upgradeData.GetUpgradeBindingForLevel(GetStructureLevel()));
+        RelayUpgradeBinding upgradeBinding = (RelayUpgradeBinding)(_structureData.upgradeData.GetUpgradeBindingForLevel(GetStructureLevel()));
         return upgradeBinding._range;
     }
     

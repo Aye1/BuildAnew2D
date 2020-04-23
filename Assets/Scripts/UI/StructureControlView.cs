@@ -65,7 +65,7 @@ public class StructureControlView : MonoBehaviour
             DisplayButton(_upgradeButton, _structure.CanUpgradeStructure(), _structure.HasNextLevelUpgrade());
             DisplayButton(_sellButton, _structure.CanSellStructure(), _structure.HasSellingData());
             DisplayModuleUpgrade();
-            _energyInfo.SetAmount(_structure.structureData._energyAmount);
+            _energyInfo.SetAmount(_structure._structureData._energyAmount);
             _energyIndicator.IsOn = _structure.IsOn;
         }
     }
@@ -89,7 +89,7 @@ public class StructureControlView : MonoBehaviour
             }
         }
         modulesUpgrade = new List<ModuleUpgrade>();
-        foreach(AbstractModuleScriptable abstractModuleData in _structure.structureData.availableModules)
+        foreach(AbstractModuleScriptable abstractModuleData in _structure._structureData.availableModules)
         {
             ModuleUpgrade newModule = Instantiate(_genericModuleUpgrade, Vector3.zero, Quaternion.identity, _moduleGroup.transform);
             newModule.InitModule(abstractModuleData, _structure);

@@ -88,11 +88,11 @@ public class BuildingManager : Manager
     {
         BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(pos);
         StructureTile structure = data.structureTile;
-        if (structure != null && structure.building != null)
+        if (structure != null && structure._building != null)
         {
             if (repay)
             {
-                ResourcesManager.Instance.Repay(TilesDataManager.Instance.CostForStructure(data.structureTile.structureType));
+                ResourcesManager.Instance.Repay(TilesDataManager.Instance.CostForStructure(data.structureTile._structureType));
             }
 
             // Warning: possible memory leak

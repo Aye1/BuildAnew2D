@@ -19,7 +19,7 @@ public abstract class ResourceGenerationStructureTile : StructureTile
 
     protected Cost GetResourceGenerated()
     {
-        RessourcesGenerationUpgradeBinding upgradeBinding = (RessourcesGenerationUpgradeBinding)(structureData.upgradeData.GetUpgradeBindingForLevel(GetStructureLevel()));
+        RessourcesGenerationUpgradeBinding upgradeBinding = (RessourcesGenerationUpgradeBinding)(_structureData.upgradeData.GetUpgradeBindingForLevel(GetStructureLevel()));
         return upgradeBinding._resourcesGeneration;
     }
     public override void OnTurnStarts(IEnumerable<BaseTileData> neighbours)

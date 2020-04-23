@@ -207,7 +207,7 @@ public class TilesDataManager : Manager
     {
         BaseTileData data = GetTileDataAtPos(pos);
         StructureTile structure = data.structureTile;
-        if (structure != null && structure.building != null)
+        if (structure != null && structure._building != null)
         {
             structure.DestroyStructure();
             data.structureTile = null;
@@ -296,7 +296,7 @@ public class TilesDataManager : Manager
     }
     public IEnumerable<BaseTileData> GetTilesWithStrucureType(StructureType type, bool predict = false)
     {
-        return GetTiles(predict).Where(x => (x.structureTile != null && x.structureTile.structureType == type));
+        return GetTiles(predict).Where(x => (x.structureTile != null && x.structureTile._structureType == type));
     }
     #endregion
 
@@ -473,7 +473,7 @@ public class TilesDataManager : Manager
             data.structureTile = newTile;
             BuildingView building = Instantiate(structureBinding.building, data.worldPosition, Quaternion.identity, transform);
             building.dataTile = newTile;
-            newTile.building = building;
+            newTile._building = building;
             newTile.GridPosition = data.GridPosition;
             ResourcesManager.Instance.RegisterStructure(newTile);
             RelayManager.Instance.RegisterStructure(data);
