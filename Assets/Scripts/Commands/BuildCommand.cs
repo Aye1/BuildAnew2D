@@ -18,7 +18,7 @@ public class BuildCommand : Command
     {
         this.position = position;
         this.type = type;
-        cost = TilesDataManager.Instance.CostForStructure(type);
+        cost = BuildingManager.Instance.StructuresTemplates.CostForStructure(type);
     }
 
     public override void Execute()

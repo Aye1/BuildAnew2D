@@ -67,7 +67,7 @@ public abstract class StructureTile : ActiveTile
     {
         _structureType = GetStructureType();
         base.Init();
-        _structureData = TilesDataManager.Instance.GetDataForStructure(_structureType);
+        _structureData = BuildingManager.Instance.StructuresTemplates.GetDataForStructure(_structureType);
         IsFloodable = _structureData.CanStructureBeFlooded();
         if (_structureData == null)
         {

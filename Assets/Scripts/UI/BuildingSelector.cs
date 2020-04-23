@@ -14,7 +14,7 @@ public class BuildingSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _structures = TilesDataManager.Instance.GetAllConstructiblesStructures();
+        _structures = BuildingManager.Instance.StructuresTemplates.GetAllConstructiblesStructures();
         InstantiateCells();
         BuildingManager.OnBuildDone += OnBuildDone;
     }

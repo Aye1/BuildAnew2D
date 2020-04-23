@@ -12,14 +12,6 @@ using System.Linq;
 //   Soft dependencies
 //     TurnManager
 
-[System.Serializable]
-public class StructureBinding
-{
-    public StructureType type;
-    public BuildingView building;
-    public StructureData data;
-    [SerializeField] public TileBase buildingTile;
-}
 
 [System.Serializable]
 public class TerrainBinding
@@ -35,7 +27,6 @@ public class TilesDataManager : Manager
     #region Editor objects
 #pragma warning disable 0649
     [Header("Tiles data")]
-    [SerializeField] private List<StructureBinding> _structureTemplates;
     [SerializeField] private List<TerrainBinding> _terrainTemplates;
 #pragma warning restore 0649
     #endregion
@@ -174,7 +165,7 @@ public class TilesDataManager : Manager
             }
             else if (tile != null)
             {
-                StructureType type = GetStructureTypeFromTile(tile);
+                StructureType type = BuildingManager.Instance.StructuresTemplates.GetStructureTypeFromTile(tile);
                 CreateStructureFromType(type, data);
             }
         }
@@ -360,40 +351,7 @@ public class TilesDataManager : Manager
         CreateTerrainFromType(binding.type, data);
     }
 
-    public StructureType GetStructureTypeFromTile(TileBase tile)
-    {
-        StructureType returnType = StructureType.None;
-        StructureBinding binding = GetStructureBindingFromTile(tile);
-        if (binding != null)
-        {
-            returnType = binding.type;
-        }
-        return returnType;
-    }
-
-    public StructureBinding GetStructureBindingFromTile(TileBase tile)
-    {
-        foreach (StructureBinding structureBinding in _structureTemplates)
-        {
-            if (structureBinding.buildingTile.name.Equals(tile.name))
-            {
-                return structureBinding;
-            }
-        }
-        return null;
-    }
-
-    public StructureBinding GetStructureBindingFromType(StructureType type)
-    {
-        foreach (StructureBinding structureBinding in _structureTemplates)
-        {
-            if (structureBinding.type == type)
-            {
-                return structureBinding;
-            }
-        }
-        return null;
-    }
+    
 
     public TerrainType GetTerrainTypeFromTile(TileBase tile)
     {
@@ -435,7 +393,7 @@ public class TilesDataManager : Manager
     {
         StructureTile newTile = null;
 
-        StructureBinding structureBinding = GetStructureBindingFromType(type);
+        StructureBinding structureBinding = BuildingManager.Instance.StructuresTemplates.GetStructureBindingFromType(type);
         if (structureBinding != null)
         {
             switch (type)
@@ -522,32 +480,7 @@ public class TilesDataManager : Manager
         return newTile;
     }
 
-    public Sprite GetSpriteForStructure(StructureType type)
-    {
-        StructureBinding structureBinding = GetStructureBindingFromType(type);
-        if (structureBinding != null && structureBinding.building != null)
-        {
-            return structureBinding.building.GetComponent<SpriteRenderer>().sprite;
-        }
-        return null;
-    }
-
-    public StructureData GetDataForStructure(StructureType type)
-    {
-        StructureBinding element = _structureTemplates.First(x => x.type == type);
-        return element?.data;
-    }
-
-    public IEnumerable<StructureBinding> GetAllConstructiblesStructures()
-    {
-        return _structureTemplates.Where(x => x.data.upgradeData != null);
-    }
-
-    public List<Cost> CostForStructure(StructureType type)
-    {
-        return _structureTemplates.First(x => x.type == type).data.GetCreationCost();
-    }
-
+    
     internal TerrainData GetDataForTerrain(TerrainType terrainType)
     {
         TerrainBinding element = _terrainTemplates.First(x => x.type == terrainType);

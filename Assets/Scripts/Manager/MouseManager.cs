@@ -119,7 +119,7 @@ public class MouseManager : Manager
         {
             BaseTileData tileHovered = GetTileAtMousePos();
             StructureType currentBuildType = BuildingManager.Instance.CurrentBuildingStructure;
-            phantomBuildingSprite.sprite = TilesDataManager.Instance.GetSpriteForStructure(currentBuildType);
+            phantomBuildingSprite.sprite =  BuildingManager.Instance.StructuresTemplates.GetSpriteForStructure(currentBuildType);
             if (tileHovered != null)
             {
                 HoveredTile = tileHovered;

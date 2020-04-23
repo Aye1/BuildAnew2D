@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 // Dependecies to other managers:
 //   Hard dependencies:
 //     CommandManager
@@ -13,8 +13,16 @@ public class BuildingManager : Manager
     public static BuildingManager Instance { get; private set; }
     public bool IsInBuildMode { get; set; }
     public StructureType CurrentBuildingStructure { get; private set; }
+    public StructuresTemplates StructuresTemplates { get => _structuresTemplates; set => _structuresTemplates = value; }
+
     public List<Cost> staticResourcesCosts;
 
+    #region Editor objects
+#pragma warning disable 0649
+    [SerializeField] private StructuresTemplates _structuresTemplates;
+#pragma warning restore 0649
+    #endregion
+     
     #region Events
     public delegate void BuildDone();
     public static BuildDone OnBuildDone;
@@ -22,7 +30,7 @@ public class BuildingManager : Manager
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             InitState = InitializationState.Ready;
@@ -65,7 +73,7 @@ public class BuildingManager : Manager
     {
         BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(pos);
         bool canBuild = true;
-        StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(type);
+        StructureBinding binding = StructuresTemplates.GetStructureBindingFromType(type);
         canBuild = canBuild && binding.data.constructibleTerrainTypes.Contains(data.terrainTile.terrainType);
         canBuild = canBuild && data.structureTile == null;
         canBuild = canBuild && ResourcesManager.Instance.CanPay(binding.data.GetCreationCost());
@@ -79,7 +87,7 @@ public class BuildingManager : Manager
         {
             BaseTileData data = TilesDataManager.Instance.GetTileDataAtPos(pos);
             TilesDataManager.Instance.CreateStructureFromType(type, data);
-            ResourcesManager.Instance.Pay(TilesDataManager.Instance.CostForStructure(type));
+            ResourcesManager.Instance.Pay(StructuresTemplates.CostForStructure(type));
             data.structureTile.ActivateStructureIfPossible();
         }
     }
@@ -92,7 +100,7 @@ public class BuildingManager : Manager
         {
             if (repay)
             {
-                ResourcesManager.Instance.Repay(TilesDataManager.Instance.CostForStructure(data.structureTile._structureType));
+                ResourcesManager.Instance.Repay(StructuresTemplates.CostForStructure(data.structureTile._structureType));
             }
 
             // Warning: possible memory leak
@@ -101,4 +109,5 @@ public class BuildingManager : Manager
             RelayManager.Instance.ComputeInRangeRelays();
         }
     }
+
 }

@@ -60,7 +60,7 @@ public class TooltipBuildingInfo : MonoBehaviour
 
     private void DisplayStructureInfo(StructureType structureType)
     {
-        StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(structureType);
+        StructureBinding binding = BuildingManager.Instance.StructuresTemplates.GetStructureBindingFromType(structureType);
         _buildingNameText.text = binding.data.structureName;
         List<Cost> creationCost = binding.data.GetCreationCost();
         CreateResourcesList(creationCost);

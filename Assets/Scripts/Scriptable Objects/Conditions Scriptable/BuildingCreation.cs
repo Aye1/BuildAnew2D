@@ -13,7 +13,7 @@ public class BuildingCreation : BaseCondition
     #endregion
     public override string GetText()
     {
-        StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(structureType);
+        StructureBinding binding = BuildingManager.Instance.StructuresTemplates.GetStructureBindingFromType(structureType);
         return "Create " + binding.data.structureName;
     }
 

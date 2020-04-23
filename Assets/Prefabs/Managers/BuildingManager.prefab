@@ -46,3 +46,5 @@ MonoBehaviour:
   staticResourcesCosts:
   - amount: 1
     type: 3
+  _structuresTemplates: {fileID: 2440171453237800925, guid: 4e695ec26b46642598b75483f9b86232,
+    type: 3}

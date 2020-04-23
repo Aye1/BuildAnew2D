@@ -55,7 +55,7 @@ public abstract class BuildingCondition : BaseCondition
     }
     public override string GetText()
     {
-        StructureBinding binding = TilesDataManager.Instance.GetStructureBindingFromType(structureType);
+        StructureBinding binding = BuildingManager.Instance.StructuresTemplates.GetStructureBindingFromType(structureType);
         return GetBuildingSpecificCondition() + GetNumberString() + binding.data.structureName ;
     }
 }
